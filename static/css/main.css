@@ -25,3 +25,10 @@ h1, h2, h3, h4, h5, h6 {
 	line-height: 30px;
 	color: #555555;
 }
+
+.addStudent {
+	margin: 5px 5px 5px 5px;
+	padding: 10px 10px 10px 10px;
+	display: inline-block;
+	border: 1px solid blue;
+}
