@@ -78,4 +78,5 @@ def students_list(request):
 Закодуємо зміни у репозиторі. Користуємось командами “git status” та “git
 diff” перед кожним комітом.
 
-git commit -a -m 'add static resources and data from views.py'
+git commit -a -m 'add static resources and data from views.py' - це лише додасть до репозиторію зміни в існуючі файли, що є в ньому. А якщо файл створений наново, то треба його додати до репозиторію - git add comment.txt students/templates/students/static/
+(тут додали файл і папку).
