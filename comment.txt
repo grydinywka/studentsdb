@@ -1,0 +1,81 @@
+Під час підключення статичних ресурсів, зокрема файлу main.css була проблема. Стилі не підчиплялися. У підпапці students/templates/students створив static/css , куди і переніс усі стилі, зокрема main.css. Але всеодно аплікація не бачила їх. Коли навіть напряму хотів відкрити  main.css, http://127.0.0.1:8000/static/css/main.css, писало: 
+Page not found (404)
+Request Method: 	GET
+Request URL: 	http://127.0.0.1:8000/static/css/main.css
+
+'css/main.css' could not be found
+
+You're seeing this error because you have DEBUG = True in your Django settings file. Change that to False, and Django will display a standard 404 page.
+
+
+Тоді у settings.py прописав:
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'students', 'static'),
+)
+
+під
+STATIC_URL = '/static/'
+
+Це не допомогло. Тож у файлі urls.py підключив:
+
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+і прописав:
+
+urlpatterns += staticfiles_urlpatterns()
+
+в кінці файлу.
+Це не допомогло. Тоді в пошуковому рядкув вів:
+
+django 1.7 static files
+
+і знайшов цей сайт:
+
+https://docs.djangoproject.com/en/1.7/howto/static-files/
+
+в якому розписано як підключати статику і знайшов, що у settings.py треба змінити дещо:
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+
+Стилі підключились і відкрився файл за адресою:
+
+http://127.0.0.1:8000/static/css/main.css
+
+______________________________________________________________________________
+Тег static:
+Дозволяє міняти частину URL в шляхах до статичнич ресурсів.
+в students_list.html додали в гору {% load static from staticfiles %}
+і статичні стилі переробили так <link rel="stylesheet" href="{% static "css/main.css" %}" />.
+Тепер у файлі settings.py можемо міняти STATIC_URL = '/static/' на STATIC_URL = '/static1/' і зможемо достукатись до стилів як за адресою:
+
+http://127.0.0.1:8000/static1/css/main.css
+
+так і за
+
+http://127.0.0.1:8000/static/css/main.css
+Але мабудь нам не треба два різних посилання на один файл?
+
+Цікаво, що на 127.0.0.1:8000/static1/img/c.jpg відкривається зображення, а на 127.0.0.1:8000/static/img/c.jpg - ні. Чому ж у випадку main.css працюють обидва варіанти? І для http://127.0.0.1:8000/static1/css/groups.css працює лише цей варіант!
+Після кількох хвилин посилання http://127.0.0.1:8000/static/css/main.css перестало працювати, а http://127.0.0.1:8000/static1/css/main.css - працює. Все стало на свої місця!
+
+Переробив усі посилання на зображення через тег static!
+
+____________________________________________________________________________________
+Динамізуємо список студентів
+
+У файл views.py внесли зміни, у функції:
+def students_list(request):
+
+створили котеж students, в якому містяться дані про судентів у формі словників.
+
+Далі у файлі students_list.html замінюємо дані про студентів на данні із кортежу students!
+Ми користуємось тегом  for - {% for student in students %}, щоб перебирати наш кортеж. Таком чином частину коду видаляю, бо цикл повторює операцію 3 рази, бо ми маємо три елементи у кортежі.
+
+Закодуємо зміни у репозиторі. Користуємось командами “git status” та “git
+diff” перед кожним комітом.
+
+git commit -a -m 'add static resources and data from views.py'

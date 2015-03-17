@@ -1,0 +1,40 @@
+/* Global Style */
+h1, h2, h3, h4, h5, h6 {
+	font-weight: bold;
+}
+
+#footer {
+	border-top: 1px solid #dddddd;
+	padding-top: 10px;
+}
+
+#group-selector select {
+	margin: 10px 0;
+	width: 85%;
+	background-color: #ffffff;
+	border: 1px solid #cccccc;
+	height: 30px;
+	line-height: 30px;
+	color: #555555;
+}
+
+div, p {
+	/*border: 1px dashed blue;*/
+}
+
+#image {
+	margin-bottom: 0px;
+}
+
+.inline {
+	display: inline-block;
+}
+
+#footer {
+	background-color: #EAF2F2;
+	/*height: 50px;*/
+}
+
+#cancel {
+	margin-left: 10px;
+}
