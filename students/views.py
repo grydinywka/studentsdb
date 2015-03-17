@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render
 from django.http import HttpResponse
 
@@ -7,8 +9,25 @@ def students_list(request):
 	# template = loader.get_template('demo.html')
 	# context = RequestContext(request, {})
 	# return HttpRespose(template.render(context))
+	students = (
+		{'id': 1,
+		 'first_name': u'Андрій',
+		 'last_name': u'Корост',
+		 'ticket': 2123,
+		 'image': 'img/Foto,pajalka.JPG'},
+		{'id': 2,
+		 'first_name': u'Сергій',
+		 'last_name': u'Ігнатенко',
+		 'ticket': 1221,
+		 'image': 'img/P1014486.JPG'},
+		{'id': 3,
+		 'first_name': u'Мік',
+		 'last_name': u'Джагер',
+		 'ticket': 1122,
+		 'image': 'img/c.jpg'},
+	)
 	
-	return render(request, 'students/students_list.html', {})
+	return render(request, 'students/students_list.html', {'students': students})
 	
 	#return HttpResponse('<h1>Hello World!</h1>')
 
