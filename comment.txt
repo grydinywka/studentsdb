@@ -129,4 +129,4 @@ http://stackoverflow.com/questions/7462398/django-template-if-tag-based-on-curre
 Тепер є проміжне д/з: ми створили модуль context_processors.py, що містить функцію students_proc(request). Так треба було реалізувати ретутн словника, що містить кореневу абсолютну адресу веб-сайту. Реалізував 'my_url': 'http://' + request.get_host() + request.get_full_path() - http://127.0.0.1:8000/, але треба саме http://localhost:8000.
 
 Знову через деякий час варіант 'my_url' запрацював!! Якась запізніла реакція...
-
+Запрацював варіант 'my_url': 'http://' + request.get_host()
