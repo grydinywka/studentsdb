@@ -10,6 +10,8 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from django.conf import global_settings
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -23,6 +25,11 @@ SECRET_KEY = '1r5_d4(&4^6g=fn*du*9p_64@6t5+t+y0xm&cxc7y$a4m=&nvj'
 DEBUG = True
 
 TEMPLATE_DEBUG = True
+
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+    "django.core.context_processors.request",
+    "studDb.context_processors.students_proc",
+)
 
 ALLOWED_HOSTS = []
 
@@ -52,6 +59,8 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'studDb.urls'
 
 WSGI_APPLICATION = 'studDb.wsgi.application'
+
+PORTAL_URL = 'http://localhost:8000'
 
 
 # Database

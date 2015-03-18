@@ -13,14 +13,13 @@
 		<!-- Style Section -->
 		<link rel="stylesheet"
 			  href="https://cdn.jsdelivr.net/bootstrap/3.3.0/css/bootstrap.min.css" >
-		<link rel="stylesheet" href="{% static "css/main.css" %}" />
+		<link rel="stylesheet" href="{{ PORTAL_URL }}{% static "css/main.css" %}" />
 
 		{% block extra_css %}{% endblock extra_css %}
 		
 	</head>
 	
 	<body>
-		
 		<!-- Start Container -->
 		<div class="container">
 			
@@ -48,9 +47,17 @@
 			<div class="row" id="sub-header">
 				<div class="col-xs-12">
 					<ul class="nav nav-tabs" role="tablist">
-						<li role="presentation" class="{% block active_students %}{% endblock active_students %}"><a href="{% url "home" %}">Студенти</a></li>
-						<li role="presentation" class="{% block active_visiting %}{% endblock active_visiting %}"><a href="/journal">Відвідування</a></li>
-						<li role="presentation" class="{% block active_groups %}{% endblock active_groups %}"><a href="{% url "groups" %}">Групи</a></li>
+						
+						<li role="presentation" {% url 'home' as the_url_home %}{% if request.path == the_url_home %}class="active"{% endif %}>
+							<a href="{% url "home" %}">Студенти</a>
+						</li>
+						<li role="presentation" {% if '/journal' in request.path %}class="active"{% endif %}>
+							<a href="/journal">Відвідування</a>
+						</li>
+						<li role="presentation" {% url 'groups' as the_url_groups %}{% if the_url_groups in request.path %}class="active"{% endif %}>
+							<a href="{% url "groups" %}">Групи</a>
+						</li>
+
 					</ul>
 				</div>
 			</div>
