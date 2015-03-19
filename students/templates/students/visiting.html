@@ -1,0 +1,76 @@
+{% extends "students/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %}Відвідування{% endblock meta_title %}
+
+{% block title %}Облік Відвідування{% endblock title %}
+
+{% block data %}
+	<div class="col-xs-12">
+    	<h5 id="date"><a href="#">&larr;</a>Жовтень 2014<a href="#">&rarr;</a></h5>
+    </div>
+{% endblock data %}
+
+{% block content %}
+	<!-- Start Students' Visiting Listing -->
+	<table class="table table-hover table-striped table-bordered">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Студент</th>
+				<th>Ср<br>i</br></th>
+				<th>Чт<br>2</br></th>
+				<th>Пт<br>3</br></th>
+				<th>Сб<br>4</br></th>
+				<th>Нд<br>5</br></th>
+				<th>Пн<br>6</br></th>
+				<th>Вт<br>7</br></th>
+				<th>Ср<br>8</br></th>
+				<th>Чт<br>9</br></th>
+				<th>Пт<br>10</br></th>
+				<th>Сб<br>11</br></th>
+				<th>Нд<br>12</br></th>
+				<th>Пн<br>13</br></th>
+				<th>Вт<br>14</br></th>
+				<th>Ср<br>15</br></th>
+				<th>Чт<br>16</br></th>
+				<th>Пт<br>17</br></th>
+				<th>Сб<br>18</br></th>
+				<th>Нд<br>19</br></th>
+				<th>Пн<br>20</br></th>
+				<th>Вт<br>21</br></th>
+				<th>Ср<br>22</br></th>
+				<th>Чт<br>23</br></th>
+				<th>Пт<br>24</br></th>
+				<th>Сб<br>25</br></th>
+				<th>Нд<br>26</br></th>
+				<th>Пн<br>27</br></th>
+				<th>Вт<br>28</br></th>
+				<th>Ср<br>29</br></th>
+				<th>Чт<br>30</br></th>
+				<th>Пт<br>31</br></th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% for student in students %}
+			<tr>
+				<td>{{ forloop.counter }}</td>
+				<td><a href="#">{{ student.student_name }}</a></td>
+				
+				{% for i in xrange %}
+				<td>
+					<div class="checkbox">
+						<label><input type="checkbox"></label>
+					</div>
+				</td>
+				{% endfor %}
+				
+			</tr>
+			{% endfor %}
+		
+		</tbody>
+	</table>
+	<!-- End Students' Visiting Listing -->
+{% endblock content %}
