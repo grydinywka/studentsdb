@@ -16,18 +16,18 @@
 {% block content %}
 <!-- Start Student Listing -->
 <table class="table table-hover table-striped">
-	{% with order_by=request.GET.order_by reverse=request.GET.reverse %}
+	{% with order_by=request.GET.order_by reverse=request.GET.reverse page=request.GET.page %}
 	<thead>
 		<tr>
-			<th><a href="{% url "home" %}?order_by=id{% if order_by == 'id' and reverse != '1' %}&amp;reverse=1{% endif %}">
+			<th><a href="{% url "home" %}?page=1&amp;order_by=id{% if order_by == 'id' and reverse != '1' %}&amp;reverse=1{% endif %}">
 				№
 				{% if order_by == 'id' and reverse != '1' %}&uarr;
 				{% elif order_by == 'id' and reverse == '1' %}&darr;
 				{% endif %}
 			</a></th>
 			<th>Фото</th>
-			<th><a href="{% url "home" %}{% if order_by == '' %}?order_by=last_name&amp;reverse=1
-			{% else %}?order_by=last_name{% if order_by == 'last_name' and reverse != '1' %}&amp;reverse=1{% endif %}
+			<th><a href="{% url "home" %}?page=1{% if order_by == '' %}&amp;order_by=last_name&amp;reverse=1
+			{% else %}&amp;order_by=last_name{% if order_by == 'last_name' and reverse != '1' %}&amp;reverse=1{% endif %}
 			{% endif %}">
 				Прізвище
 				{% if order_by == '' and reverse == '' %}&uarr;
@@ -35,13 +35,13 @@
 				{% elif order_by == 'last_name' and reverse == '1' %}&darr;
 				{% endif %}
 			</a></th>
-			<th><a href="{% url "home" %}?order_by=first_name{% if order_by == 'first_name' and reverse != '1' %}&amp;reverse=1{% endif %}">
+			<th><a href="{% url "home" %}?page=1&amp;order_by=first_name{% if order_by == 'first_name' and reverse != '1' %}&amp;reverse=1{% endif %}">
 				Ім’я
 				{% if order_by == 'first_name' and reverse != '1' %}&uarr;
 				{% elif order_by == 'first_name' and reverse == '1' %}&darr;
 				{% endif %}
 			</a></th>
-			<th><a href="{% url "home" %}?order_by=ticket{% if order_by == 'ticket' and reverse != '1' %}&amp;reverse=1{% endif %}">
+			<th><a href="{% url "home" %}?page=1&amp;order_by=ticket{% if order_by == 'ticket' and reverse != '1' %}&amp;reverse=1{% endif %}">
 				№ Білету
 				{% if order_by == 'ticket' and reverse != '1' %}&uarr;
 				{% elif order_by == 'ticket' and reverse == '1' %}&darr;
@@ -96,6 +96,7 @@
 </table>
 <!-- End Students Listing -->
 
+{% comment "We won't use paginator..." %}
 {% if students.has_other_pages %}
 {% with order_by=request.GET.order_by reverse=request.GET.reverse %}
 <nav>
@@ -115,4 +116,27 @@
 </nav>
 {% endwith %}
 {% endif %}
+{% endcomment %}
+
+
+{% with page=request.GET.page order_by=request.GET.order_by reverse=request.GET.reverse %}
+{% if valPage > 1 %}
+<nav>
+	<ul class="pagination">
+		<li>
+			<a href="{% url "home" %}?page=1&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">&laquo;</a>
+		</li>
+		{% for p in listOfPage %}
+		<li {% if page == p %}class="active"{% elif page == '' and p == '1' %}class="active"{% endif %}>
+			<a href="{% url "home" %}?page={{ p }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">{{ p }}</a>
+		</li>
+		{% endfor %}
+		<li>
+			<a href="{% url "home" %}?page={{ valPage }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">&raquo;</a>
+		</li>
+	</ul>
+</nav>
+{% endif %}
+{% endwith %}
+
 {% endblock content %}
