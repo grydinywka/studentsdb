@@ -10,7 +10,7 @@ from ..models import Student
 def students_list(request):
 	students = Student.objects.all()
 	allStud = len(students)
-	valStudOnPage = 3
+	valStudOnPage = int(request.GET.get('valstud', 3))
 	valPage = allStud/valStudOnPage
 	
 	if allStud % valStudOnPage != 0:

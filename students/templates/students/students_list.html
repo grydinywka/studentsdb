@@ -15,6 +15,7 @@
 
 {% block content %}
 <!-- Start Student Listing -->
+<!-- Start Add more students -->
 <table class="table table-hover table-striped">
 	{% with order_by=request.GET.order_by reverse=request.GET.reverse page=request.GET.page %}
 	<thead>
@@ -51,6 +52,7 @@
 		</tr>
 	</thead>
 	{% endwith %}
+	<!-- Body -->
 	<tbody>
 		{% for student in students %}
 		<tr>
@@ -67,6 +69,7 @@
 			<td><a title="edit" href="{% url "students_edit" student.id %}">{{ student.last_name }}</a></td>
 			<td><a title="edit" href="{% url "students_edit" student.id %}">{{ student.first_name }}</a></td>
 			<td>{{ student.ticket }}</td>
+			
 			<td>
 				<div class="dropdown">
 					<button class="btn btn-default dropdown-toggle" 
@@ -91,33 +94,17 @@
 			</td>
 		</tr>
 		{% endfor %}
-		
-	</tbody>
+		</tbody>
 </table>
 <!-- End Students Listing -->
 
-{% comment "We won't use paginator..." %}
-{% if students.has_other_pages %}
-{% with order_by=request.GET.order_by reverse=request.GET.reverse %}
-<nav>
-	<ul class="pagination">
-		<li>
-			<a href="{% url "home" %}?page=1&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">&laquo;</a>
-		</li>
-		{% for p in students.paginator.page_range %}
-		<li {% if students.number == p %}class="active"{% endif %}>
-			<a href="{% url "home" %}?page={{ p }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">{{ p }}</a>
-		</li>
-		{% endfor %}
-		<li>
-			<a href="{% url "home" %}?page={{ students.paginator.num_pages }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">&raquo;</a>
-		</li>
-	</ul>
-</nav>
-{% endwith %}
-{% endif %}
-{% endcomment %}
+<!-- Start Load More button ... -->
 
+	<!-- Add more students -->
+	<div id="testframe"></div>
+	<a href = "?page=2" id = "load_more">Load more</a>
+
+<!-- End Load More button ... -->
 
 {% with page=request.GET.page order_by=request.GET.order_by reverse=request.GET.reverse %}
 {% if valPage > 1 %}
@@ -140,3 +127,7 @@
 {% endwith %}
 
 {% endblock content %}
+
+{% block extra_js %}
+<script type="text/javascript" src="{{ PORTAL_URL2 }}{% static "js/load_more.js" %}"></script>
+{% endblock extra_js %}
