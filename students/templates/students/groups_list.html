@@ -15,20 +15,52 @@
 {% block content %}
 <!-- Start Groups Listing -->
 <table class="table table-hover table-striped">
+	{% with order_by=request.GET.order_by reverse=request.GET.reverse %}
 	<thead>
 		<tr>
-			<th>#</th>
-			<th><a href="#">Назва &uarr;</a></th>
-			<th><a href="#">Староста</a></th>
+			<th>
+				<a href="{% url "groups" %}?page=1&amp;order_by=id
+				{% if order_by == 'id' and reverse != '1' %}
+					&amp;reverse=1
+				{% endif %}">
+					#
+					{% if order_by == 'id' and reverse != '1' %}&uarr;
+					{% elif order_by == 'id' and reverse == '1' %}&darr;
+					{% endif %}
+				</a>
+			</th>
+			<th>
+				<a href="{% url "groups" %}?page=1&amp;order_by=title
+				{% if order_by == 'title' and reverse != '1' %}
+					&amp;reverse=1
+				{% endif %}">
+					Назва
+					{% if order_by == 'title' and reverse != '1' %}&uarr;
+					{% elif order_by == 'title' and reverse == '1' %}&darr;
+					{% endif %}
+				</a>
+			</th>
+			<th>
+				<a href="{% url "groups" %}?page=1&amp;order_by=leader
+				{% if order_by == 'leader' and reverse != '1' %}
+					&amp;reverse=1
+				{% endif %}">
+					Староста
+					{% if order_by == 'leader' and reverse != '1' %}&uarr;
+					{% elif order_by == 'leader' and reverse == '1' %}&darr;
+					{% endif %}
+				</a>
+			</th>
 			<th>Дії</th>
 		</tr>
 	</thead>
+	{% endwith %}
 	<tbody>
 		{% for group in groups %}
 		<tr>
 			<td>{{ group.id }}</td>
-			<td><a href="{% url "groups_edit" group.name.1 %}">{{ group.name.0 }}{{ group.name.1 }}</a></td>
-			<td><a href="#">{{ group.captain }}</a></td>
+			<td><a href="{% url "groups_edit" group.id %}">{{ group.title }}</a></td>
+			<td><a href="#">{{ group.leader }}</a></td>
 			<td>
 				<div class="dropdown">
 					<button class="btn btn-default dropdown-toggle" 
@@ -41,11 +73,11 @@
 							Відвідування</a>
 						</li>
 						<li role="presentation">
-							<a role="menuitem" tabindex="-1" href="{% url "groups_edit" group.name.1 %}">
+							<a role="menuitem" tabindex="-1" href="{% url "groups_edit" group.id %}">
 							Редагувати</a>
 						</li>
 						<li role="presentation">
-							<a role="menuitem" tabindex="-1" href="{% url "groups_delete" group.name.1 %}">
+							<a role="menuitem" tabindex="-1" href="{% url "groups_delete" group.id %}">
 							Видалити</a>
 						</li>
 					</ul>
@@ -59,6 +91,32 @@
 <!-- End Groups Listing -->
 
 <nav>
+	{% comment "include" %}
 	{% include "students/includes/nav.html" %}
+	{% endcomment %}
+	
+	{% with page=request.GET.page order_by=request.GET.order_by reverse=request.GET.reverse %}
+	{% if valPage > 1 %}
+	<ul class="pagination">
+		<li>
+			<a href="{% url "groups" %}?page=1&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">
+				&laquo;
+			</a>
+		</li>
+		{% for p in listOfPage %}
+			<li {% if page == p %}class="active"{% elif page == '' and p == '1' %}class="active"{% endif %}>
+				<a href="{% url "groups" %}?page={{ p }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">
+					{{ p }}
+				</a>
+			</li>
+		{% endfor %}
+		<li>
+			<a href="{% url "groups" %}?page={{ valPage }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">
+				&raquo;
+			</a>
+		</li>
+	</ul>
+	{% endif %}
+	{% endwith %}
 </nav>
 {% endblock content %}

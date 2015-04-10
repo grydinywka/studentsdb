@@ -2,23 +2,58 @@
 
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+from ..models import Group
 
 # Views for Gruops
 def groups_list(request):
-	groups = (
-		{'id': 1,
-		 'name': [u'МтМ-', 21],
-		 'captain': u'Ячменев Олег'},
-		{'id': 2,
-		 'name': [u'МтМ-', 22],
-		 'captain': u'Подоба Віталій'},
-		{'id': 3,
-		 'name': [u'МтМ-', 23],
-		 'captain': u'Іванов Андрій'},
-	)
+	groups = Group.objects.all()
+	allGroups = len(groups)
+	valGroupsOnPage = int(request.GET.get('valgroups', 3))
+	valPage = allGroups/valGroupsOnPage
 	
-	# return render(request, 'students/groups_list.html', {})
-	return render(request, 'students/groups_list.html', {'groups': groups})
+	if allGroups % valGroupsOnPage != 0:
+		valPage += 1
+	listOfPage = [str(i) for i in xrange(1, valPage+1, 1)]
+
+	order_by = request.GET.get('order_by', '')
+	if order_by in ('id', 'title', 'leader'):
+		groups = groups.order_by(order_by)
+		if request.GET.get('reverse', '') == '1':
+				groups = groups.reverse()
+
+	# paginator groups
+	# paginator = Paginator(groups, 3)
+	# page = request.GET.get('page')
+	# try:
+	# 	groups = paginator.page(page)
+	# except PageNotAnInteger:
+	# 	# If page is not an integer, deliver first page.
+	# 	groups = paginator.page(1)
+	# except EmptyPage:
+	# 	# If page is out of range (e. g. 9999), deliver
+	# 	# last page of results.
+	# 	groups = paginator.page(paginator.num_pages)
+
+	# my paginator groups
+	page = request.GET.get('page', '')
+	
+	try:
+		page = int(float(page))
+	except ValueError:
+		page = 1
+	if page > valPage or page < 1:
+		page = valPage
+	
+	large = valGroupsOnPage*page
+	little = large - valGroupsOnPage
+	if allGroups > 1:
+		groups = groups[little:large]
+
+	return render(request, 'students/groups_list.html', {'groups': groups,
+														 'valPage': valPage,
+														 'listOfPage': listOfPage})
 
 def groups_add(request):
     return HttpResponse('<h1>Groups Add Form</h1>')

@@ -38,7 +38,8 @@ def students_list(request):
 	
 	large = valStudOnPage*page
 	little = large - valStudOnPage
-	students = students[little:large]
+	if allStud > 1:
+		students = students[little:large]
 
 	#paginator students
 	# paginator = Paginator(students, 3)

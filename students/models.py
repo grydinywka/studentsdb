@@ -8,7 +8,7 @@ class Student(models.Model):
 
 	class Meta(object):
 		verbose_name = u"Студент"
-		verbose_name_plural = u"Студент"
+		verbose_name_plural = u"Студенти"
 	
 	first_name = models.CharField(
 		max_length=256,
@@ -44,6 +44,12 @@ class Student(models.Model):
 	notes = models.TextField(
 		blank=True,
 		verbose_name=u"Додаткові нотатки")
+
+	student_group = models.ForeignKey('Group',
+		verbose_name=u"Група",
+		blank=False,
+		null=True,
+		on_delete=models.PROTECT)
 	
 	def __unicode__(self):
 		return u"%s %s" % (self.first_name, self.last_name)
