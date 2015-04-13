@@ -4,9 +4,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from ..models import Group
+from ..models.Group import Group
 
-# Views for Gruops
+# Views for Groups
 def groups_list(request):
 	groups = Group.objects.all()
 	allGroups = len(groups)
