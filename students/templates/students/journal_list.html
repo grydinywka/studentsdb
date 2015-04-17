@@ -1,0 +1,30 @@
+{% extends "students/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %}Відвідування{% endblock meta_title %}
+
+{% block title %}Облік Відвідування{% endblock title %}
+
+{% block content %}
+	<!-- Start Visiting Listing -->
+	<table class="table table-hover table-striped table-bordered">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Відвідування</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for visit in journal %}
+			<tr>
+				<td>{{ forloop.counter }}</td>
+				
+				<td><a href="{% url "journal_edit" visit.id %}">{{ visit }}</a></td>
+				
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<!-- End Students' Visiting Listing -->
+{% endblock content %}

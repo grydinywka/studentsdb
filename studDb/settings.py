@@ -16,7 +16,6 @@ from .db import DATABASES
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
@@ -72,7 +71,8 @@ PORTAL_URL = 'http://localhost:8000'
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'uk-Uk'
 
 TIME_ZONE = 'UTC'
 

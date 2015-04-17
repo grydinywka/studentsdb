@@ -61,10 +61,10 @@ def students_list(request):
 	# return HttpResponse('<h1>Hello World!</h1>')
 
 def students_add(request):
-    return HttpResponse('<h1>Students Add Form</h1>')
+	return HttpResponse('<h1>Students Add Form</h1>')
 
 def students_edit(request, sid):
-    return HttpResponse('<h1>Edit Student %s</h1>' % sid)
+	return HttpResponse('<h1>Edit Student %s</h1>' % sid)
 
 def students_delete(request, sid):
-    return HttpResponse('<h1>Delete Student %s</h1>' % sid)
+	return HttpResponse('<h1>Delete Student %s</h1>' % sid)

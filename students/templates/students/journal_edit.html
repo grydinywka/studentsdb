@@ -25,11 +25,12 @@
 			</tr>
 		</thead>
 		<tbody>
-
-			{% for student in students %}
+			
+			{% for student in visiting %}
 			<tr>
 				<td>{{ forloop.counter }}</td>
-				<td><a href="#">{{ student.student_name }}</a></td>
+				
+				<td><a href="{% url "students_edit" student.id %}">{{ student }}</a></td>
 				
 				{% for i in days %}
 				<td>
@@ -41,7 +42,6 @@
 				
 			</tr>
 			{% endfor %}
-		
 		</tbody>
 	</table>
 	<!-- End Students' Visiting Listing -->

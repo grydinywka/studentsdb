@@ -50,6 +50,17 @@ class Student(models.Model):
 		blank=False,
 		null=True,
 		on_delete=models.PROTECT)
+
+	study_start = models.DateField(
+		blank=False,
+		verbose_name=u"Початок навчання",
+		null=True)
+
+	student_journal = models.ForeignKey('Visiting',
+		blank=True,
+		null=True,
+		verbose_name=u"журнал",
+		on_delete=models.SET_NULL)
 	
 	def __unicode__(self):
 		return u"%s %s" % (self.first_name, self.last_name)

@@ -19,12 +19,7 @@ class Group(models.Model):
 		blank=True,
 		null=True,
 		on_delete=models.SET_NULL)
-
-	study_start = models.DateField(
-		blank=False,
-		verbose_name=u"Початок навчання",
-		null=True)
-
+	
 	notes = models.TextField(
 		blank=True,
 		verbose_name=u"Додаткові нотатки")
