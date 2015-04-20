@@ -1,0 +1,62 @@
+{% extends "students/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %}Результати{% endblock meta_title %}
+
+{% block title %}Результати іспитів{% endblock title %}
+
+{% block content %}
+<!-- Start Groups Listing -->
+<table class="table table-hover table-striped">
+	{% with order_by=request.GET.order_by reverse=request.GET.reverse %}
+	<thead>
+		<tr>
+			<th>
+				<a href="{% url "results" %}?page=1&amp;order_by=id
+				{% if order_by == 'id' and reverse != '1' %}
+					&amp;reverse=1
+				{% endif %}">
+					#
+					{% if order_by == 'id' and reverse != '1' %}&uarr;
+					{% elif order_by == 'id' and reverse == '1' %}&darr;
+					{% endif %}
+				</a>
+			</th>
+			<th>
+				<a href="#">
+					Предмет
+				</a>
+			</th>
+			<th>
+				<a href="#">
+					Студенти
+				</a>
+			</th>
+			<th>
+				<a href="#">
+					Оцінка
+				</a>
+			</th>
+		</tr>
+	</thead>
+	{% endwith %}
+	<tbody>
+		{% for result in results %}
+		<tr>
+			<td>{{ result.id }}</td>
+			<td>{% for subject in result.exams.all %}
+				{{ subject }}<br />
+			{% endfor %}</td>
+			<td>{% for stud in result.students.all %}
+				{{ stud }}<br />
+			{% endfor %}</td>
+			<td>{{ result.valuetion }}</td>
+		</tr>
+		{% endfor %}
+
+	</tbody>
+</table>
+<!-- End Groups Listing -->
+
+{% endblock content %}

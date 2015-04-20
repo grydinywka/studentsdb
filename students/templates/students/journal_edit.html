@@ -8,7 +8,11 @@
 
 {% block data %}
 	<div class="col-xs-12">
-    	<h5 id="date"><a href="#">&larr;</a>{{ month }}<a href="#">&rarr;</a></h5>
+    	<h5 id="date">
+	    	<a href="#">&larr;</a>
+	    	{{ date }}
+	    	<a href="{% url "journal_edit" visiting.id %}">&rarr;</a>
+    	</h5>
     </div>
 {% endblock data %}
 
@@ -26,7 +30,7 @@
 		</thead>
 		<tbody>
 			
-			{% for student in visiting %}
+			{% for student in visiting.student_set.all %}
 			<tr>
 				<td>{{ forloop.counter }}</td>
 				

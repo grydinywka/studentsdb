@@ -1,4 +1,5 @@
 <!-- {% load static from staticfiles %} -->
+{% comment "bootstrap paginator" %}
 {% with order_by=request.GET.order_by reverse=request.GET.reverse %}
 {% if groups.has_other_pages %}
 <ul class="pagination">
@@ -16,6 +17,31 @@
 	{% endfor %}
 	<li>
 		<a href="{% url "groups" %}?page={{ groups.paginator.num_pages }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">
+			&raquo;
+		</a>
+	</li>
+</ul>
+{% endif %}
+{% endwith %}
+{% endcomment %}
+
+{% with page=request.GET.page order_by=request.GET.order_by reverse=request.GET.reverse %}
+{% if valPage > 1 %}
+<ul class="pagination">
+	<li>
+		<a href="{% url "groups" %}?page=1&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">
+			&laquo;
+		</a>
+	</li>
+	{% for p in listOfPage %}
+		<li {% if page == p %}class="active"{% elif page == '' and p == '1' %}class="active"{% endif %}>
+			<a href="{% url "groups" %}?page={{ p }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">
+				{{ p }}
+			</a>
+		</li>
+	{% endfor %}
+	<li>
+		<a href="{% url "groups" %}?page={{ valPage }}&amp;order_by={{ order_by }}&amp;reverse={{ reverse }}">
 			&raquo;
 		</a>
 	</li>

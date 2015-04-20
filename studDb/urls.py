@@ -22,6 +22,13 @@ urlpatterns = patterns('',
     # Journal urls
     url(r'^journal/$', 'students.views.journals.journal_list', name='journal'),
     url(r'^journal/(?P<gid>\d+)/edit/$', 'students.views.journal_edit.journal_edit', name="journal_edit"),
+
+    # Exam urls
+    url(r'^exam/$', 'students.views.exams.exam_list', name='exams'),
+    url(r'^exam/(?P<gid>\d+)/edit/$', 'students.views.exams.exam_edit', name='exam_edit'),
+
+    # Result urls
+    url(r'^result/$', 'students.views.results.result_list', name='results'),
     
     url(r'^admin/', include(admin.site.urls)),
 )
