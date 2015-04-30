@@ -30,3 +30,13 @@ h1, h2, h3, h4, h5, h6 {
 	margin: 10px 0px;
 	padding: 10px 0px;
 }
+/*Form Style*/
+textarea,
+select,
+input {
+	max-width: 300px;
+}
+
+ #photo {
+ 	padding-top: 0px ;
+ }

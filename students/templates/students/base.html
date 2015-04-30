@@ -73,16 +73,27 @@
 			<!-- End SubHeader -->
 			
 			<!-- Start Main Page Content -->
-			{% comment "Not used alert so far" %}
 			<div class="row" id="content-colomns">
-				
 				<div class="col-xs-12" id="content-colomn">
 					
 					<!-- Status Message -->
-					<div class="alert alert-warning">Зміни скасовано.</div>
-				</div>
+					{% block status_message %}
+					
+					<!-- {% comment 'message' %}
+					{% if request.GET.status_message %}
+					<div class="alert alert-warning">{{ request.GET.status_message }}</div>
+					{% endif %}
+					{% endcomment %} -->
+
+					{% if messages %}
+						{% for message in messages %}
+							<div class="alert alert-warning">
+								{{ message }}
+							</div>
+						{% endfor %}
+					{% endif %}
+					{% endblock %}
 			</div>
-			{% endcomment %}
 
 			<div class="row">
 					<div class="col-xs-4"><h2>{% block title %}{% endblock title %}</h2></div>
