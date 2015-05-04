@@ -156,8 +156,8 @@ def students_add(request):
 			except isNotImageError:
 				errors['photo'] = u"Це не зображення"
 			except tooBigPhotoError:
-				errors['photo'] = u"Розмір фото не може перевищувати " + str(SIZE_LIMIT_FILE) + u"Мб.\
-									Додиний файл містить " + str(sizePhoto) + ' byte'
+				errors['photo'] = u"Розмір фото не може перевищувати " + str(SIZE_LIMIT_FILE) + u" байт.\
+									Додиний файл містить " + str(sizePhoto) + u" байт"
 			else:
 				data['photo'] = photo
 			

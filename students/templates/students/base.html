@@ -67,6 +67,9 @@
 						<li role="presentation" {% url 'results' as the_url_results %}{% if the_url_results in request.path %}class="active"{% endif %}>
 							<a href="{% url "results" %}">Результати Іспитів</a>
 						</li>
+						<li role="presentation" {% url 'contact_admin' as the_url_c_a %}{% if the_url_c_a in request.path %}class="active"{% endif %}>
+							<a href="{% url "contact_admin" %}">Контакти</a>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -92,6 +95,7 @@
 							</div>
 						{% endfor %}
 					{% endif %}
+					
 					{% endblock %}
 			</div>
 

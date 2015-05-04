@@ -101,7 +101,7 @@
 			<label for="notes" class="col-sm-2 control-label">Додаткові Нотатки</label>
 			<div class="col-sm-10">
 				<textarea name="notes" id="notes" class="form-control"
-						  rows="2" cols="20" placeholder="Напишіть те, що вважаєте за потрібне.">{{ request.POST.notes }}
+						  rows="2" placeholder="Напишіть те, що вважаєте за потрібне.">{{ request.POST.notes }}
 				</textarea>
 				<span class="help-block">{{ errors.notes }}</span>
 			</div>
