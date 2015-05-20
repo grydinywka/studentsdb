@@ -12,6 +12,8 @@ from studDb.settings import ADMIN_EMAIL
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
+from django.views.generic.edit import FormView
+
 class ContactForm(forms.Form):
 	"""docstring for ContactForm"""
 	
@@ -25,7 +27,7 @@ class ContactForm(forms.Form):
 		#form tag attributes
 		self.helper.form_class = 'form-horizontal'
 		self.helper.form_method = 'post'
-		self.helper.form_action = reverse('contact_admin')
+		self.helper.form_action = reverse('contact2')
 
 		#twitter bootstrap styles
 		self.helper.help_text_inline = True
@@ -47,6 +49,29 @@ class ContactForm(forms.Form):
 		label=u"Текст повідомлення",
 		max_length=2560,
 		widget=forms.Textarea)
+
+class ContactView2(FormView):
+	"""docstring for ContactView2"""
+	
+	template_name = 'contact_admin/form.html'
+	form_class = ContactForm
+	success_url = '/contact2/'
+
+	def form_valid(self, form):
+		#send email
+		subject = form.cleaned_data['subject']
+		message = form.cleaned_data['message']
+		form_email = form.cleaned_data['form_email']
+		try:
+			send_mail(subject, message, form_email, [ADMIN_EMAIL, 'sergeyi@univ.kiev.ua'])
+		except Exception as e:
+			messages.error(self.request, u'Під час відправки листа виникла непередбачувана ' \
+			u'помилка. Спробуйте скористатись даною формою пізніше. ' \
+			+ str(e))
+		else:
+			messages.success(self.request, u'Повідомлення успішно надіслане!')
+		return super(ContactView2, self).form_valid(form)
+		
 
 def contact_admin(request):
 	#check if form was posted
@@ -70,7 +95,7 @@ def contact_admin(request):
 				messages.success(request, u'Повідомлення успішно надіслане!')
 
 			#redirect to same contact page with success message
-			return HttpResponseRedirect(reverse('contact_admin'))
+			return HttpResponseRedirect(reverse('contact2'))
 	#if there was not POST render blank form
 	else:
 		form = ContactForm()

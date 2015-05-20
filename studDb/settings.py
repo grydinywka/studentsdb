@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'contact_form',
     'crispy_forms',
     'students',
 )
@@ -108,3 +109,10 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+ADMINS = (
+    ('serg', 'grydinywka@gmail.com'),   # email will be sent to your_email
+    ('serg2', 'sergeyi@univ.kiev.ua'),
+)
+
+MANAGERS = ADMINS

@@ -1,0 +1,17 @@
+{% extends "students/base.html" %}
+{% block logo %}
+	<h1>Сервіс Обліку Студентів</h1>
+{% endblock logo %}
+{% block title %}List of Students{% endblock title %}
+
+{% block content %}
+
+	<ul>
+		{% for student in students %}
+			<li>{{ forloop.counter }} {{ student.last_name }}</li>
+		{% endfor %}
+	</ul>
+
+	<p>{{ context.show_logo }}</p>
+
+{% endblock content %}

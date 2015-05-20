@@ -22,12 +22,17 @@
 
 
 {% block content %}
-
-<!-- <form action="{% url "contact2" %}" method="post">
-	{% csrf_token %}
-	{{ form.as_p }}
-	<input type="submit" value="Send" name="send_button" />
-</form> -->
-
-{% crispy form %}
+	{% if request.path == '/contact/' %}
+	<form method="post">{% csrf_token %}
+        {% for field in form %}
+            <div class="fieldWrapper">
+                {{ field.errors }}
+                {{ field.label_tag }} {{ field }}
+            </div>
+        {% endfor %}
+        <input type="submit" value="Submit">
+    </form>
+    {% else %}
+    {% crispy form %}
+	{% endif %}
 {% endblock content %}

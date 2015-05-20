@@ -3,12 +3,18 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from .settings import MEDIA_ROOT, DEBUG
 
+from students.views.students import StudentList
+from students.views.contact_admin2 import ContactView
+from students.views.contact_admin import ContactView2
+
 urlpatterns = patterns('',
     # Students urls
     url(r'^$', 'students.views.students.students_list', name='home'),
     url(r'^students/add/$', 'students.views.students.students_add', name='students_add'),
     url(r'^students/(?P<sid>\d+)/edit/$', 'students.views.students.students_edit', name='students_edit'),
     url(r'^students/(?P<sid>\d+)/delete/$', 'students.views.students.students_delete', name='students_delete'),
+    url(r'^student_list/$', StudentList.as_view()),
+    url(r'^student_list/(?P<pk>\d+)/$', StudentList.as_view()),
     
     # Groups urls
     url(r'^groups/$', 'students.views.groups.groups_list', name='groups'),
@@ -31,8 +37,11 @@ urlpatterns = patterns('',
     url(r'^result/$', 'students.views.results.result_list', name='results'),
 
     #Contact Admin Form
-    url(r'^contact-admin/$', 'students.views.contact_admin.contact_admin', name='contact_admin'),
-    
+    # url(r'^contact-admin/$', 'students.views.contact_admin2.contact_admin', name='contact_admin'),
+    url(r'^contact-admin/$', ContactView.as_view(), name='contact_admin'),
+    (r'^contact/', include('contact_form.urls')),
+    url(r'^contact2/$', ContactView2.as_view(), name='contact2'),
+
     url(r'^admin/', include(admin.site.urls)),
 )
 

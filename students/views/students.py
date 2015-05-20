@@ -16,8 +16,51 @@ from PIL import Image
 # sys.path.append('/data/work/virtualenvs/studDb/src/studDb/studDb/')
 from studDb.settings import SIZE_LIMIT_FILE
 
+from django.views.generic import ListView
+
 class isNotImageError(Exception): pass
 class tooBigPhotoError(Exception): pass
+
+class StudentList(ListView):
+	"""docstring for StudentList"""
+	model = Student
+	template_name = 'students/studentlistTmp.html'
+	context_object_name = 'students'
+	# template = 'students/student_class_based_view_template'
+	paginate_by = 5
+
+	def get_context_data(self, **kwargs):
+		"""This method adds extra variables to template"""
+		#get original context data from parent class
+		context = super(StudentList, self).get_context_data(**kwargs)
+
+		#tell template not to show logo on a page
+		context['show_logo'] = False
+
+		#return context mapping
+		return context
+	
+	def get_queryset(self):
+		"""Order students by last name."""
+		#get original query set
+		qs = super(StudentList, self).get_queryset()
+		# page = self.request.GET.get('page', '')
+		
+		# try:
+		# 	page = int(float(page))
+		# except ValueError:
+		# 	page = 1
+		# if page > valPage or page < 1:
+		# 	page = valPage
+		
+		# large = valStudOnPage*page
+		# little = large - valStudOnPage
+		# students = qs.order_by('last_name')
+		# if allStud > 1:
+		# 	students = qs.order_by('last_name')[little:large]
+		#order by last name
+
+		return qs.order_by('last_name')
 
 # Views for Students
 def students_list(request):
