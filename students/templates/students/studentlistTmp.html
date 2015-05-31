@@ -8,10 +8,15 @@
 
 	<ul>
 		{% for student in students %}
-			<li>{{ forloop.counter }} {{ student.last_name }}</li>
+			<li>{{ forloop.counter }} {{ student }}</li>
 		{% endfor %}
+		{% for group in group_list %}
+			<li>{{ forloop.counter }} {{ group }}</li>
+		{% endfor %}
+		<li>{{ show_logo }}</li>
+		<li>{{ get_object }}</li>
 	</ul>
 
-	<p>{{ context.show_logo }}</p>
+	<p>{{ show_logo }}</p>
 
 {% endblock content %}

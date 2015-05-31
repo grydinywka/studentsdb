@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render
+from django import forms
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -8,6 +9,7 @@ from django.contrib import messages
 
 from ..models.Student import Student
 from ..models.Group import Group
+from ..models.Visiting import Visiting
 
 from datetime import datetime
 from PIL import Image
@@ -16,7 +18,8 @@ from PIL import Image
 # sys.path.append('/data/work/virtualenvs/studDb/src/studDb/studDb/')
 from studDb.settings import SIZE_LIMIT_FILE
 
-from django.views.generic import ListView
+from django.views.generic import ListView, UpdateView
+from django.views.generic.edit import FormView
 
 class isNotImageError(Exception): pass
 class tooBigPhotoError(Exception): pass
@@ -24,10 +27,14 @@ class tooBigPhotoError(Exception): pass
 class StudentList(ListView):
 	"""docstring for StudentList"""
 	model = Student
+	# queryset = Student.objects.all()
 	template_name = 'students/studentlistTmp.html'
 	context_object_name = 'students'
 	# template = 'students/student_class_based_view_template'
 	paginate_by = 5
+
+	# def get_context_object_name(self, obj):
+	# 	return 'studs'
 
 	def get_context_data(self, **kwargs):
 		"""This method adds extra variables to template"""
@@ -36,31 +43,115 @@ class StudentList(ListView):
 
 		#tell template not to show logo on a page
 		context['show_logo'] = False
+		context['group_list'] = Group.objects.all()
 
 		#return context mapping
 		return context
+
+	def get_object(self):
+		# Call the superclass
+		obj = super(StudentList, self).get_object()
+		# Record the last accessed date
+		obj.last_accessed = 'timezone.now()'
+		obj.save()
+		# Return the object
+		return obj
 	
 	def get_queryset(self):
 		"""Order students by last name."""
 		#get original query set
 		qs = super(StudentList, self).get_queryset()
-		# page = self.request.GET.get('page', '')
-		
-		# try:
-		# 	page = int(float(page))
-		# except ValueError:
-		# 	page = 1
-		# if page > valPage or page < 1:
-		# 	page = valPage
-		
-		# large = valStudOnPage*page
-		# little = large - valStudOnPage
-		# students = qs.order_by('last_name')
-		# if allStud > 1:
-		# 	students = qs.order_by('last_name')[little:large]
-		#order by last name
 
 		return qs.order_by('last_name')
+
+class StudentUpdateView(UpdateView):
+	"""docstring for StudentUpdateView"""
+	
+	model = Student
+	template_name = 'students/students_edit.html'
+	pk_url_kwarg = 'sid'
+
+	def __init__(self, *args, **kwargs):
+		super(StudentUpdateView, self).__init__(*args, **kwargs)
+
+		#define additional context
+		self.errors = {}
+	
+	def get_success_url(self):
+		messages.success(self.request, u'Студента успішно збережено!')
+		return reverse('home')
+
+	def get_context_data(self, **kwargs):
+		"""This method adds extra variables to template"""
+		#get original context data from parent class
+		context = super(StudentUpdateView, self).get_context_data(**kwargs)
+		
+		if self.errors:
+			context['errors'] = None
+			# context['errors'] = self.errors
+		#return context mapping
+		return context
+
+	def post(self, request, *args, **kwargs):
+		if request.POST.get('cancel_button'):
+			messages.info(self.request, u'Редагування студента відмінено!')
+			return HttpResponseRedirect(reverse('home'))
+		else:
+			last_name = request.POST.get('last_name', '').strip()
+			if not last_name:
+				self.errors['last_name'] = u"Прізвище є обов’язковим"
+				messages.error(self.request, u'Прізвище є обов’язковим!')
+			return super(StudentUpdateView, self).post(request, *args, **kwargs)
+
+# Class form for edit students
+class StudentEditForm(forms.Form):
+	"""docstring for StudentEditForm"""
+	first_name = forms.CharField(
+		label='First_name',
+		max_length=100)
+
+class StudentEditView(FormView):
+	"""docstring for StudentEditView"""
+	
+	template_name = 'students/students_edit.html'
+	pk_url_kwarg = 'sid'
+	form_class = StudentEditForm
+	success_url = '/'
+
+	def form_valid(self, form):
+		first_name = form.cleaned_form['first_name']
+		try:
+			pass
+		except Exception as e:
+			messages.error(self.request, u'Під час редагування студента виникла ' \
+			u'помилка. Спробуйте скористатись даною формою пізніше. ' \
+			+ str(e))
+		else:
+			messages.success(self.request, u'Редагування успішне!')
+		return super(StudentEditView, self).form_valid(form)
+
+	def get_context_data(self, **kwargs):
+		"""This method adds extra variables to template"""
+		#get original context data from parent class
+		context = super(StudentEditView, self).get_context_data(**kwargs)
+		
+
+		context['object'] = {'id': 1}
+		
+		#return context mapping
+		return context
+
+	def post(self, request, *args, **kwargs):
+		if request.POST.get('cancel_button'):
+			messages.info(self.request, u'Редагування студента відмінено!')
+			return HttpResponseRedirect(reverse('home'))
+		else:
+			first_name = request.POST.get('first_name', '').strip()
+			if not first_name:
+				messages.error(self.request, u'Прізвище є обов’язковим!')
+			return super(StudentEditView, self).post(request, *args, **kwargs)
+		
+
 
 # Views for Students
 def students_list(request):
@@ -243,7 +334,59 @@ def students_add(request):
 			{'groups': Group.objects.all().order_by('title')})
 
 def students_edit(request, sid):
-	return HttpResponse('<h1>Edit Student %s</h1>' % sid)
+	student = Student.objects.filter(pk=sid)[0]
+	#if form was posted
+	if request.method == 'POST':
+		#if edit_button was pushed
+		if request.POST.get('edit_button') is not None:
+			#TODO: validate input from user
+			errors = {}
+
+			if not errors:
+				student.first_name = request.POST.get('firstName', '').strip()
+				student.last_name = request.POST.get('lastName', '').strip()
+				student.middle_name = request.POST.get('middleName', '').strip()
+				student.birthday = request.POST.get('birthday', '').strip()
+				student.ticket = request.POST.get('ticket', '').strip()
+				
+				actWithPhoto = request.POST.get('pho', '')
+				if actWithPhoto == 'change':
+					student.photo = request.FILES.get('photo')
+				elif actWithPhoto == 'delete':
+					student.photo = None
+				student.notes = request.POST.get('notes', '').strip()
+				student.study_start = request.POST.get('study_start', '').strip()
+				student_group = request.POST.get('student_group', '').strip()
+				student.student_group = Group.objects.get(pk=student_group)
+				student_journal = request.POST.get('journal', '').strip()
+				if student_journal == '':
+					student.student_journal = None
+				else:
+					student.student_journal = Visiting.objects.get(pk=student_journal)
+
+				student.save()
+				#returns user to list of students
+				return HttpResponseRedirect(reverse('home'))
+			else:
+				return render(request, 'students/students_edit.html',
+					{'groups': Group.objects.all().order_by('title'),
+					 'journals': Visiting.objects.all().order_by('title'),
+					 'errors': errors,
+					 'sid': sid,
+					 'student': student,
+					 'actWithPhoto': "actWithPhoto"})
+		#if cancel_button was pushed
+		elif request.POST.get('cancel_button') is not None:
+			return HttpResponseRedirect(reverse('home'))	
+	#is form wasn't posted
+	else:
+		#give code of begin state
+		return render(request, 'students/students_edit.html',
+			{'sid': sid,
+			 'student': student,
+			 'groups': Group.objects.all().order_by('title'),
+			 'journals': Visiting.objects.all().order_by('title')
+			})
 
 def students_delete(request, sid):
 	return HttpResponse('<h1>Delete Student %s</h1>' % sid)

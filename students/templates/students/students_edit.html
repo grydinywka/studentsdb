@@ -1,0 +1,119 @@
+{% extends "students/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %}Редагувати Студента{% endblock meta_title %}
+
+{% block title %}Редагувати Студента{% endblock title %}
+
+{% block status_message %}
+  {% if form.errors %}
+  <div class="alert alert-warning" role="alert">
+  	Будь-ласка, виправте наступні помилки
+  </div>
+  {% endif %}
+
+{{ block.super }}
+
+{% endblock status_message %}
+
+{% comment 'ver1' %}
+{% block content %}
+
+	<form action="{% url "students_edit" object.id %}" method="post"
+		  enctype="multipart/form-data">
+
+		{% csrf_token %}
+
+		{{ form.as_p }}
+		
+		<input type="submit" value="Зберегти" name="add_button"
+			   class="btn btn-primary" />
+		<button type="submit" name="cancel_button" value="Скасувати" 
+				class="btn btn-link">Скасувати</button>
+	</form>
+
+{% endblock content %}
+{% endcomment %}
+
+
+{% block content %}
+	
+	<p>{{ student.id }}</p>
+	
+	<form action="{% url "students_edit" student.id %}" method="post"
+		  enctype="multipart/form-data">
+		{% csrf_token %}
+		<div>
+			<label for="first_name">Name</label>
+			<input type="text" value="{{ student.first_name }}"
+				   name="firstName" id="first_name"
+				   placeholder="Your name" />
+		</div>
+		<div>
+			<label for="last_name">Last name</label>
+			<input type="text" value="{{ student.last_name }}"
+				   name="lastName" id="last_name"
+				   placeholder="Your last name" />
+		</div>
+		<div>
+			<label for="middle_name">Middle name</label>
+			<input type="text" value="{{ student.middle_name }}"
+				   name="middleName" id="middle_name"
+				   placeholder="Your middle name" />
+		</div>
+		<div>
+			<label for="birthday">Date of birth</label>
+			<input type="text" value="{{ student.birthday|date:"Y-m-d" }}" name="birthday" placeholder="E.g. 1988-04-12" />
+		</div>
+		
+		<div>
+			<p>
+			<label for="photo">Photo</label>
+			<input type="radio" name="pho" value="leave" checked="1" />Leave
+			<input type="radio" name="pho" value="change" />Edit
+			<input type="radio" name="pho" value="delete" />Delete
+			
+			</p>
+			<input type="file" value="{{ student.photo }}" name="photo" id="photo" />
+		</div>
+		<div>
+			<label for="ticket">Ticket</label>
+			<input type="text" value="{{ student.ticket }}" name="ticket" id="ticket" placeholder="# of ticket" />
+		</div>
+
+		<div>
+			<label for="student_group">Group</label>
+			<select name="student_group" id="student_group">
+				<option value="">Select Group</option>
+				{% for group in groups %}
+				<option value="{{ group.id }}" {% if group.id == student.student_group.id|add:0 %}selected="1"{% endif %}>{{ group.title }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div>
+			<label for="study_start">Start of study</label>
+			<input type="text" value="{{ student.study_start|date:"Y-m-d" }}" name="study_start" id="study_start"
+				   placeholder="E.g. 2015-01-14" />
+		</div>
+		<div>
+			<label for="journal">Journal</label>
+			<select name="journal" id="journal">
+				<option value="">Select Journal</option>
+				{% for journal in journals %}
+					<option value="{{ journal.id }}" {% if journal.id == student.student_journal.id|add:0 %}selected="1"{% endif %}>{{ journal.title }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div>
+			<label for="notes">Notes</label>
+			<textarea name="notes" id="notes" class="form-control"
+					  rows="2" placeholder="Напишіть те, що вважаєте за потрібне."></textarea>
+		</div>
+
+		<div>
+			<input type="submit" value="Edit" name="edit_button" />
+			<button type="submit" name="cancel_button">Cancel</button>
+		</div>
+	</form>
+{% endblock content %}
