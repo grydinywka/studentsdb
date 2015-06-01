@@ -39,32 +39,33 @@
 
 {% block content %}
 	
-	<p>{{ student.id }}</p>
-	
 	<form action="{% url "students_edit" student.id %}" method="post"
 		  enctype="multipart/form-data">
 		{% csrf_token %}
 		<div>
-			<label for="first_name">Name</label>
-			<input type="text" value="{{ student.first_name }}"
+			<label for="first_name">First Name*</label>
+			<input type="text" value="{% if request.POST %}{{ request.POST.firstName }}{% else %}{{ student.first_name }}{% endif %}"
 				   name="firstName" id="first_name"
 				   placeholder="Your name" />
+			<span class="help-block">{{ errors.first_name }}</span>
 		</div>
 		<div>
-			<label for="last_name">Last name</label>
-			<input type="text" value="{{ student.last_name }}"
+			<label for="last_name">Last name*</label>
+			<input type="text" value="{% if request.POST %}{{ request.POST.lastName }}{% else %}{{ student.last_name }}{% endif %}"
 				   name="lastName" id="last_name"
 				   placeholder="Your last name" />
+			<span class="help-block">{{ errors.last_name }}</span>
 		</div>
 		<div>
 			<label for="middle_name">Middle name</label>
-			<input type="text" value="{{ student.middle_name }}"
+			<input type="text" value="{% if request.POST %}{{ request.POST.middleName }}{% else %}{{ student.middle_name }}{% endif %}"
 				   name="middleName" id="middle_name"
 				   placeholder="Your middle name" />
 		</div>
 		<div>
-			<label for="birthday">Date of birth</label>
-			<input type="text" value="{{ student.birthday|date:"Y-m-d" }}" name="birthday" placeholder="E.g. 1988-04-12" />
+			<label for="birthday">Date of birth*</label>
+			<input type="text" value="{% if request.POST %}{{ request.POST.birthday }}{% else %}{{ student.birthday|date:"Y-m-d" }}{% endif %}" name="birthday" placeholder="E.g. 1988-04-12" />
+			<span class="help-block">{{ errors.birthday }}</span>
 		</div>
 		
 		<div>
@@ -78,37 +79,50 @@
 			<input type="file" value="{{ student.photo }}" name="photo" id="photo" />
 		</div>
 		<div>
-			<label for="ticket">Ticket</label>
-			<input type="text" value="{{ student.ticket }}" name="ticket" id="ticket" placeholder="# of ticket" />
+			<label for="ticket">Ticket*</label>
+			<input type="text" value="{% if request.POST %}{{ request.POST.ticket }}{% else %}{{ student.ticket }}{% endif %}" name="ticket" id="ticket" placeholder="# of ticket" />
+			<span class="help-block">{{ errors.ticket }}</span>
 		</div>
 
 		<div>
-			<label for="student_group">Group</label>
+			<label for="student_group">Group*</label>
 			<select name="student_group" id="student_group">
 				<option value="">Select Group</option>
 				{% for group in groups %}
-				<option value="{{ group.id }}" {% if group.id == student.student_group.id|add:0 %}selected="1"{% endif %}>{{ group.title }}</option>
+				<option value="{{ group.id }}" 
+				{% if request.POST %}
+					{% if group.id == request.POST.student_group|add:0 %}selected="1"{% endif %}
+				{% else %}
+					{% if group.id == student.student_group.id|add:0 %}selected="1"{% endif %}
+				{% endif %}>{{ group.title }}</option>
 				{% endfor %}
 			</select>
+			<span class="help-block">{{ errors.student_group }}</span>
 		</div>
 		<div>
-			<label for="study_start">Start of study</label>
-			<input type="text" value="{{ student.study_start|date:"Y-m-d" }}" name="study_start" id="study_start"
+			<label for="study_start">Start of study*</label>
+			<input type="text" value="{% if request.POST %}{{ request.POST.study_start }}{% else %}{{ student.study_start|date:"Y-m-d" }}{% endif %}" name="study_start" id="study_start"
 				   placeholder="E.g. 2015-01-14" />
+			<span class="help-block">{{ errors.study_start }}</span>
 		</div>
 		<div>
 			<label for="journal">Journal</label>
 			<select name="journal" id="journal">
 				<option value="">Select Journal</option>
 				{% for journal in journals %}
-					<option value="{{ journal.id }}" {% if journal.id == student.student_journal.id|add:0 %}selected="1"{% endif %}>{{ journal.title }}</option>
+					<option value="{{ journal.id }}" 
+					{% if request.POST %}
+						{% if journal.id == request.POST.journal|add:0 %} selected="1"{% endif %}
+					{% else %}
+						{% if journal.id == student.student_journal.id|add:0 %}selected="1"{% endif %}
+					{% endif %}>{{ journal.title }}</option>
 				{% endfor %}
 			</select>
 		</div>
 		<div>
 			<label for="notes">Notes</label>
 			<textarea name="notes" id="notes" class="form-control"
-					  rows="2" placeholder="Напишіть те, що вважаєте за потрібне."></textarea>
+					  rows="2" placeholder="Напишіть те, що вважаєте за потрібне." value="{% if request.POST %}{{ request.POST.notes }}{% else %}{{ student.notes }}{% endif %}"></textarea>
 		</div>
 
 		<div>

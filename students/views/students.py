@@ -339,31 +339,74 @@ def students_edit(request, sid):
 	if request.method == 'POST':
 		#if edit_button was pushed
 		if request.POST.get('edit_button') is not None:
-			#TODO: validate input from user
+			#errors collections
 			errors = {}
+			# validate student data will go here
+			data = {'middle_name': request.POST.get('middleName', '').strip(),
+					'notes': request.POST.get('notes', '').strip()}
+			student_journal = request.POST.get('journal', '').strip()
+			
+			if student_journal == '':
+				data['student_journal'] = None
+			else:
+				data['student_journal'] = Visiting.objects.get(pk=student_journal)
+
+			# validate user input
+			first_name = request.POST.get('firstName', '').strip()
+			if not first_name:
+				errors['first_name'] = "First name is mandatory"
+			else:
+				data['first_name'] = first_name
+
+			last_name = request.POST.get('lastName', '').strip()
+			if not last_name:
+				errors['last_name'] = "Last name is mandatory"
+			else:
+				data['last_name'] = last_name
+
+			birthday = request.POST.get('birthday', '').strip()
+			if not birthday:
+				errors['birthday'] = "Date of birth is mandatory"
+			else:
+				data['birthday'] = birthday
+
+			ticket = request.POST.get('ticket', '').strip()
+			if not ticket:
+				errors['ticket'] = "Ticket is mandatory"
+			else:
+				data['ticket'] = ticket
+
+			study_start = request.POST.get('study_start', '').strip()
+			if not study_start:
+				errors['study_start'] = "Beginning of study is mandatory"
+			else:
+				data['study_start'] = study_start
+
+			student_group = request.POST.get('student_group', '').strip()
+			if not student_group:
+				errors['student_group'] = 'Change any student group'
+			else:
+				data['student_group'] = Group.objects.get(pk=student_group)
+
+			actWithPhoto = request.POST.get('pho', '')
+			if actWithPhoto == 'change':
+				data['photo'] = request.FILES.get('photo')
+			elif actWithPhoto == 'delete':
+				data['photo'] = None 
 
 			if not errors:
-				student.first_name = request.POST.get('firstName', '').strip()
-				student.last_name = request.POST.get('lastName', '').strip()
-				student.middle_name = request.POST.get('middleName', '').strip()
-				student.birthday = request.POST.get('birthday', '').strip()
-				student.ticket = request.POST.get('ticket', '').strip()
+				student.first_name = data['first_name']
+				student.last_name = data['last_name']
+				student.middle_name = data['middle_name']
+				student.birthday = data['birthday']
+				student.ticket = data['ticket']
+				if 'photo' in data:
+					student.photo = data['photo']
+				student.notes = data['notes']
+				student.study_start = data['study_start']
+				student.student_group = data['student_group']
+				student.student_journal = data['student_journal']
 				
-				actWithPhoto = request.POST.get('pho', '')
-				if actWithPhoto == 'change':
-					student.photo = request.FILES.get('photo')
-				elif actWithPhoto == 'delete':
-					student.photo = None
-				student.notes = request.POST.get('notes', '').strip()
-				student.study_start = request.POST.get('study_start', '').strip()
-				student_group = request.POST.get('student_group', '').strip()
-				student.student_group = Group.objects.get(pk=student_group)
-				student_journal = request.POST.get('journal', '').strip()
-				if student_journal == '':
-					student.student_journal = None
-				else:
-					student.student_journal = Visiting.objects.get(pk=student_journal)
-
 				student.save()
 				#returns user to list of students
 				return HttpResponseRedirect(reverse('home'))
