@@ -344,12 +344,16 @@ def students_edit(request, sid):
 			# validate student data will go here
 			data = {'middle_name': request.POST.get('middleName', '').strip(),
 					'notes': request.POST.get('notes', '').strip()}
-			student_journal = request.POST.get('journal', '').strip()
 			
+			student_journal = request.POST.get('journal', '').strip()
 			if student_journal == '':
 				data['student_journal'] = None
 			else:
-				data['student_journal'] = Visiting.objects.get(pk=student_journal)
+				journals = Visiting.objects.filter(pk=student_journal)
+				if len(journals) != 1:
+					errors['student_journal'] = "insert correct student journal"
+				else:
+					data['student_journal'] = journals[0]
 
 			# validate user input
 			first_name = request.POST.get('firstName', '').strip()
@@ -368,7 +372,12 @@ def students_edit(request, sid):
 			if not birthday:
 				errors['birthday'] = "Date of birth is mandatory"
 			else:
-				data['birthday'] = birthday
+				try:
+					datetime.strptime(birthday, '%Y-%m-%d')
+				except Exception as e:
+					errors['birthday'] = "Insert correct date format (e.g. 1974-11-5)" + str(e)
+				else:
+					data['birthday'] = birthday
 
 			ticket = request.POST.get('ticket', '').strip()
 			if not ticket:
@@ -380,17 +389,51 @@ def students_edit(request, sid):
 			if not study_start:
 				errors['study_start'] = "Beginning of study is mandatory"
 			else:
-				data['study_start'] = study_start
+				try:
+					datetime.strptime(study_start, "%Y-%m-%d")
+				except Exception as e:
+					errors['study_start'] = "Insert correct date format" + str(e)
+				else:
+					data['study_start'] = study_start
 
 			student_group = request.POST.get('student_group', '').strip()
 			if not student_group:
 				errors['student_group'] = 'Change any student group'
 			else:
-				data['student_group'] = Group.objects.get(pk=student_group)
+				try:
+					groups = Group.objects.filter(pk=student_group)
+				except Exception as e:
+					errors['student_group'] = str(e)
+				else:
+					pass
+					if len(groups) != 1:
+						errors['student_group'] = 'Insert correct group'
+					else:
+						data['student_group'] = groups[0]
 
 			actWithPhoto = request.POST.get('pho', '')
 			if actWithPhoto == 'change':
 				data['photo'] = request.FILES.get('photo')
+				#validate image
+				try:
+					photo = request.FILES.get('photo')
+					img = Image.open(photo)
+					sizePhoto = photo.size
+					if not Image.isImageType(img):
+						raise isNotImageError()
+					if sizePhoto > SIZE_LIMIT_FILE:
+						raise tooBigPhotoError()
+				except IOError:
+					errors['photo'] = u"Помилка при відкритті фото"
+				except AttributeError:
+					pass
+				except isNotImageError:
+					errors['photo'] = u"Це не зображення"
+				except tooBigPhotoError:
+					errors['photo'] = u"Розмір фото не може перевищувати " + str(SIZE_LIMIT_FILE) + u" байт.\
+										Додиний файл містить " + str(sizePhoto) + u" байт"
+				else:
+					data['photo'] = photo
 			elif actWithPhoto == 'delete':
 				data['photo'] = None 
 
@@ -408,9 +451,11 @@ def students_edit(request, sid):
 				student.student_journal = data['student_journal']
 				
 				student.save()
+				messages.success(request, "%s was edited success!" % student)
 				#returns user to list of students
 				return HttpResponseRedirect(reverse('home'))
 			else:
+				messages.info(request, "Validation errors")
 				return render(request, 'students/students_edit.html',
 					{'groups': Group.objects.all().order_by('title'),
 					 'journals': Visiting.objects.all().order_by('title'),
@@ -420,6 +465,7 @@ def students_edit(request, sid):
 					 'actWithPhoto': "actWithPhoto"})
 		#if cancel_button was pushed
 		elif request.POST.get('cancel_button') is not None:
+			messages.info(request, "Changes were canceled!")
 			return HttpResponseRedirect(reverse('home'))	
 	#is form wasn't posted
 	else:

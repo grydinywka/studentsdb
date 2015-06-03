@@ -8,6 +8,9 @@
 
 {% block status_message %}
   {% if form.errors %}
+  {% endif %}
+
+  {% if messages %}
   <div class="alert alert-warning" role="alert">
   	Будь-ласка, виправте наступні помилки
   </div>
@@ -37,97 +40,145 @@
 {% endcomment %}
 
 
+
 {% block content %}
 	
 	<form action="{% url "students_edit" student.id %}" method="post"
-		  enctype="multipart/form-data">
+		  enctype="multipart/form-data" role="form" class="form-horizonral">
 		{% csrf_token %}
-		<div>
-			<label for="first_name">First Name*</label>
-			<input type="text" value="{% if request.POST %}{{ request.POST.firstName }}{% else %}{{ student.first_name }}{% endif %}"
-				   name="firstName" id="first_name"
-				   placeholder="Your name" />
-			<span class="help-block">{{ errors.first_name }}</span>
+
+		<div class="form-group {% if errors.first_name %}has-error{% endif %}">
+			<label for="first_name" class="col-sm-2 control-label">First Name*</label>
+			<div class="col-sm-10">
+				<input type="text" value="{% if request.POST %}{{ request.POST.firstName }}{% else %}{{ student.first_name }}{% endif %}"
+					   name="firstName" id="first_name"
+					   placeholder="Your name"
+					   class="form-control" />
+				<span class="help-block">{{ errors.first_name }}</span>
+			</div>
 		</div>
-		<div>
-			<label for="last_name">Last name*</label>
-			<input type="text" value="{% if request.POST %}{{ request.POST.lastName }}{% else %}{{ student.last_name }}{% endif %}"
-				   name="lastName" id="last_name"
-				   placeholder="Your last name" />
-			<span class="help-block">{{ errors.last_name }}</span>
+
+		<div class="form-group {% if errors.last_name %}has-error{% endif %}">
+			<label for="last_name" class="col-sm-2 control-label">Last name*</label>
+			<div class="col-sm-10">
+				<input type="text" value="{% if request.POST %}{{ request.POST.lastName }}{% else %}{{ student.last_name }}{% endif %}"
+					   name="lastName" id="last_name"
+					   placeholder="Your last name"
+					   class="form-control" />
+				<span class="help-block">{{ errors.last_name }}</span>
+			</div>
 		</div>
-		<div>
-			<label for="middle_name">Middle name</label>
-			<input type="text" value="{% if request.POST %}{{ request.POST.middleName }}{% else %}{{ student.middle_name }}{% endif %}"
-				   name="middleName" id="middle_name"
-				   placeholder="Your middle name" />
+
+		<div class="form-group {% if errors.middle_name %}has-error{% endif %}">
+			<label for="middle_name" class="col-sm-2 control-label">Middle name</label>
+			<div class="col-sm-10">
+				<input type="text" value="{% if request.POST %}{{ request.POST.middleName }}{% else %}{{ student.middle_name }}{% endif %}"
+					   name="middleName" id="middle_name"
+					   placeholder="Your middle name"
+					   class="form-control" />
+			</div>
 		</div>
-		<div>
-			<label for="birthday">Date of birth*</label>
-			<input type="text" value="{% if request.POST %}{{ request.POST.birthday }}{% else %}{{ student.birthday|date:"Y-m-d" }}{% endif %}" name="birthday" placeholder="E.g. 1988-04-12" />
-			<span class="help-block">{{ errors.birthday }}</span>
+
+		<div class="form-group {% if errors.birthday %}has-error{% endif %}">
+			<label for="birthday" class="col-sm-2 control-label">Date of birth*</label>
+			<div class="col-sm-10">
+				<input type="text" value="{% if request.POST %}{{ request.POST.birthday }}{% else %}{{ student.birthday|date:"Y-m-d" }}{% endif %}" name="birthday" placeholder="E.g. 1988-04-12"
+					   class="form-control" />
+				<span class="help-block">{{ errors.birthday }}</span>
+			</div>
 		</div>
 		
-		<div>
-			<p>
-			<label for="photo">Photo</label>
-			<input type="radio" name="pho" value="leave" checked="1" />Leave
-			<input type="radio" name="pho" value="change" />Edit
-			<input type="radio" name="pho" value="delete" />Delete
-			
-			</p>
-			<input type="file" value="{{ student.photo }}" name="photo" id="photo" />
-		</div>
-		<div>
-			<label for="ticket">Ticket*</label>
-			<input type="text" value="{% if request.POST %}{{ request.POST.ticket }}{% else %}{{ student.ticket }}{% endif %}" name="ticket" id="ticket" placeholder="# of ticket" />
-			<span class="help-block">{{ errors.ticket }}</span>
+		<div class="form-group {% if errors.photo %}has-error{% endif %}">
+			<label for="photo" class="col-sm-2 control-label">Photo</label>
+			<div class="col-sm-10">
+				<label class="radio-inline">
+				<input type="radio" name="pho" value="leave" checked="1" />Leave
+				</label>
+				<label class="radio-inline">
+				<input type="radio" name="pho" value="change" />Edit
+				</label>
+				<label class="radio-inline">
+				<input type="radio" name="pho" value="delete" />Delete
+				</label>
+				
+				<input type="file" value="{{ student.photo }}"
+					   name="photo" id="photo"
+					   class="form-control" />
+				<span class="help-block">{{ errors.photo }}</span>
+			</div>
 		</div>
 
-		<div>
-			<label for="student_group">Group*</label>
-			<select name="student_group" id="student_group">
-				<option value="">Select Group</option>
-				{% for group in groups %}
-				<option value="{{ group.id }}" 
-				{% if request.POST %}
-					{% if group.id == request.POST.student_group|add:0 %}selected="1"{% endif %}
-				{% else %}
-					{% if group.id == student.student_group.id|add:0 %}selected="1"{% endif %}
-				{% endif %}>{{ group.title }}</option>
-				{% endfor %}
-			</select>
-			<span class="help-block">{{ errors.student_group }}</span>
+		<div class="form-group {% if errors.ticket %}has-error{% endif %}">
+			<label for="ticket" class="col-sm-2 control-label">Ticket*</label>
+			<div class="col-sm-10">
+				<input type="text" value="{% if request.POST %}{{ request.POST.ticket }}{% else %}{{ student.ticket }}{% endif %}" name="ticket" id="ticket" placeholder="# of ticket"
+				class="form-control" />
+				<span class="help-block">{{ errors.ticket }}</span>
+			</div>
 		</div>
-		<div>
-			<label for="study_start">Start of study*</label>
-			<input type="text" value="{% if request.POST %}{{ request.POST.study_start }}{% else %}{{ student.study_start|date:"Y-m-d" }}{% endif %}" name="study_start" id="study_start"
-				   placeholder="E.g. 2015-01-14" />
-			<span class="help-block">{{ errors.study_start }}</span>
-		</div>
-		<div>
-			<label for="journal">Journal</label>
-			<select name="journal" id="journal">
-				<option value="">Select Journal</option>
-				{% for journal in journals %}
-					<option value="{{ journal.id }}" 
+
+		<div class="form-group {% if errors.student_group %}has-error{% endif %}">
+			<label for="student_group" class="col-sm-2 control-label">Group*</label>
+			<div class="col-sm-10">
+				<select name="student_group" id="student_group" class="form-control">
+					<option value="">Select Group</option>
+					{% for group in groups %}
+					<option value="{{ group.id }}" 
 					{% if request.POST %}
-						{% if journal.id == request.POST.journal|add:0 %} selected="1"{% endif %}
+						{% if group.id == request.POST.student_group|add:0 %}selected="1"{% endif %}
 					{% else %}
-						{% if journal.id == student.student_journal.id|add:0 %}selected="1"{% endif %}
-					{% endif %}>{{ journal.title }}</option>
-				{% endfor %}
-			</select>
-		</div>
-		<div>
-			<label for="notes">Notes</label>
-			<textarea name="notes" id="notes" class="form-control"
-					  rows="2" placeholder="Напишіть те, що вважаєте за потрібне." value="{% if request.POST %}{{ request.POST.notes }}{% else %}{{ student.notes }}{% endif %}"></textarea>
+						{% if group.id == student.student_group.id|add:0 %}selected="1"{% endif %}
+					{% endif %}>{{ group.title }}</option>
+					{% endfor %}
+				</select>
+				<span class="help-block">{{ errors.student_group }}</span>
+			</div>
 		</div>
 
-		<div>
-			<input type="submit" value="Edit" name="edit_button" />
-			<button type="submit" name="cancel_button">Cancel</button>
+		<div class="form-group {% if errors.study_start %}has-error{% endif %}">
+			<label for="study_start" class="col-sm-2 control-label">Start of study*</label>
+			<div class="col-sm-10">
+				<input type="text" value="{% if request.POST %}{{ request.POST.study_start }}{% else %}{{ student.study_start|date:"Y-m-d" }}{% endif %}" name="study_start" id="study_start"
+					   placeholder="E.g. 2015-01-14"
+					   class="form-control" />
+				<span class="help-block">{{ errors.study_start }}</span>
+			</div>
+		</div>
+
+		<div class="form-group {% if errors.student_journal %}has-error{% endif %}">
+			<label for="journal" class="col-sm-2 control-label">Journal</label>
+			<div class="col-sm-10">
+				<select name="journal" id="journal" class="form-control">
+					<option value="">Select Journal</option>
+					{% for journal in journals %}
+						<option value="{{ journal.id }}" 
+						{% if request.POST %}
+							{% if journal.id == request.POST.journal|add:0 %} selected="1"{% endif %}
+						{% else %}
+							{% if journal.id == student.student_journal.id|add:0 %}selected="1"{% endif %}
+						{% endif %}>{{ journal.title }}</option>
+					{% endfor %}
+				</select>
+				<span class="help-block">{{ errors.student_journal }}</span>
+			</div>
+		</div>
+
+		<div class="form-group {% if errors.notes %}has-error{% endif %}">
+			<label for="notes" class="col-sm-2 control-label">Notes</label>
+			<div class="col-sm-10">
+				<textarea name="notes" id="notes" class="form-control"
+						  rows="2" placeholder="Напишіть те, що вважаєте за потрібне." value="{% if request.POST %}{{ request.POST.notes }}{% else %}{{ student.notes }}{% endif %}"></textarea>
+			</div>
+		</div>
+		
+		<div class="form-group" id="buttons">
+			<label class="col-sm-2 control-label">RE</label>
+			<div class="col-sm-10">
+				<input type="submit" value="Edit" name="edit_button"
+					   class="btn btn-primary" />
+				<button type="submit" name="cancel_button"
+						class="btn btn-link">Cancel</button>
+			</div>
 		</div>
 	</form>
 {% endblock content %}
