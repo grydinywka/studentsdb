@@ -23,6 +23,7 @@ from django.views.generic.edit import FormView
 
 class isNotImageError(Exception): pass
 class tooBigPhotoError(Exception): pass
+class NoPhotoError(Exception): pass
 
 class StudentList(ListView):
 	"""docstring for StudentList"""
@@ -107,8 +108,82 @@ class StudentUpdateView(UpdateView):
 class StudentEditForm(forms.Form):
 	"""docstring for StudentEditForm"""
 	first_name = forms.CharField(
-		label='First_name',
-		max_length=100)
+		label='Ім’я*',
+		max_length=100,
+		help_text=u"Введіть Ваше ім’я",
+		error_messages={'required': u"Ім’я є обов’язковим"}
+		)
+
+	last_name = forms.CharField(
+		label='Прізвище*',
+		help_text=u"Введіть Ваше Прізвище",
+		error_messages={'required': u"Прізвище є обов’язковим"}
+		)
+
+	middle_name = forms.CharField(
+		label='По-батькові',
+		required=False
+		)
+
+	birthday = forms.DateField(
+		label=u"Дата Народження*",
+		initial="1970-2-24",
+		help_text=u"Ваша дата народження у форматі РРРР-ММ-ДД",
+		error_messages={'required': u"Поле дати народження є обов’язковим",
+						'initial': u"Ведіть правильний формат Дати"}
+		)
+
+	actWithPhoto = forms.ChoiceField(
+		label=u'Дія з Фото*:',
+		widget=forms.RadioSelect,
+		choices=(('leave', 'Leave',), ('change', 'Edit',), ('drop', 'Delete',),)
+		)
+
+	photo = forms.ImageField(
+		label=u'Фото',
+		help_text=u'Виберіть фото',
+		required=False,
+		error_messages={'invalid': u'Ваше фото не пройшло валідацію!',
+						'required': u'Фото є обов’язковим'}
+		)
+
+	ticket = forms.IntegerField(
+		label=u'Білет*',
+		help_text=u'№ студентського квитка',
+		min_value=1,
+		max_value=999999,
+		error_messages={'min_value': u'Мінімальне значення 1!'}
+		)
+
+	notes = forms.CharField(
+		label=u'Нотатки',
+		help_text=u'Додаткова інформація',
+		max_length=2000,
+		required=False
+		)
+
+	group = forms.ModelChoiceField(
+		label=u'Група*',
+		queryset=Group.objects.all(),
+		empty_label=u'Виберіть групу',
+		help_text=u"Виберіть Групу",
+		error_messages={'required': u"Поле Групи є обов’язковим"}
+		)
+
+	study_start = forms.DateField(
+		label=u"Початок навчання*",
+		initial="2014-09-01",
+		help_text=u"Початок навчання у форматі РРРР-ММ-ДД",
+		error_messages={'required': u"Поле Початку Навчання є обов’язковим"}
+		)
+
+	student_journal = forms.ModelChoiceField(
+		label=u'Журнал Відвідуванння',
+		required=False,
+		help_text=u'Виберіть журнал відвідування',
+		queryset=Visiting.objects.all(),
+		empty_label=u'Виберіть журнал відвідування'
+		)
 
 class StudentEditView(FormView):
 	"""docstring for StudentEditView"""
@@ -332,6 +407,89 @@ def students_add(request):
 		#Повертаємо код початкового стану форми
 		return render(request, 'students/students_add.html',
 			{'groups': Group.objects.all().order_by('title')})
+
+def students_edit2(request, sid):
+	student = Student.objects.filter(pk=sid)[0]
+
+	if request.method == 'POST':
+		form = StudentEditForm(request.POST, request.FILES)
+
+		if request.POST.get('edit_button') is not None:
+			if form.is_valid():
+				student.first_name = form.cleaned_data['first_name']
+				student.last_name = form.cleaned_data['last_name']
+				student.middle_name = form.cleaned_data['middle_name']
+				student.birthday = form.cleaned_data['birthday']
+				
+				actWithPhoto = form.cleaned_data['actWithPhoto']
+				if actWithPhoto == 'change':
+					try:
+						photo = form.cleaned_data['photo']
+						if photo:
+							sizePhoto = photo.size
+							if sizePhoto > SIZE_LIMIT_FILE:
+								raise tooBigPhotoError()
+						else:
+							raise NoPhotoError()
+					
+					except tooBigPhotoError:
+						messages.error(request, (u"Невдале редагування %s! " % student) + u"Розмір фото не може перевищувати " + str(SIZE_LIMIT_FILE) + u" байт.\
+											Додиний файл містить " + str(sizePhoto) + u" байт")
+						return HttpResponseRedirect(reverse('home'))
+					except NoPhotoError:
+						messages.error(request, (u"Невдале редагування %s! " % student) + u'Виберіть фото. Ви натиснули кнопку змінити фото')
+						return HttpResponseRedirect(reverse('home'))
+					else:
+						student.photo = form.cleaned_data['photo']
+				elif actWithPhoto == 'drop':
+					student.photo = None
+
+				student.ticket = form.cleaned_data['ticket']
+				student.notes = form.cleaned_data['notes']
+				student.student_group = form.cleaned_data['group']
+				student.study_start = form.cleaned_data['study_start']
+				student.student_journal = form.cleaned_data['student_journal']
+				try:
+					student.save()
+				except Exception as e:
+					messages.error(request, (u"Невдале редагування %s!" % student) + str(e))
+				else:
+					messages.success(request, u"%s був поредагований успішно!" % student)
+
+				return HttpResponseRedirect(reverse('home'))
+			else:
+				messages.info(request, "Validation errors")
+				return render(request, 'students/students_edit2.html',
+					{'groups': Group.objects.all().order_by('title'),
+					 'journals': Visiting.objects.all().order_by('title'),
+					 'sid': sid,
+					 'form': form})
+		#if cancel_button was pushed
+		elif request.POST.get('cancel_button') is not None:
+			messages.info(request, u"Редагування скасовано!")
+			return HttpResponseRedirect(reverse('home'))	
+	#is form wasn't posted
+	else:
+		default = {'first_name': student.first_name,
+				   'last_name': student.last_name,
+				   'middle_name': student.middle_name,
+				   'birthday': student.birthday,
+				   'photo': student.photo,
+				   'actWithPhoto': 'leave',
+				   'ticket': student.ticket,
+				   'notes': student.notes,
+				   'group': student.student_group,
+				   'study_start': student.study_start,
+				   'student_journal': student.student_journal}
+
+		form = StudentEditForm(default)
+		#give code of begin state
+		return render(request, 'students/students_edit2.html',
+			{'sid': sid,
+			 'student': default,
+			 'form': form})
+				
+				
 
 def students_edit(request, sid):
 	student = Student.objects.filter(pk=sid)[0]
