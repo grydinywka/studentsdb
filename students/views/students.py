@@ -21,6 +21,10 @@ from studDb.settings import SIZE_LIMIT_FILE
 from django.views.generic import ListView, UpdateView
 from django.views.generic.edit import FormView
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
+from crispy_forms.bootstrap import FormActions
+
 class isNotImageError(Exception): pass
 class tooBigPhotoError(Exception): pass
 class NoPhotoError(Exception): pass
@@ -88,6 +92,29 @@ class StudentEditForm(forms.ModelForm):
 	"""docstring for StudentEditForm"""
 	class Meta:
 		model = Student
+
+	def __init__(self, *args, **kwargs):
+		super(StudentEditForm, self).__init__(*args, **kwargs)
+
+		self.helper = FormHelper(self)
+
+		# set form tag attributes
+		self.helper.form_action = reverse('students_edit',
+			kwargs={'sid': kwargs['instance'].id})
+		self.helper.form_method = 'POST'
+		self.helper.form_class = 'form-horizontal'
+
+		# set form field properties
+		self.helper.help_text_inline = True
+		self.helper.html5_required = True
+		self.helper.label_class = 'col-sm-2 control-label'
+		self.helper.field_class = 'col-sm-10'
+		
+		# add buttons
+		self.helper.layout[-1] = FormActions(
+			Submit('edit_button', u'Редагувати', css_class="btn btn-primary"),
+			Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
+			)
 
 	first_name = forms.CharField(
 		label='Ім’я*',
@@ -167,6 +194,8 @@ class StudentEditForm(forms.ModelForm):
 		empty_label=u'Виберіть журнал відвідування'
 		)
 
+	no_field = forms.CharField(required=False)
+
 class StudentEditView(UpdateView):
 	"""docstring for StudentEditView"""
 	
@@ -174,7 +203,6 @@ class StudentEditView(UpdateView):
 	template_name = 'students/students_edit3.html'
 	pk_url_kwarg = 'sid'
 	form_class = StudentEditForm
-	initial = {'first_name': 'Name'}
 
 	def get_success_url(self):
 		messages.success(self.request, u'Студента успішно збережено!')
