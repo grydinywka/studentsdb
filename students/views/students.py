@@ -18,8 +18,7 @@ from PIL import Image
 # sys.path.append('/data/work/virtualenvs/studDb/src/studDb/studDb/')
 from studDb.settings import SIZE_LIMIT_FILE
 
-from django.views.generic import ListView, UpdateView
-from django.views.generic.edit import FormView
+from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
@@ -99,8 +98,11 @@ class StudentEditForm(forms.ModelForm):
 		self.helper = FormHelper(self)
 
 		# set form tag attributes
-		self.helper.form_action = reverse('students_edit',
-			kwargs={'sid': kwargs['instance'].id})
+		if kwargs['instance']:
+			self.helper.form_action = reverse('students_edit',
+				kwargs={'sid': kwargs['instance'].id})
+		else:
+			self.helper.form_action = reverse('students_add')
 		self.helper.form_method = 'POST'
 		self.helper.form_class = 'form-horizontal'
 
@@ -111,13 +113,20 @@ class StudentEditForm(forms.ModelForm):
 		self.helper.field_class = 'col-sm-10'
 		
 		# add buttons
-		self.helper.layout[-1] = FormActions(
-			Submit('edit_button', u'Редагувати', css_class="btn btn-primary"),
-			Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
-			)
+		if kwargs['instance']:
+			self.helper.layout[-1] = FormActions(
+				Submit('edit_button', u'Редагувати', css_class="btn btn-primary"),
+				Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
+				)
+		else:
+			self.helper.layout[-1] = FormActions(
+				Submit('add_button', u'Додати', css_class="btn btn-primary"),
+				Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
+				)
 
 	first_name = forms.CharField(
 		label='Ім’я*',
+		initial="Андрій",
 		max_length=100,
 		help_text=u"Введіть Ваше ім’я",
 		error_messages={'required': u"Ім’я є обов’язковим"}
@@ -125,6 +134,7 @@ class StudentEditForm(forms.ModelForm):
 
 	last_name = forms.CharField(
 		label='Прізвище*',
+		initial="Коваль",
 		help_text=u"Введіть Ваше Прізвище",
 		error_messages={'required': u"Прізвище є обов’язковим"}
 		)
@@ -205,15 +215,41 @@ class StudentEditView(UpdateView):
 	form_class = StudentEditForm
 
 	def get_success_url(self):
-		messages.success(self.request, u'Студента успішно збережено!')
+		messages.success(self.request, u'Студента %s успішно збережено!' % self.object)
 		return reverse('home')
 
 	def post(self, request, *args, **kwargs):
 		if request.POST.get('cancel_button'):
-			messages.info(self.request, u'Редагування студента відмінено!')
+			messages.info(self.request, u'Редагування студента %s відмінено!' % self.get_object())
 			return HttpResponseRedirect(reverse('home'))
 		else:
 			return super(StudentEditView, self).post(request, *args, **kwargs)
+
+class StudentAddView(CreateView):
+	model = Student
+	template_name = 'students/students_edit3.html'
+	form_class = StudentEditForm
+
+	def get_success_url(self):
+		messages.success(self.request, u'Студента %s успішно збережено!' % self.object)
+		return reverse('home')
+
+	def post(self, request, *args, **kwargs):
+		if request.POST.get('cancel_button'):
+			messages.info(self.request, u'Створення студента відмінено!')
+			return HttpResponseRedirect(reverse('home'))
+		else:
+			return super(StudentAddView, self).post(request, *args, **kwargs)
+
+class StudentDeleteView(DeleteView):
+	"""docstring for StudentDeleteView"""
+	model = Student
+	template_name = 'students/students_confirm_delete.html'
+	pk_url_kwarg = 'sid'
+
+	def get_success_url(self):
+		messages.success(self.request, u'Студента %s успішно видалено!' % self.object)
+		return reverse('home')
 
 # Views for Students
 def students_list(request):

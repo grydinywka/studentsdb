@@ -3,19 +3,22 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from .settings import MEDIA_ROOT, DEBUG
 
-from students.views.students import StudentList, StudentUpdateView, StudentEditView
+from students.views.students import StudentList, StudentUpdateView, StudentEditView, StudentAddView, StudentDeleteView
+# from students.views.students import StudentDeleteView
+from students.views.groups import GroupDeleteView
 from students.views.contact_admin2 import ContactView
 from students.views.contact_admin import ContactView2
 
 urlpatterns = patterns('',
     # Students urls
     url(r'^$', 'students.views.students.students_list', name='home'),
-    url(r'^students/add/$', 'students.views.students.students_add', name='students_add'),
+    # url(r'^students/add/$', 'students.views.students.students_add', name='students_add'),
+    url(r'^students/add/$', StudentAddView.as_view(), name='students_add'),
     # url(r'^students/(?P<sid>\d+)/edit/$', 'students.views.students.students_edit', name='students_edit'),
     # url(r'^students/(?P<sid>\d+)/edit/$', 'students.views.students.students_edit2', name='students_edit'),
     url(r'^students/(?P<sid>\d+)/edit/$', StudentEditView.as_view(), name="students_edit"),
     # url(r'^students/(?P<sid>\d+)/edit/$', StudentUpdateView.as_view(), name="students_edit"),
-    url(r'^students/(?P<sid>\d+)/delete/$', 'students.views.students.students_delete', name='students_delete'),
+    url(r'^students/(?P<sid>\d+)/delete/$', StudentDeleteView.as_view(), name='students_delete'),
     url(r'^student_list/$', StudentList.as_view()),
     url(r'^student_list/(?P<pk>\d+)/$', StudentList.as_view()),
     
@@ -26,7 +29,7 @@ urlpatterns = patterns('',
     
     url(r'^groups/(?P<gid>\d+)/edit/$', 'students.views.groups.groups_edit', name='groups_edit'),
     
-    url(r'^groups/(?P<gid>\d+)/delete/$', 'students.views.groups.groups_delete', name='groups_delete'),
+    url(r'^groups/(?P<gid>\d+)/delete/$', GroupDeleteView.as_view(), name='groups_delete'),
     
     # Journal urls
     url(r'^journal/$', 'students.views.journals.journal_list', name='journal'),
