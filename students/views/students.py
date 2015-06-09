@@ -69,44 +69,26 @@ class StudentUpdateView(UpdateView):
 	"""docstring for StudentUpdateView"""
 	
 	model = Student
-	template_name = 'students/students_edit.html'
+	template_name = 'students/students_edit3.html'
 	pk_url_kwarg = 'sid'
 
-	def __init__(self, *args, **kwargs):
-		super(StudentUpdateView, self).__init__(*args, **kwargs)
-
-		#define additional context
-		self.errors = {}
-	
 	def get_success_url(self):
 		messages.success(self.request, u'Студента успішно збережено!')
 		return reverse('home')
-
-	def get_context_data(self, **kwargs):
-		"""This method adds extra variables to template"""
-		#get original context data from parent class
-		context = super(StudentUpdateView, self).get_context_data(**kwargs)
-		
-		if self.errors:
-			context['errors'] = None
-			# context['errors'] = self.errors
-		#return context mapping
-		return context
 
 	def post(self, request, *args, **kwargs):
 		if request.POST.get('cancel_button'):
 			messages.info(self.request, u'Редагування студента відмінено!')
 			return HttpResponseRedirect(reverse('home'))
 		else:
-			last_name = request.POST.get('last_name', '').strip()
-			if not last_name:
-				self.errors['last_name'] = u"Прізвище є обов’язковим"
-				messages.error(self.request, u'Прізвище є обов’язковим!')
 			return super(StudentUpdateView, self).post(request, *args, **kwargs)
 
 # Class form for edit students
-class StudentEditForm(forms.Form):
+class StudentEditForm(forms.ModelForm):
 	"""docstring for StudentEditForm"""
+	class Meta:
+		model = Student
+
 	first_name = forms.CharField(
 		label='Ім’я*',
 		max_length=100,
@@ -133,11 +115,11 @@ class StudentEditForm(forms.Form):
 						'initial': u"Ведіть правильний формат Дати"}
 		)
 
-	actWithPhoto = forms.ChoiceField(
-		label=u'Дія з Фото*:',
-		widget=forms.RadioSelect,
-		choices=(('leave', 'Leave',), ('change', 'Edit',), ('drop', 'Delete',),)
-		)
+	# actWithPhoto = forms.ChoiceField(
+	# 	label=u'Дія з Фото*:',
+	# 	widget=forms.RadioSelect,
+	# 	choices=(('leave', 'Leave',), ('change', 'Edit',), ('drop', 'Delete',),)
+	# 	)
 
 	photo = forms.ImageField(
 		label=u'Фото',
@@ -162,7 +144,7 @@ class StudentEditForm(forms.Form):
 		required=False
 		)
 
-	group = forms.ModelChoiceField(
+	student_group = forms.ModelChoiceField(
 		label=u'Група*',
 		queryset=Group.objects.all(),
 		empty_label=u'Виберіть групу',
@@ -185,48 +167,25 @@ class StudentEditForm(forms.Form):
 		empty_label=u'Виберіть журнал відвідування'
 		)
 
-class StudentEditView(FormView):
+class StudentEditView(UpdateView):
 	"""docstring for StudentEditView"""
 	
-	template_name = 'students/students_edit.html'
+	model = Student
+	template_name = 'students/students_edit3.html'
 	pk_url_kwarg = 'sid'
 	form_class = StudentEditForm
-	success_url = '/'
+	initial = {'first_name': 'Name'}
 
-	def form_valid(self, form):
-		first_name = form.cleaned_form['first_name']
-		try:
-			pass
-		except Exception as e:
-			messages.error(self.request, u'Під час редагування студента виникла ' \
-			u'помилка. Спробуйте скористатись даною формою пізніше. ' \
-			+ str(e))
-		else:
-			messages.success(self.request, u'Редагування успішне!')
-		return super(StudentEditView, self).form_valid(form)
-
-	def get_context_data(self, **kwargs):
-		"""This method adds extra variables to template"""
-		#get original context data from parent class
-		context = super(StudentEditView, self).get_context_data(**kwargs)
-		
-
-		context['object'] = {'id': 1}
-		
-		#return context mapping
-		return context
+	def get_success_url(self):
+		messages.success(self.request, u'Студента успішно збережено!')
+		return reverse('home')
 
 	def post(self, request, *args, **kwargs):
 		if request.POST.get('cancel_button'):
 			messages.info(self.request, u'Редагування студента відмінено!')
 			return HttpResponseRedirect(reverse('home'))
 		else:
-			first_name = request.POST.get('first_name', '').strip()
-			if not first_name:
-				messages.error(self.request, u'Прізвище є обов’язковим!')
 			return super(StudentEditView, self).post(request, *args, **kwargs)
-		
-
 
 # Views for Students
 def students_list(request):
@@ -446,7 +405,7 @@ def students_edit2(request, sid):
 
 				student.ticket = form.cleaned_data['ticket']
 				student.notes = form.cleaned_data['notes']
-				student.student_group = form.cleaned_data['group']
+				student.student_group = form.cleaned_data['student_group']
 				student.study_start = form.cleaned_data['study_start']
 				student.student_journal = form.cleaned_data['student_journal']
 				try:
@@ -478,7 +437,7 @@ def students_edit2(request, sid):
 				   'actWithPhoto': 'leave',
 				   'ticket': student.ticket,
 				   'notes': student.notes,
-				   'group': student.student_group,
+				   'student_group': student.student_group,
 				   'study_start': student.study_start,
 				   'student_journal': student.student_journal}
 
