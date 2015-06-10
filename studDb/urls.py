@@ -4,7 +4,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from .settings import MEDIA_ROOT, DEBUG
 
 from students.views.students import StudentList, StudentUpdateView, StudentEditView, StudentAddView, StudentDeleteView
-# from students.views.students import StudentDeleteView
+from students.views.students import StudentDeleteView2
 from students.views.groups import GroupDeleteView
 from students.views.contact_admin2 import ContactView
 from students.views.contact_admin import ContactView2
@@ -18,7 +18,9 @@ urlpatterns = patterns('',
     # url(r'^students/(?P<sid>\d+)/edit/$', 'students.views.students.students_edit2', name='students_edit'),
     url(r'^students/(?P<sid>\d+)/edit/$', StudentEditView.as_view(), name="students_edit"),
     # url(r'^students/(?P<sid>\d+)/edit/$', StudentUpdateView.as_view(), name="students_edit"),
-    url(r'^students/(?P<sid>\d+)/delete/$', StudentDeleteView.as_view(), name='students_delete'),
+    # url(r'^students/(?P<sid>\d+)/delete/$', StudentDeleteView.as_view(), name='students_delete'),
+    url(r'^students/(?P<sid>\d+)/delete/$', StudentDeleteView2.as_view(), name='students_delete'),
+    # url(r'^students/(?P<sid>\d+)/delete/$', 'students.views.students.students_delete2', name='students_delete'),
     url(r'^student_list/$', StudentList.as_view()),
     url(r'^student_list/(?P<pk>\d+)/$', StudentList.as_view()),
     

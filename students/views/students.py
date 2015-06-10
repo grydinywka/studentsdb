@@ -18,7 +18,7 @@ from PIL import Image
 # sys.path.append('/data/work/virtualenvs/studDb/src/studDb/studDb/')
 from studDb.settings import SIZE_LIMIT_FILE
 
-from django.views.generic import ListView, UpdateView, CreateView, DeleteView
+from django.views.generic import ListView, UpdateView, CreateView, DeleteView, DetailView
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
@@ -250,6 +250,19 @@ class StudentDeleteView(DeleteView):
 	def get_success_url(self):
 		messages.success(self.request, u'Студента %s успішно видалено!' % self.object)
 		return reverse('home')
+
+class StudentDeleteView2(DetailView):
+	template_name = 'students/students_confirm_delete.html'
+	pk_url_kwarg = 'sid'
+	model = Student
+
+	def dispatch(self, request, *args, **kwargs):
+		if request.method == "POST":
+			if request.POST.get("delete_button"):
+				messages.success(request, "%s was deleted success!" % self.get_object())
+				self.get_object().delete()
+				return HttpResponseRedirect(reverse('home'))
+		return super(StudentDeleteView2, self).dispatch(request, *args, **kwargs)
 
 # Views for Students
 def students_list(request):
@@ -658,5 +671,16 @@ def students_edit(request, sid):
 			 'journals': Visiting.objects.all().order_by('title')
 			})
 
-def students_delete(request, sid):
-	return HttpResponse('<h1>Delete Student %s</h1>' % sid)
+def students_delete2(request, sid):
+	student = Student.objects.filter(pk=sid)[0]
+
+	if request.method == 'POST':
+		if request.POST.get('delete_button') is not None:
+			student.delete()
+			messages.success(request, "%s was deleted success!" % student)
+			return HttpResponseRedirect(reverse('home'))
+	else:
+		return render(request, 'students/students_confirm_delete2.html', {'sid': sid,
+																		'student': student})
+
+
