@@ -524,8 +524,6 @@ def students_edit2(request, sid):
 			{'sid': sid,
 			 'student': default,
 			 'form': form})
-				
-				
 
 def students_edit(request, sid):
 	student = Student.objects.filter(pk=sid)[0]
@@ -683,4 +681,28 @@ def students_delete2(request, sid):
 		return render(request, 'students/students_confirm_delete2.html', {'sid': sid,
 																		'student': student})
 
+def students_delete_mult(request):
+	students = Student.objects.all()
+
+	if request.method == "POST":
+		if request.POST.get('delete_button') is not None:
+			delList = []
+			for student in students:
+				if request.POST.get(str(student.id)) is not None:
+					delList.append(student)
+			return render(request, 'students/students_confirm_delete_mult.html', {'students': delList})
+		elif request.POST.get('delete_button_confirm') is not None:
+			delMsg = ''
+			for student in students:
+				if request.POST.get(str(student.id)) is not None:
+					delMsg += str(student.first_name) + ' ' + str(student.last_name) + ', '
+					# student.delete()
+			if delMsg is not '':
+				messages.success(request, delMsg + "were deleted success!")
+			else:
+				messages.info(request, "deletetion was canceled!")
+			
+			return HttpResponseRedirect(reverse('home'))
+
+	return render(request, 'students/students_confirm_delete_mult.html', {'students': students})
 

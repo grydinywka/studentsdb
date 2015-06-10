@@ -1,0 +1,34 @@
+{% extends "students/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %}Видалити Студентів{% endblock meta_title %}
+
+{% block title %}Видалення Студентів{% endblock title %}
+
+{% block status_message %}
+  {% if messages %}
+  <div class="alert alert-warning" role="alert">
+  	Будь-ласка, виправте наступні помилки
+  </div>
+  {% endif %}
+
+{{ block.super }}
+
+{% endblock status_message %}
+
+{% block content %}
+<form action="{% url "students_delete_mult" %}" method="post">
+	{% csrf_token %}
+	<p>Ви дійсно хочете видалити наступних студентів?</p>
+	<ul>
+		{% for student in students %}
+		<li>
+		{{ student }}
+		<input type="checkbox" name="{{ student.id }}" value="{{ student.id }}" checked="1" />
+		</li>
+		{% endfor %}
+	</ul>
+	<input type="submit" value="Так" name="delete_button_confirm" class="btn btn-danger" /><br /><br />
+</form>
+{% endblock content %}

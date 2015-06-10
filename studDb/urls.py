@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     # url(r'^students/(?P<sid>\d+)/delete/$', StudentDeleteView.as_view(), name='students_delete'),
     url(r'^students/(?P<sid>\d+)/delete/$', StudentDeleteView2.as_view(), name='students_delete'),
     # url(r'^students/(?P<sid>\d+)/delete/$', 'students.views.students.students_delete2', name='students_delete'),
+    url(r'^students/delete_mult/$', 'students.views.students.students_delete_mult', name='students_delete_mult'),
     url(r'^student_list/$', StudentList.as_view()),
     url(r'^student_list/(?P<pk>\d+)/$', StudentList.as_view()),
     
