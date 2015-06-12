@@ -58,7 +58,7 @@ class GroupFormAdmin(ModelForm):
 		# get leader of the group
 		studentsOurGroup = Student.objects.filter(student_group=self.instance)
 		leaderOurGroup = self.cleaned_data['leader']
-		if self.cleaned_data['leader'] is not None:
+		if leaderOurGroup is not None:
 			if leaderOurGroup in studentsOurGroup:
 				return leaderOurGroup
 			else:

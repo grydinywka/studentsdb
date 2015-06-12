@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
+from django.core.exceptions import ValidationError
 
 from ..models.Student import Student
 from ..models.Group import Group
@@ -86,6 +87,7 @@ class StudentUpdateView(UpdateView):
 		else:
 			return super(StudentUpdateView, self).post(request, *args, **kwargs)
 
+
 # Class form for edit students
 class StudentEditForm(forms.ModelForm):
 	"""docstring for StudentEditForm"""
@@ -123,7 +125,7 @@ class StudentEditForm(forms.ModelForm):
 				Submit('add_button', u'Додати', css_class="btn btn-primary"),
 				Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
 				)
-
+	
 	first_name = forms.CharField(
 		label='Ім’я*',
 		initial="Андрій",
@@ -186,7 +188,8 @@ class StudentEditForm(forms.ModelForm):
 		queryset=Group.objects.all(),
 		empty_label=u'Виберіть групу',
 		help_text=u"Виберіть Групу",
-		error_messages={'required': u"Поле Групи є обов’язковим"}
+		error_messages={'required': u"Поле Групи є обов’язковим",
+						'invalid_choice': u'Неправильна група'}
 		)
 
 	study_start = forms.DateField(
@@ -224,6 +227,18 @@ class StudentEditView(UpdateView):
 			return HttpResponseRedirect(reverse('home'))
 		else:
 			return super(StudentEditView, self).post(request, *args, **kwargs)
+
+	def form_valid(self, form):
+		"""Check if student is leader in any group.
+
+		If yes? then ensure it's the same as selected group."""
+		# get groups where is this student
+		groups = Group.objects.filter(leader=self.object)
+		if len(groups) > 0 and form.cleaned_data['student_group'] != groups[0]:
+			messages.error(self.request, u'Студент є старостою іншої групи')
+			return self.render_to_response(self.get_context_data(form=form))
+
+		return super(StudentEditView, self).form_valid(form)
 
 class StudentAddView(CreateView):
 	model = Student

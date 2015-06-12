@@ -60,7 +60,7 @@
 		<tr>
 			<td>{{ group.id }}</td>
 			<td><a href="{% url "groups_edit" group.id %}">{{ group.title }}</a></td>
-			<td><a href="{% url "students_edit" group.leader.id %}">{{ group.leader }} ({{ group.leader.id }})</a></td>
+			<td><a href="{% if group.leader %}{% url "students_edit" group.leader.id %}{% else %}#{% endif %}">{% if group.leader %}{{ group.leader }} ({{ group.leader.id }}){% else %}Старости нема{% endif %}</a></td>
 			<td>
 				<div class="dropdown">
 					<button class="btn btn-default dropdown-toggle" 

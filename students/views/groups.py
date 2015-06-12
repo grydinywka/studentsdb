@@ -7,8 +7,9 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 
 from ..models.Group import Group
+from ..models.Student import Student
 
-from django.views.generic import DeleteView
+from django.views.generic import DeleteView, UpdateView
 
 
 # Views for Groups
@@ -27,6 +28,8 @@ def groups_list(request):
 		groups = groups.order_by(order_by)
 		if request.GET.get('reverse', '') == '1':
 				groups = groups.reverse()
+	elif order_by == '':
+		groups = groups.order_by('title')
 
 	# paginator groups
 	# paginator = Paginator(groups, 3)
@@ -78,3 +81,36 @@ class GroupDeleteView(DeleteView):
 	def get_success_url(self):
 		messages.success(self.request, u'Групу %s успішно видалено!' % self.object)
 		return reverse('home')
+
+class GroupEditView(UpdateView):
+	"""docstring for GroupEditView"""
+	model = Group
+	template_name = 'students/groups_edit.html'
+	pk_url_kwarg = 'gid'
+
+	def get_success_url(self):
+		messages.success(self.request, u'Групу %s успішно збережено!' % self.object)
+		return reverse('groups')
+
+	def post(self, request, *args, **kwargs):
+		if request.POST.get('cancel_button'):
+			messages.info(request, u'Редагування групи %s відмінено!' % self.get_object())
+			return HttpResponseRedirect(reverse('groups'))
+		else:
+			return super(GroupEditView, self).post(request, *args, **kwargs)
+
+	def form_valid(self, form):
+		"""Check is any leader at the group
+		If not, check is he belong to this group"""
+		# get groups where is this student
+		studentsOurGroup = Student.objects.filter(student_group=self.object)
+		leaderOurGroup = form.cleaned_data['leader']
+		if leaderOurGroup is not None:
+			if leaderOurGroup in studentsOurGroup:
+				return super(GroupEditView, self).form_valid(form)
+			else:
+				messages.error(self.request, u'Студент не належить до даної групи!')
+				return self.render_to_response(self.get_context_data(form=form))
+		return super(GroupEditView, self).form_valid(form)
+
+			
