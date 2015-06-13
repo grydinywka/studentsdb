@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse
 from ..models.Group import Group
 from ..models.Student import Student
 
-from django.views.generic import DeleteView, UpdateView
+from django.views.generic import DeleteView, UpdateView, CreateView
 
 
 # Views for Groups
@@ -80,7 +80,7 @@ class GroupDeleteView(DeleteView):
 	
 	def get_success_url(self):
 		messages.success(self.request, u'Групу %s успішно видалено!' % self.object)
-		return reverse('home')
+		return reverse('groups')
 
 class GroupEditView(UpdateView):
 	"""docstring for GroupEditView"""
@@ -113,4 +113,18 @@ class GroupEditView(UpdateView):
 				return self.render_to_response(self.get_context_data(form=form))
 		return super(GroupEditView, self).form_valid(form)
 
-			
+class GroupAddView(CreateView):
+	model = Group
+	template_name = 'students/groups_add.html'
+	success_url = '/groups/'
+
+	def get_success_url(self):
+		messages.success(self.request, u'Групу %s успішно створено!' % self.object)
+		return reverse('groups')
+
+	def post(self, request, *args, **kwargs):
+		if request.POST.get('cancel_button'):
+			messages.info(request, u'Скасовано створення нової групи!')
+			return HttpResponseRedirect(reverse('groups'))
+		elif request.POST.get('add_button'):
+			return super(GroupAddView, self).post(request, *args, **kwargs)

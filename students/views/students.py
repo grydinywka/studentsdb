@@ -125,7 +125,14 @@ class StudentEditForm(forms.ModelForm):
 				Submit('add_button', u'Додати', css_class="btn btn-primary"),
 				Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
 				)
-	
+		
+	def clean(self, value=None):
+		if value is not None:
+			groups = Group.objects.filter(leader=value)
+			if len(groups) > 0 and self.cleaned_data.get('student_group') != groups[0]:
+				raise forms.ValidationError('No name')
+		return self.cleaned_data
+
 	first_name = forms.CharField(
 		label='Ім’я*',
 		initial="Андрій",
