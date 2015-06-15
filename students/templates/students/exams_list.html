@@ -6,6 +6,13 @@
 
 {% block title %}Перелік іспитів{% endblock title %}
 
+{% block add_btn %}
+	<div class="col-xs-4" id="stud">
+		<!--  Add Exam Button  -->
+		<a class="btn btn-primary" href="{% url "exams_add" %}">Додати Іспит</a>
+	</div>
+{% endblock add_btn %}
+
 {% block content %}
 	<!-- Start Exam Listing -->
 	<table class="table table-hover table-striped table-bordered">
@@ -82,6 +89,7 @@
 						{% endif %}
 					</a>
 				</th>
+				<th>Дії</th>
 			</tr>
 			{% endwith %}
 		</thead>
@@ -90,16 +98,34 @@
 			<tr>
 				<td>{{ exam.id }}</td>
 				
-				<td><a href="{% url "exam_edit" exam.id %}">{{ exam }}</a></td>
-				<th>{{ exam.exam_date }}</th>
-				<th>{{ exam.presenter }}</th>
-				<th>
+				<td><a href="{% url "exams_edit" exam.id %}">{{ exam }}</a></td>
+				<td>{{ exam.exam_date }}</td>
+				<td>{{ exam.presenter }}</td>
+				<td>
 					{% with groups=exam.exam_group.all %}
 					{% for group in groups %}
 						{{ group }} ({{ group.id }})<br/>
 					{% endfor %}
 					{% endwith %}
-				</th>
+				</td>
+				<td>
+				<div class="dropdown">
+					<button class="btn btn-default dropdown-toggle" 
+							type="button" data-toggle="dropdown">Дія
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="{% url "exams_edit" exam.id %}">
+							Редагувати</a>
+						</li>
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="{% url "exams_delete" exam.id %}">
+							Видалити</a>
+						</li>
+					</ul>
+				</div>
+			</td>
 			</tr>
 			{% endfor %}
 		</tbody>

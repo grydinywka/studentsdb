@@ -6,6 +6,7 @@ from .settings import MEDIA_ROOT, DEBUG
 from students.views.students import StudentList, StudentUpdateView, StudentEditView, StudentAddView, StudentDeleteView
 from students.views.students import StudentDeleteView2
 from students.views.groups import GroupDeleteView, GroupEditView, GroupAddView
+from students.views.exams import ExamEditView, ExamAddView, ExamDeleteView
 from students.views.contact_admin2 import ContactView
 from students.views.contact_admin import ContactView2
 
@@ -24,6 +25,7 @@ urlpatterns = patterns('',
     url(r'^students/(?P<sid>\d+)/delete/$', StudentDeleteView2.as_view(), name='students_delete'),
     # url(r'^students/(?P<sid>\d+)/delete/$', 'students.views.students.students_delete2', name='students_delete'),
     url(r'^students/delete_mult/$', 'students.views.students.students_delete_mult', name='students_delete_mult'),
+    
     url(r'^student_list/$', StudentList.as_view()),
     url(r'^student_list/(?P<pk>\d+)/$', StudentList.as_view()),
     
@@ -43,8 +45,11 @@ urlpatterns = patterns('',
     url(r'^journal/(?P<gid>\d+)/edit/$', 'students.views.journal_edit.journal_edit', name="journal_edit"),
 
     # Exam urls
-    url(r'^exam/$', 'students.views.exams.exam_list', name='exams'),
-    url(r'^exam/(?P<gid>\d+)/edit/$', 'students.views.exams.exam_edit', name='exam_edit'),
+    url(r'^exams/$', 'students.views.exams.exams_list', name='exams'),
+    url(r'^exams/(?P<pk>\d+)/edit/$', ExamEditView.as_view(), name='exams_edit'),
+    # url(r'^exams/add/$', 'students.views.exams.exams_add', name='exams_add'),
+    url(r'^exams/add/$', ExamAddView.as_view(), name='exams_add'),
+    url(r'^exams/(?P<eid>\d+)/delete/$', ExamDeleteView.as_view(), name='exams_delete'),
 
     # Result urls
     url(r'^result/$', 'students.views.results.result_list', name='results'),
