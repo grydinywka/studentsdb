@@ -13,7 +13,8 @@ from students.views.contact_admin import ContactView2
 urlpatterns = patterns('',
     # Students urls
     url(r'^$', 'students.views.students.students_list', name='home'),
-    # url(r'^students/add/$', 'students.views.students.students_add', name='students_add'),
+    
+    # url(r'^students/add/$', 'students.views.students.students_add2', name='students_add'),
     url(r'^students/add/$', StudentAddView.as_view(), name='students_add'),
     
     # url(r'^students/(?P<sid>\d+)/edit/$', 'students.views.students.students_edit', name='students_edit'),
@@ -32,8 +33,8 @@ urlpatterns = patterns('',
     # Groups urls
     url(r'^groups/$', 'students.views.groups.groups_list', name='groups'),
     
-    # url(r'^groups/add/$', 'students.views.groups.groups_add', name='groups_add'),
-    url(r'^groups/add/$', GroupAddView.as_view(), name='groups_add'),
+    url(r'^groups/add/$', 'students.views.groups.groups_add', name='groups_add'),
+    # url(r'^groups/add/$', GroupAddView.as_view(), name='groups_add'),
     
     # url(r'^groups/(?P<gid>\d+)/edit/$', 'students.views.groups.groups_edit', name='groups_edit'),
     url(r'^groups/(?P<gid>\d+)/edit/$', GroupEditView.as_view(), name='groups_edit'),

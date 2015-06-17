@@ -20,7 +20,7 @@
 
 {% block content %}
 
-	<!-- <form action="{% url "students_add" %}" method="post"
+	<form action="{% url "students_add" %}" method="post"
 		  enctype="multipart/form-data">
 
 		{% csrf_token %}
@@ -32,8 +32,8 @@
 		<button type="submit" name="cancel_button" value="Скасувати"
 				class="btn btn-link">Скасувати</button>
 		
-	</form> -->
+	</form>
 
-	{% crispy form %}
+	<!-- {% crispy form %} -->
 
 {% endblock content %}

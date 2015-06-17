@@ -100,9 +100,12 @@ class StudentEditForm(forms.ModelForm):
 		self.helper = FormHelper(self)
 
 		# set form tag attributes
-		if kwargs['instance']:
-			self.helper.form_action = reverse('students_edit',
-				kwargs={'sid': kwargs['instance'].id})
+		if 'instance' in kwargs:
+			if kwargs['instance']:
+				self.helper.form_action = reverse('students_edit',
+					kwargs={'sid': kwargs['instance'].id})
+			else:
+				self.helper.form_action = reverse('students_add')
 		else:
 			self.helper.form_action = reverse('students_add')
 		self.helper.form_method = 'POST'
@@ -115,11 +118,17 @@ class StudentEditForm(forms.ModelForm):
 		self.helper.field_class = 'col-sm-10'
 		
 		# add buttons
-		if kwargs['instance']:
-			self.helper.layout[-1] = FormActions(
-				Submit('edit_button', u'Редагувати', css_class="btn btn-primary"),
-				Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
-				)
+		if 'instance' in kwargs:
+			if kwargs['instance']:
+				self.helper.layout[-1] = FormActions(
+					Submit('edit_button', u'Редагувати', css_class="btn btn-primary"),
+					Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
+					)
+			else:
+				self.helper.layout[-1] = FormActions(
+					Submit('add_button', u'Додати', css_class="btn btn-primary"),
+					Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
+					)
 		else:
 			self.helper.layout[-1] = FormActions(
 				Submit('add_button', u'Додати', css_class="btn btn-primary"),
@@ -339,6 +348,69 @@ def students_list(request):
 														   'listOfPage': listOfPage})
 	
 	# return HttpResponse('<h1>Hello World!</h1>')
+
+def students_add2(request):
+	if request.method == 'POST':
+		form = StudentEditForm(request.POST, request.FILES)
+
+		if request.POST.get('add_button') is not None:
+			data = {}
+
+			if form.is_valid():
+				data['first_name'] = form.cleaned_data['first_name']
+				data['last_name'] = form.cleaned_data['last_name']
+				data['middle_name'] = form.cleaned_data['middle_name']
+				data['birthday'] = form.cleaned_data['birthday']
+				
+				actWithPhoto = form.cleaned_data['actWithPhoto']
+				if actWithPhoto == 'change':
+					try:
+						photo = form.cleaned_data['photo']
+						if photo:
+							sizePhoto = photo.size
+							if sizePhoto > SIZE_LIMIT_FILE:
+								raise tooBigPhotoError()
+						else:
+							raise NoPhotoError()
+					
+					except tooBigPhotoError:
+						messages.error(request, (u"Невдале редагування %s! " % student) + u"Розмір фото не може перевищувати " + str(SIZE_LIMIT_FILE) + u" байт.\
+											Додиний файл містить " + str(sizePhoto) + u" байт")
+						return HttpResponseRedirect(reverse('home'))
+					except NoPhotoError:
+						messages.error(request, (u"Невдале редагування %s! " % student) + u'Виберіть фото. Ви натиснули кнопку змінити фото')
+						return HttpResponseRedirect(reverse('home'))
+					else:
+						data['photo'] = form.cleaned_data['photo']
+				elif actWithPhoto == 'drop':
+					data['photo'] = None
+
+				data['ticket'] = form.cleaned_data['ticket']
+				data['notes'] = form.cleaned_data['notes']
+				data['student_group'] = form.cleaned_data['student_group']
+				data['study_start'] = form.cleaned_data['study_start']
+				data['student_journal'] = form.cleaned_data['student_journal']
+				try:
+					student = Student(**data)
+					student.save()
+				except Exception as e:
+					messages.error(request, (u"Невдале редагування %s!" % student) + str(e))
+				else:
+					messages.success(request, u"%s був поредагований успішно!" % student)
+
+				return HttpResponseRedirect(reverse('home'))
+			else:
+				messages.info(request, "Validation errors")
+				return render(request, 'students/students_add2.html',
+					{'groups': Group.objects.all().order_by('title'),
+					 'journals': Visiting.objects.all().order_by('title'),
+					 'form': form})
+		elif request.POST.get('cancel_button') is not None:
+			messages.info(request, u"Додавання студента скасовано!")
+			return HttpResponseRedirect(reverse('home'))
+	else:
+		form = StudentEditForm()
+		return render(request, 'students/students_add2.html', {'form': form})
 
 def students_add(request):
 	#Якщо форма була запущена
@@ -717,9 +789,10 @@ def students_delete_mult(request):
 			delMsg = ''
 			for student in students:
 				if request.POST.get(str(student.id)) is not None:
-					delMsg += str(student.first_name) + ' ' + str(student.last_name) + ', '
-					# student.delete()
+					delMsg += student.first_name + ' ' + student.last_name + ', '
+					student.delete()
 			if delMsg is not '':
+				delMsg = delMsg[:-2] + ' '
 				messages.success(request, delMsg + "were deleted success!")
 			else:
 				messages.info(request, "deletetion was canceled!")

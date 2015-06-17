@@ -64,7 +64,50 @@ def groups_list(request):
 														 'listOfPage': listOfPage})
 
 def groups_add(request):
-	return HttpResponse('<h1>Groups Add Form</h1>')
+	# return HttpResponse('<h1>Groups Add Form</h1>')
+	if request.method == 'POST':
+		if request.POST.get('add_button') is not None:
+			errors = {}
+
+			data = {'notes': request.POST.get('notes')}
+
+			title = request.POST.get('title', '').strip()
+			if not title:
+				errors['title'] = u'Назва групи є обов’язковою!'
+			elif title in [group.title for group in Group.objects.filter(title=title)]:
+				errors['title'] = u'Така назва групи вже існує!'
+			else:
+				data['title'] = title
+
+			leader = request.POST.get('leader', '').strip()
+			if leader:
+				students = Student.objects.filter(id=leader)
+				if len(students) != 1:
+					errors['leader'] = u'Виберіть студента правильно!'
+				elif hasattr(students[0], "group"):
+					errors['leader'] = u'Студент %s є старостою іншої групи!' % students[0]
+				else:
+					data['leader'] = students[0]
+
+			if not errors:
+				group = Group(**data)
+				try:
+					group.save()
+				except Exception as e:
+					messages.success(request, u'Помилка' + str(e))
+				else:
+					messages.success(request, u'Групу %s успішно додано' % group)
+				return HttpResponseRedirect(reverse('groups'))
+			else:
+				messages.error(request, u'Є помилки - виправте їх!')
+				return render(request, 'students/groups_add_handle.html', {'errors': errors,
+												'students': Student.objects.all().order_by('last_name')})
+
+		elif request.POST.get('cancel_button') is not None:
+			messages.info(request, u'Додавання групи скасовано')
+			return HttpResponseRedirect(reverse('groups'))
+	else:
+		return render(request, 'students/groups_add_handle.html', {'students': Student.objects.all().order_by('last_name')})
 
 def groups_edit(request, gid):
 	return HttpResponse('<h1>Edit Group %s</h1>' % gid)
