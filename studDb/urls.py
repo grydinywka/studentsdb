@@ -33,11 +33,12 @@ urlpatterns = patterns('',
     # Groups urls
     url(r'^groups/$', 'students.views.groups.groups_list', name='groups'),
     
-    url(r'^groups/add/$', 'students.views.groups.groups_add', name='groups_add'),
-    # url(r'^groups/add/$', GroupAddView.as_view(), name='groups_add'),
+    # url(r'^groups/add/$', 'students.views.groups.groups_add_handle', name='groups_add'),
+    # url(r'^groups/add/$', 'students.views.groups.groups_add_django_form', name='groups_add'),
+    url(r'^groups/add/$', GroupAddView.as_view(), name='groups_add'),
     
-    # url(r'^groups/(?P<gid>\d+)/edit/$', 'students.views.groups.groups_edit', name='groups_edit'),
-    url(r'^groups/(?P<gid>\d+)/edit/$', GroupEditView.as_view(), name='groups_edit'),
+    url(r'^groups/(?P<gid>\d+)/edit/$', 'students.views.groups.groups_edit_handle', name='groups_edit'),
+    # url(r'^groups/(?P<gid>\d+)/edit/$', GroupEditView.as_view(), name='groups_edit'),
 
     url(r'^groups/(?P<gid>\d+)/delete/$', GroupDeleteView.as_view(), name='groups_delete'),
     

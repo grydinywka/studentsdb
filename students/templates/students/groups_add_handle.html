@@ -6,17 +6,6 @@
 
 {% block title %}Додати Групу{% endblock title %}
 
-{% block status_message %}
-  {% if messages %}
-  <div class="alert alert-warning" role="alert">
-  	Будь-ласка, виправте наступні помилки
-  </div>
-  {% endif %}
-
-{{ block.super }}
-
-{% endblock status_message %}
-
 {% block content %}
 	{{ request.POST.title }}
 

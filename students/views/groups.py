@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render
+from django import forms
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
@@ -11,6 +12,58 @@ from ..models.Student import Student
 
 from django.views.generic import DeleteView, UpdateView, CreateView
 
+# class form for add/edit group
+class GroupAddEditForm(forms.ModelForm):
+	class Meta:
+		model = Group
+
+	# def clean(self):
+	# 	cleaned_data = super(GroupAddEditForm, self).clean()
+	# 	title = cleaned_data.get("title")
+
+	# 	if title:
+	# 		groups = Group.objects.filter(title=title)
+	# 		if len(groups) != 0:
+	# 			self._errors["title"] = [u"Група з такою назвою вже існує!"]
+				
+	# 	return cleaned_data
+
+	# def clean_title(self):
+	# 	title = self.cleaned_data['title']
+
+	# 	if Group.objects.filter(title=title).exists():
+	# 		self._errors["title"] = [u"Група з такою назвою вже існує!2"]
+				
+	# 	return title
+
+	def validTitle(self):
+		groups = Group.objects.filter(title=self)
+		if len(groups) != 0:
+			raise forms.ValidationError(u"Група з такою назвою вже існує!3")
+	
+	title = forms.CharField(
+		label=u"Назва Групи*",
+		# initial=u"NewGroup",
+		max_length=10,
+		help_text=u"<- Введіть назву групи.",
+		error_messages={'required': u"Назва Групи є обов’язковою!"},
+		validators=[validTitle]
+		)
+
+	leader = forms.ModelChoiceField(
+		label=u"Староста Групи",
+		required=False,
+		queryset=Student.objects.all().order_by('last_name'),
+		empty_label=u"Оберіть старосту Групи!",
+		to_field_name="pk"
+		)
+
+	notes = forms.CharField(
+		label=u"Нотатки",
+		help_text=u"Додаткова інформація",
+		required=False,
+		max_length=1000
+		)
 
 # Views for Groups
 def groups_list(request):
@@ -63,7 +116,43 @@ def groups_list(request):
 														 'valPage': valPage,
 														 'listOfPage': listOfPage})
 
-def groups_add(request):
+def groups_add_django_form(request):
+	if request.method == "POST":
+		form = GroupAddEditForm(request.POST)
+		if request.POST.get('add_button') is not None:
+			data = {}
+
+			if form.is_valid():
+				# check unique title of group
+				# groups = Group.objects.filter(title=form.cleaned_data['title'])
+				# if len(groups) != 0:
+				data['title'] = form.cleaned_data['title']
+				# else:
+
+				data['leader'] = form.cleaned_data['leader']
+				data['notes'] = form.cleaned_data['notes']
+
+				try:
+					group = Group(**data)
+					group.save()
+				except Exception as e:
+					messages.error(request, (u"Невдале редагування/створення групи!") + str(e))
+				else:
+					messages.success(request, u"Група була поредагований/створена успішно!")
+
+				return HttpResponseRedirect(reverse('groups'))
+			else:
+				messages.error(request, u"Помилки Валідації")
+				return render(request, 'students/groups_add_django_form.html',
+							  {'form': form})
+		elif request.POST.get('cancel_button') is not None:
+			messages.info(request, u"Створення групи відмінено!")
+			return HttpResponseRedirect(reverse('groups'))
+	else:
+		form = GroupAddEditForm()
+		return render(request, 'students/groups_add_django_form.html', {'form': form})
+
+def groups_add_handle(request):
 	# return HttpResponse('<h1>Groups Add Form</h1>')
 	if request.method == 'POST':
 		if request.POST.get('add_button') is not None:
@@ -109,8 +198,68 @@ def groups_add(request):
 	else:
 		return render(request, 'students/groups_add_handle.html', {'students': Student.objects.all().order_by('last_name')})
 
-def groups_edit(request, gid):
-	return HttpResponse('<h1>Edit Group %s</h1>' % gid)
+def groups_edit_handle(request, gid):
+	group = Group.objects.filter(pk=gid)[0]
+	if request.method == 'POST':
+		if request.POST.get('edit_button') is not None:
+			errors = {}
+
+			data = {'notes': request.POST.get('notes')}
+
+			title = request.POST.get('title', '').strip()
+			oldTitle = request.POST.get('oldTitle', 'Nothing').strip()
+			if not title:
+				errors['title'] = u'Назва групи є обов’язковою!'
+			elif title != oldTitle and title in [group.title for group in Group.objects.filter(title=title)]:
+				errors['title'] = u'Така назва групи вже існує!'
+			else:
+				data['title'] = title
+
+			leader = request.POST.get('leader', "").strip()
+			if leader:
+				students = Student.objects.filter(pk=leader)
+
+				if len(students) == 1:
+					if students[0] != group.leader and hasattr(students[0], "group"):
+						errors['leader'] = u'Виберіть студента правильно! \
+						Студент %s є старостою %s групи!' % (students[0], students[0].group)
+					else:
+						data['leader'] = students[0]
+				elif len(students) == 0:
+					data['leader'] = None
+				else:
+					errors['leader'] = u'Виберіть студента правильно!'
+
+			if not errors:
+				group.title = data['title']
+				if "leader" in data:
+					group.leader = data['leader']
+				else:
+					group.leader = None
+				group.notes = data['notes']
+				try:
+					group.save()
+				except Exception as e:
+					messages.error(request, u'Помилка' + str(e))
+				else:
+					messages.success(request, u'Групу %s успішно поредаговано' % group)
+				return HttpResponseRedirect(reverse('groups'))
+			else:
+				messages.error(request, u'Є помилки - виправте їх!')
+				return render(request, 'students/groups_edit_handle.html', {'errors': errors,
+												'students': Student.objects.all().order_by('last_name'),
+												'group': group,
+												'gid': gid,
+												'oldTitle': oldTitle,
+												'title': title})
+
+		elif request.POST.get('cancel_button') is not None:
+			messages.info(request, u'Додавання групи скасовано')
+			return HttpResponseRedirect(reverse('groups'))
+	else:
+		return render(request, 'students/groups_edit_handle.html', {'students': Student.objects.all().order_by('last_name'),
+																   'gid': gid,
+																   'group': group})
 
 def groups_delete(request, gid):
 	return HttpResponse('<h1>Delete Group %s</h1>' % gid)
@@ -128,8 +277,9 @@ class GroupDeleteView(DeleteView):
 class GroupEditView(UpdateView):
 	"""docstring for GroupEditView"""
 	model = Group
-	template_name = 'students/groups_edit.html'
+	template_name = 'students/groups_add_django_form.html'
 	pk_url_kwarg = 'gid'
+	# form_class = GroupAddEditForm
 
 	def get_success_url(self):
 		messages.success(self.request, u'Групу %s успішно збережено!' % self.object)
@@ -149,17 +299,30 @@ class GroupEditView(UpdateView):
 		studentsOurGroup = Student.objects.filter(student_group=self.object)
 		leaderOurGroup = form.cleaned_data['leader']
 		if leaderOurGroup is not None:
-			if leaderOurGroup in studentsOurGroup:
-				return super(GroupEditView, self).form_valid(form)
-			else:
+			if not leaderOurGroup in studentsOurGroup:
 				messages.error(self.request, u'Студент не належить до даної групи!')
 				return self.render_to_response(self.get_context_data(form=form))
+		
+		title = form.cleaned_data['title']
+		groups = Group.objects.filter(title=title)
+		if len(groups) == 1 and groups[0] != self.object:
+			messages.error(self.request, 'Name of group is busy')
+			return self.render_to_response(self.get_context_data(form=form))
+		
 		return super(GroupEditView, self).form_valid(form)
+
+	def get_context_data(self, **kwargs):
+		context = super(GroupEditView, self).get_context_data(**kwargs)
+
+		context['defAct'] = 'edit'
+
+		return context
 
 class GroupAddView(CreateView):
 	model = Group
 	template_name = 'students/groups_add.html'
 	success_url = '/groups/'
+	form_class = GroupAddEditForm
 
 	def get_success_url(self):
 		messages.success(self.request, u'Групу %s успішно створено!' % self.object)
