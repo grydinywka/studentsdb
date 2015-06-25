@@ -1,0 +1,75 @@
+{% extends "students/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %}Додати Іспит{% endblock meta_title %}
+
+{% block title %}Додати Іспит{% endblock title %}
+
+{% block status_message %}
+  {% if messages %}
+  <div class="alert alert-warning" role="alert">
+  	Будь-ласка, виправте наступні помилки
+  </div>
+  {% endif %}
+
+{{ block.super }}
+
+{% endblock status_message %}
+
+{% block content %}
+	<form action="{% url "exams_add" %}" method="post">
+
+		{% csrf_token %}
+
+		<div>
+			<label for="title">Іспит*</label>
+			<input type="text" name="title" id="title" value="{{ request.POST.title }}" placeholder="Назва предмету" />
+			<span>{{ errors.title }}</span>
+		</div>
+
+		<div>
+			<label for="exam_date">Дата і час*</label>
+			<input type="text" name="exam_date" id="exam_date" value="{{ request.POST.exam_date }}" placeholder="Н.-д, 2015-07-12 12:00" />
+			<span>{{ errors.exam_date }}</span>
+		</div>
+
+		<div>
+			<label for="presenter">Екзаменатор*</label>
+			<input type="text" name="presenter" id="presenter" value="{{ request.POST.presenter }}" placeholder="Ім’я і по-Батькові" />
+			<span>{{ errors.presenter }}</span>
+		</div>
+
+		<div>
+			<label for="exam_group">Груп-а/-и</label>
+			<select name="exam_group" id="exam_group" MULTIPLE SIZE=5>
+				{% for group in groups %}
+				<option value="{{ group.id }}"
+					{% if request.POST %}
+						{% for gid in e_g %}
+						{% if group.id == gid|add:0 %}selected="1"{% endif %}
+						{% endfor %}
+					{% endif %}
+					
+					>{{ group }}
+				</option>
+				{% endfor %}
+			</select>
+			<span>Затисніть клавішу "Control", або "Command" на Маку, щоб обрати більше однієї опції.</span> <br />
+			<span>{{ errors.exam_group }}</span>
+		</div>
+
+		<div>
+			<label for="notes">Нотатки</label>
+			<textarea name="notes" id="notes"
+						  rows="2" placeholder="Напишіть те, що вважаєте за потрібне.">{{ request.POST.notes }}</textarea>
+		    <span>{{ errors.notes }}</span>
+		</div>
+		
+		<input type="submit" value="Створити" name="add_button"
+			   class="btn btn-primary" />
+		<button type="submit" name="cancel_button" value="Скасувати" 
+				class="btn btn-link">Скасувати</button>
+	</form>
+
+{% endblock content %}

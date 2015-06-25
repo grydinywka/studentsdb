@@ -38,15 +38,15 @@
 		<div>
 		<label for="leader">Староста</label>
 		<select name="leader" id="leader">
-					<option value="">Виберіть старосту</option>
-					{% for student in students %}
-					<option value="{{ student.id }}" 
-					{% if request.POST %}
-						{% if student.id == request.POST.leader|add:0 %}selected="1"{% endif %}
-					{% else %}
-						{% if student.id == group.leader.id|add:0 %}selected="1"{% endif %}
-					{% endif %}>{{ student }}</option>
-					{% endfor %}
+			<option value="">Виберіть старосту</option>
+			{% for student in students %}
+			<option value="{{ student.id }}" 
+			{% if request.POST %}
+				{% if student.id == request.POST.leader|add:0 %}selected="1"{% endif %}
+			{% else %}
+				{% if student.id == group.leader.id|add:0 %}selected="1"{% endif %}
+			{% endif %}>{{ student }}</option>
+			{% endfor %}
 		</select>
 		<span>{{ errors.leader }}</span>
 		</div>

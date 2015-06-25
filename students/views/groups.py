@@ -249,9 +249,7 @@ def groups_edit_handle(request, gid):
 				return render(request, 'students/groups_edit_handle.html', {'errors': errors,
 												'students': Student.objects.all().order_by('last_name'),
 												'group': group,
-												'gid': gid,
-												'oldTitle': oldTitle,
-												'title': title})
+												'gid': gid})
 
 		elif request.POST.get('cancel_button') is not None:
 			messages.info(request, u'Додавання групи скасовано')
@@ -261,8 +259,20 @@ def groups_edit_handle(request, gid):
 																   'gid': gid,
 																   'group': group})
 
-def groups_delete(request, gid):
-	return HttpResponse('<h1>Delete Group %s</h1>' % gid)
+def groups_delete_handle(request, gid):
+	group = Group.objects.filter(pk=gid)[0]
+
+	if request.method == 'POST':
+		if request.POST.get('cancel_button') is not None:
+			messages.info(request, u'Видалення групи %s скасовано!' % group)
+			return HttpResponseRedirect(reverse('groups'))
+		elif request.POST.get('delete_button') is not None:
+			messages.success(request, u'Групу %s видалено!' % group)
+			group.delete()
+			return HttpResponseRedirect(reverse('groups'))
+	else:
+		return render(request, 'students/groups_confirm_delete_handle.html', {'group': group,
+																			  'gid': gid})
 
 class GroupDeleteView(DeleteView):
 	"""docstring for GroupDeleteView"""

@@ -40,7 +40,8 @@ urlpatterns = patterns('',
     url(r'^groups/(?P<gid>\d+)/edit/$', 'students.views.groups.groups_edit_handle', name='groups_edit'),
     # url(r'^groups/(?P<gid>\d+)/edit/$', GroupEditView.as_view(), name='groups_edit'),
 
-    url(r'^groups/(?P<gid>\d+)/delete/$', GroupDeleteView.as_view(), name='groups_delete'),
+    # url(r'^groups/(?P<gid>\d+)/delete/$', GroupDeleteView.as_view(), name='groups_delete'),
+    url(r'^groups/(?P<gid>\d+)/delete/$', 'students.views.groups.groups_delete_handle', name='groups_delete'),
     
     # Journal urls
     url(r'^journal/$', 'students.views.journals.journal_list', name='journal'),
@@ -49,8 +50,8 @@ urlpatterns = patterns('',
     # Exam urls
     url(r'^exams/$', 'students.views.exams.exams_list', name='exams'),
     url(r'^exams/(?P<pk>\d+)/edit/$', ExamEditView.as_view(), name='exams_edit'),
-    # url(r'^exams/add/$', 'students.views.exams.exams_add', name='exams_add'),
-    url(r'^exams/add/$', ExamAddView.as_view(), name='exams_add'),
+    url(r'^exams/add/$', 'students.views.exams.exams_add_handle', name='exams_add'),
+    # url(r'^exams/add/$', ExamAddView.as_view(), name='exams_add'),
     url(r'^exams/(?P<eid>\d+)/delete/$', ExamDeleteView.as_view(), name='exams_delete'),
 
     # Result urls
