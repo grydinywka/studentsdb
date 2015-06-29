@@ -2,9 +2,9 @@
 
 {% load static from staticfiles %}
 
-{% block meta_title %}Редагувати Групу{% endblock meta_title %}
+{% block meta_title %}Редагувати Іспит{% endblock meta_title %}
 
-{% block title %}Редагувати Групу{% endblock title %}
+{% block title %}Редагувати Іспит{% endblock title %}
 
 {% block status_message %}
   {% if messages %}
@@ -18,17 +18,80 @@
 {% endblock status_message %}
 
 {% block content %}
-
-	<form action="{% url "groups_edit" object.id %}?NameGroup={{ group.title }}" method="post">
+	<form action="{% url "exams_edit" eid %}" method="post" class="form-horizontal">
 
 		{% csrf_token %}
 
-		
-		
-		<input type="submit" value="Зберегти" name="edit_button"
-			   class="btn btn-primary" />
-		<button type="submit" name="cancel_button" value="Скасувати" 
-				class="btn btn-link">Скасувати</button>
-	</form>
+		<div class="form-group {% if errors.title %}has-error{% endif %}">
+			<label for="title" class="col-sm-2 control-label">Назва предмету*</label>
+			<div class="col-sm-10">
+				<input type="text" name="title" id="title" value="{% if request.POST %}{{ request.POST.title }}{% else %}{{ exam.title }}{% endif %}" class="form-control" />
+				<span class="help-block">{{ errors.title }}</span>
+			</div>
+		</div>
 
+		<div class="form-group {% if errors.exam_date %}has-error{% endif %}">
+			<label for="exam_date" class="col-sm-2 control-label">Дата і час іспиту*</label>
+			<div class="col-sm-10">
+				<input type="text" name="exam_date" id="exam_date"
+					   value="{% if request.POST %}{{ request.POST.exam_date }}{% else %}{{ exam.exam_date|date:"Y-m-d H:i" }}{% endif %}" class="form-control" />
+				<span class="help-block">{{ errors.exam_date }}</span>
+			</div> 
+		</div>
+
+		<div class="form-group {% if errors.presenter %}has-error{% endif %}">
+			<label for="presenter" class="col-sm-2 control-label">Екзаменатор*</label>
+			<div class="col-sm-10">
+				<input type="text" name="presenter" id="presenter"
+					   value="{% if request.POST %}{{ request.POST.presenter }}{% else %}{{ exam.presenter }}{% endif %}" class="form-control" />
+				<span class="help-block">{{ errors.presenter }}</span>
+			</div>
+		</div>
+
+		<div class="form-group {% if errors.exam_group %}has-error{% endif %}">
+			<label for="exam_group" class="col-sm-2 control-label">Груп-а/-и</label>
+			<div class="col-sm-10">
+				<select name="exam_group" id="exam_group" MULTIPLE SIZE=5 class="form-control">
+					{% for group in groups %}
+					<option value="{{ group.id }}"
+						{% if request.POST %}
+							{% for id in exam_group %}
+							{% if group.id == id|add:0 %}selected="1"{% endif %}
+							{% endfor %}
+						{% else %}
+							{% for g in exam.exam_group.all %}
+							{% if group.id == g.id|add:0 %}selected="1"{% endif %}
+							{% endfor %}
+						{% endif %}
+						
+						>{{ group }}
+					</option>
+					{% endfor %}
+				</select>
+				<span class="help-block">Затисніть клавішу "Control", або "Command" на Маку, щоб обрати більше однієї опції.</span> <br />
+				<span class="help-block">{{ errors.exam_group }}</span>
+			</div>
+		</div>
+
+		<div class="form-group {% if errors.notes %}has-error{% endif %}">
+			<label for="notes" class="col-sm-2 control-label">Нотатки</label>
+			<div class="col-sm-10">
+				<textarea name="notes" id="notes"
+							rows="2" placeholder="Напишіть те, що вважаєте за потрібне." class="form-control">{% if request.POST %}{{ request.POST.notes }}{% else %}{{ exam.notes }}{% endif %}</textarea>
+				<span class="help-block">{{ errors.notes }}</span>
+			</div>
+		</div>
+		
+		<div class="form-group" id="buttons">
+			<label class="col-sm-2 control-label"></label>
+			<div class="col-sm-10">
+				<input type="submit" value="Зберегти" name="edit_button"
+					   class="btn btn-primary" />
+				<button type="submit" name="cancel_button" value="Скасувати" 
+						class="btn btn-link">Скасувати</button>
+			</div>
+		</div>
+	</form>
+{{ request.POST }}
+{{ exam_group }}
 {% endblock content %}
