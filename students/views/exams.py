@@ -14,9 +14,45 @@ from ..models.Student import Student
 
 from django.views.generic import UpdateView, CreateView, DeleteView
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
+from crispy_forms.bootstrap import FormActions
+
+class MyModelMultipleChoiceField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        return "My Object #%i" % obj.id
+
 class ExamEdit(forms.ModelForm):
 	class Meta:
 		model = Exam
+
+	def __init__(self, *args, **kwargs):
+		super(ExamEdit, self).__init__(*args, **kwargs)
+
+		self.helper = FormHelper(self)
+		# if 'id' in args[0]:
+		# 	if args[0]['id']:
+		# 		self.helper.form_action = reverse('exams_edit',
+		# 			kwargs={'eid': int(args[0]['id']})
+		# 	else:
+		# 		self.helper.form_action = reverse('exams_add')
+		# else:
+		# 	self.helper.form_action = reverse('exams_edit',
+		# 		kwargs={'eid': self.instance)})
+
+		self.helper.form_method = 'POST'
+		self.helper.form_class = 'form-horizontal'
+
+		# set form field properties
+		self.helper.help_text_inline = True
+		self.helper.html5_required = True
+		self.helper.label_class = 'col-sm-2 control-label'
+		self.helper.field_class = 'col-sm-10'
+
+		self.helper.layout[-1] = FormActions(
+			Submit('edit_button', u'Редагувати', css_class="btn btn-primary"),
+			Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
+			)
 
 	title = forms.CharField(
 		label = u'Назва іспиту*',
@@ -24,7 +60,7 @@ class ExamEdit(forms.ModelForm):
 		help_text = u'Введіть назву іспиту'
 		)
 
-	exam_date = forms.DateField(
+	exam_date = forms.DateTimeField(
 		label = u'Дата і час*',
 		help_text = u'формат РРРР-ММ-ДД ГГ:ХХ',
 		error_messages = {'required': u'ПОЛЕ дати повинно бути присутнім!!!',
@@ -37,10 +73,10 @@ class ExamEdit(forms.ModelForm):
 		help_text = u'Ім’я та По-батькові'
 		)
 
-	exam_group = forms.ModelChoiceField(
+	exam_group = forms.ModelMultipleChoiceField(
 		required = False,
 		label = u'Груп -а/-и',
-		help_text = u'Затисніть клавішу "Control", або "Command" на Маку, щоб обрати більше однієї опції.',
+		# help_text = u'Затисніть клавішу "Control", або "Command" на Маку, щоб обрати більше однієї опції.',
 		queryset=Group.objects.all().order_by('title'),
 		error_messages = {'invalid_choice': u'Неправильна група'}
 		)
@@ -158,6 +194,61 @@ def exams_edit_handle(request, eid):
 																   'eid': eid,
 																   'groups': Group.objects.all().order_by('title')})
 
+def exams_edit_django_form(request, eid):
+	exam = Exam.objects.filter(pk=eid)[0]
+	
+	if request.method == 'POST':
+		form = ExamEdit(request.POST)
+		if request.POST.get('edit_button') is not None:
+			data_exam_group = []
+
+			if form.is_valid():
+				exam.title = form.cleaned_data['title']
+				exam.exam_date = form.cleaned_data['exam_date']
+				exam.presenter = form.cleaned_data['presenter']
+				exam.exam_group = form.cleaned_data['exam_group']
+				exam.notes = form.cleaned_data['notes']
+
+				try:
+					exam.save()
+				except Exception as e:
+					messages.error(request, (u"Невдале редагування %s!" % exam) + str(e))
+				else:
+					messages.success(request, u"Іспит %s був поредагований успішно!" % exam)
+
+				return HttpResponseRedirect(reverse('exams'))
+			else:
+				messages.info(request, "Validation errors")
+				return render(request, 'students/exams_edit_django_form.html',
+					{'eid': eid,
+					 'form': form})
+
+		elif request.POST.get('cancel_button') is not None:
+			messages.info(request, u'Редагування іспиту %s відмінено!' % exam)
+			return HttpResponseRedirect(reverse("exams"))
+	else:
+		default = {'title': exam.title,
+				   'exam_date': exam.exam_date,
+				   'presenter': exam.presenter,
+				   'exam_group': exam.exam_group.all(),
+				   'notes': exam.notes,
+				   'id': exam.id}
+
+		form = ExamEdit(default, exam)
+		# form = ExamEdit(initial={
+		# 						 "exam_group": exam.exam_group.all(),
+		# 						 "title": exam.title,
+		# 						 "exam_date": exam.exam_date,
+		# 		   				 "presenter": exam.presenter,
+		# 		   				 "notes": exam.notes
+		# 						 })
+		return render(request, 'students/exams_edit_django_form.html',
+			{'groups': Group.objects.all().order_by('title'),
+			 'eid': eid,
+			 'form': form,
+			 'default': exam.exam_group
+			})
+
 def exams_add_handle(request):
 	groups = Group.objects.all().order_by('title')
 
@@ -255,6 +346,7 @@ def exams_confirm_delete_handle(request, eid):
 class ExamEditView(UpdateView):
 	model = Exam
 	template_name = 'students/exams_edit.html'
+	form_class = ExamEdit
 
 	def get_success_url(self):
 		messages.success(self.request, u'Іспит %s усішно поредаговано!' % self.object)

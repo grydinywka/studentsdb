@@ -50,7 +50,8 @@ urlpatterns = patterns('',
     # Exam urls
     url(r'^exams/$', 'students.views.exams.exams_list', name='exams'),
 
-    url(r'^exams/(?P<eid>\d+)/edit/$', 'students.views.exams.exams_edit_handle', name='exams_edit'),
+    url(r'^exams/(?P<eid>\d+)/edit/$', 'students.views.exams.exams_edit_django_form', name='exams_edit'),
+    # url(r'^exams/(?P<eid>\d+)/edit/$', 'students.views.exams.exams_edit_handle', name='exams_edit'),
     # url(r'^exams/(?P<pk>\d+)/edit/$', ExamEditView.as_view(), name='exams_edit'),
 
     url(r'^exams/add/$', 'students.views.exams.exams_add_handle', name='exams_add'),
