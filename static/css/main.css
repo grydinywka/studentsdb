@@ -37,6 +37,14 @@ input {
 	max-width: 300px;
 }
 
- #photo {
- 	padding-top: 0px ;
- }
+#photo {
+	padding-top: 0px ;
+}
+
+/* Journal Table Styles */
+td.day-box,
+th.day-header {
+	padding: 4px !important;
+	vertical-align: middle !important;
+	text-align: center;
+}
