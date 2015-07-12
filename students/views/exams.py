@@ -32,8 +32,9 @@ class ExamEdit(forms.ModelForm):
 		self.helper = FormHelper(self)
 		# if 'id' in args[0]:
 		# 	if args[0]['id']:
-		# 		self.helper.form_action = reverse('exams_edit',
-		# 			kwargs={'eid': int(args[0]['id']})
+		pk = args[1].id
+		self.helper.form_action = reverse('exams_edit',
+			kwargs={'eid': pk})
 		# 	else:
 		# 		self.helper.form_action = reverse('exams_add')
 		# else:
@@ -198,7 +199,7 @@ def exams_edit_django_form(request, eid):
 	exam = Exam.objects.filter(pk=eid)[0]
 	
 	if request.method == 'POST':
-		form = ExamEdit(request.POST)
+		form = ExamEdit(request.POST, exam)
 		if request.POST.get('edit_button') is not None:
 			data_exam_group = []
 
@@ -231,8 +232,7 @@ def exams_edit_django_form(request, eid):
 				   'exam_date': exam.exam_date,
 				   'presenter': exam.presenter,
 				   'exam_group': exam.exam_group.all(),
-				   'notes': exam.notes,
-				   'id': exam.id}
+				   'notes': exam.notes}
 
 		form = ExamEdit(default, exam)
 		# form = ExamEdit(initial={

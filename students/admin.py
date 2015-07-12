@@ -9,6 +9,7 @@ from .models.Group import Group
 from .models.Visiting import Visiting
 from .models.Exam import Exam
 from .models.Result_exam import Result_exam
+from .models.monthjournal import MonthJournal #, Singleton
 
 class StudentFormAdmin(ModelForm):
 
@@ -82,3 +83,4 @@ admin.site.register(Group, GroupAdmin)
 admin.site.register(Visiting)
 admin.site.register(Exam)
 admin.site.register(Result_exam)
+admin.site.register(MonthJournal)
