@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse
 from django.views.generic.base import TemplateView
 
 from ..models import MonthJournal, Student
-from ..util import paginate
+from ..util import paginate, boundsStuds
 
 from copy import copy
 
@@ -108,32 +108,6 @@ class JournalView(TemplateView):
 		# with paginated students
 		return context
 
-	def boundsStuds(self, objects, valStudOnPage):
-		allStudents = len(objects)
-		if allStudents <= valStudOnPage:
-			valStudOnPage = allStudents
-		valPage = allStudents/valStudOnPage
-		if allStudents % valStudOnPage != 0:
-			valPage += 1
-
-		page = self.request.GET.get('page', 1)
-		try:
-			page = int(float(page))
-		except ValueError:
-			page = 1
-		if page > valPage or page < 1:
-			page = valPage
-
-		if page == valPage:
-			large = allStudents
-			little = allStudents - allStudents % valStudOnPage
-		else:
-			large = valStudOnPage*page
-			little = large - valStudOnPage
-
-		return little, large
-
-
 	def get_context_data(self, **kwargs):
 		# get context data from TemplateView class
 		context = super(JournalView, self).get_context_data(**kwargs)
@@ -174,9 +148,8 @@ class JournalView(TemplateView):
 		students = [i for i in queryset]
 
 		#define bounds of students' list
-		little, large = self.boundsStuds(students, valStudOnPage)
+		little, large = boundsStuds(students, valStudOnPage, self.request)
 
-		
 		# url to update student presence, for form post
 		update_url = reverse('journal')
 
@@ -212,9 +185,7 @@ class JournalView(TemplateView):
 		# apply pagination, 10 students per page
 		context = paginate(students, valStudOnPage, self.request, context,
 			var_name='students')
-
-
-
+		
 		# finally return updated context
 		# with paginated students
 		return context

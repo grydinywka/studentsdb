@@ -13,10 +13,13 @@ from ..models.Group import Group
 from ..models.Student import Student
 
 from django.views.generic import UpdateView, CreateView, DeleteView
+from django.views.generic.base import TemplateView
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from crispy_forms.bootstrap import FormActions
+
+from ..util import paginate, boundsStuds
 
 class MyModelMultipleChoiceField(forms.ModelMultipleChoiceField):
     def label_from_instance(self, obj):
@@ -88,6 +91,24 @@ class ExamEdit(forms.ModelForm):
 		required=False,
 		max_length=1000
 		)
+
+class ExamList(TemplateView):
+	template_name = "students/exams_list_for_cbv.html"
+
+	def get_context_data(self, **kwargs):
+		context = super(ExamList, self).get_context_data(**kwargs)
+
+		exams = Exam.objects.order_by('title')
+		order_by = self.request.GET.get('order_by', '')
+		if order_by in ('id', 'title', 'exam_date', 'presenter', 'exam_group'):
+			exams = exams.order_by(order_by)
+			if self.request.GET.get('reverse', '') == '1':
+				exams = exams.reverse()
+
+		paginate_by = 4
+		context = paginate(exams, paginate_by, self.request, context, var_name='exams')
+
+		return context
 
 def exams_list(request):
 	exams = Exam.objects.all()

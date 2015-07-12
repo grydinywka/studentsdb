@@ -34,3 +34,28 @@ def paginate(objects, size, request, context, var_name='object_list'):
 	context['paginator'] = paginator
 
 	return context
+
+def boundsStuds(objects, valStudOnPage, request):
+	allStudents = len(objects)
+	if allStudents <= valStudOnPage:
+		valStudOnPage = allStudents
+	valPage = allStudents/valStudOnPage
+	if allStudents % valStudOnPage != 0:
+		valPage += 1
+
+	page = request.GET.get('page', 1)
+	try:
+		page = int(float(page))
+	except ValueError:
+		page = 1
+	if page > valPage or page < 1:
+		page = valPage
+
+	if page == valPage:
+		large = allStudents
+		little = allStudents - allStudents % valStudOnPage
+	else:
+		large = valStudOnPage*page
+		little = large - valStudOnPage
+
+	return little, large

@@ -1,0 +1,141 @@
+{% extends "students/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %}Студенти{% endblock meta_title %}
+
+{% block title %}База Студентів{% endblock title %}
+
+{% block add_btn %}
+<div class="col-xs-4" id="stud">
+	<!--  Add Student Button  -->
+	<a class="btn btn-primary" href="{% url "students_add" %}">Додати Студента</a>
+</div>
+{% endblock add_btn %}
+
+{% block content %}
+
+{% if not students %}
+
+<div class="alert alert-warning">
+	Поки нема жодного студента в базі.
+</div>
+
+{% else %}
+
+<!-- Start Student Listing -->
+<!-- Start Add more students -->
+<form action="{% url "students_delete_mult" %}" method="post">
+{% csrf_token %}
+<table class="table table-hover table-striped">
+	{% with order_by=request.GET.order_by reverse=request.GET.reverse page=request.GET.page %}
+	<thead>
+		<tr>
+			<th><a href="{% url "home" %}?page=1&amp;order_by=id{% if order_by == 'id' and reverse != '1' %}&amp;reverse=1{% endif %}">
+				№
+				{% if order_by == 'id' and reverse != '1' %}&uarr;
+				{% elif order_by == 'id' and reverse == '1' %}&darr;
+				{% endif %}
+			</a></th>
+			<th>Фото</th>
+			<th><a href="{% url "home" %}?page=1{% if order_by == '' %}&amp;order_by=last_name&amp;reverse=1
+			{% else %}&amp;order_by=last_name{% if order_by == 'last_name' and reverse != '1' %}&amp;reverse=1{% endif %}
+			{% endif %}">
+				Прізвище
+				{% if order_by == '' and reverse == '' %}&uarr;
+				{% elif order_by == 'last_name' and reverse != '1' %}&uarr;
+				{% elif order_by == 'last_name' and reverse == '1' %}&darr;
+				{% endif %}
+			</a></th>
+			<th><a href="{% url "home" %}?page=1&amp;order_by=first_name{% if order_by == 'first_name' and reverse != '1' %}&amp;reverse=1{% endif %}">
+				Ім’я
+				{% if order_by == 'first_name' and reverse != '1' %}&uarr;
+				{% elif order_by == 'first_name' and reverse == '1' %}&darr;
+				{% endif %}
+			</a></th>
+			<th><a href="{% url "home" %}?page=1&amp;order_by=ticket{% if order_by == 'ticket' and reverse != '1' %}&amp;reverse=1{% endif %}">
+				№ Білету
+				{% if order_by == 'ticket' and reverse != '1' %}&uarr;
+				{% elif order_by == 'ticket' and reverse == '1' %}&darr;
+				{% endif %}
+			</a></th>
+			<th>Дії</th>
+			<th>
+				<input type="submit" value="Видалити обраних"
+					   name="delete_button" class="btn btn-danger" />
+			</th>
+		</tr>
+	</thead>
+	{% endwith %}
+	<!-- Body -->
+	<tbody>
+		
+		{% for student in students %}
+		<tr>
+			<td>{{ student.id }}</td>
+			<td>
+				{% if student.photo %}
+					<img class="img-circle" src="{{ student.photo.url }}" 
+					height="30" width="30" />
+				{% else %}
+					<img class="img-circle" src="{% static "img/my.jpeg" %}" 
+					height="30" width="30" />
+				{% endif %}
+			</td>
+			<td><a title="edit" href="{% url "students_edit" student.id %}">{{ student.last_name }}</a></td>
+			<td><a title="edit" href="{% url "students_edit" student.id %}">{{ student.first_name }}</a></td>
+			<td>{{ student.ticket }}</td>
+			
+			<td>
+				<div class="dropdown">
+					<button class="btn btn-default dropdown-toggle" 
+							type="button" data-toggle="dropdown">Дія
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="/journal/{{ student.id }}">
+							Відвідування</a>
+						</li>
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="{% url "students_edit" student.id %}">
+							Редагувати</a>
+						</li>
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="{% url "students_delete" student.id %}">
+							Видалити</a>
+						</li>
+					</ul>
+				</div>
+			</td>
+			<td>
+				{{ student.id }}
+				<input type="checkbox" name="{{ student.id }}" value="{{ student.id }}" />
+			</td>
+		</tr>
+		{% endfor %}
+
+		</tbody>
+		</form>
+</table>
+<!-- End Students Listing -->
+
+<!-- Start Load More button ... -->
+
+	<!-- Add more students -->
+	<div id="testframe"></div>
+	<a href = "?page=2" id = "load_more">Load more</a>
+
+<!-- End Load More button ... -->
+
+{% with object_list=students %}
+	{% include "students/pagination.html" %}
+{% endwith %}
+
+{% endif %}
+
+{% endblock content %}
+
+{% block extra_js %}
+<script type="text/javascript" src="{{ PORTAL_URL2 }}{% static "js/load_more.js" %}"></script>
+{% endblock extra_js %}

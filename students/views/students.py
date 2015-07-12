@@ -15,6 +15,8 @@ from ..models.Visiting import Visiting
 from datetime import datetime
 from PIL import Image
 
+from ..util import paginate, boundsStuds
+
 # import sys
 # sys.path.append('/data/work/virtualenvs/studDb/src/studDb/studDb/')
 from studDb.settings import SIZE_LIMIT_FILE
@@ -33,22 +35,26 @@ class StudentList(ListView):
 	"""docstring for StudentList"""
 	model = Student
 	# queryset = Student.objects.all()
-	template_name = 'students/studentlistTmp.html'
+	template_name = 'students/students_list_for_cbv.html'
 	context_object_name = 'students'
 	# template = 'students/student_class_based_view_template'
-	paginate_by = 5
-
-	# def get_context_object_name(self, obj):
-	# 	return 'studs'
+	# paginate_by = 5
 
 	def get_context_data(self, **kwargs):
 		"""This method adds extra variables to template"""
 		#get original context data from parent class
 		context = super(StudentList, self).get_context_data(**kwargs)
 
-		#tell template not to show logo on a page
-		context['show_logo'] = False
-		context['group_list'] = Group.objects.all()
+		students = context['students']
+		# try to order students list
+		order_by = self.request.GET.get('order_by', '')
+		if order_by in ('id', 'last_name', 'first_name', 'ticket'):
+			students = students.order_by(order_by)
+			if self.request.GET.get('reverse', '') == '1':
+				students = students.reverse()
+
+		paginate_by = 5
+		context = paginate(students, paginate_by, self.request, context, var_name='students')
 
 		#return context mapping
 		return context

@@ -11,6 +11,9 @@ from ..models.Group import Group
 from ..models.Student import Student
 
 from django.views.generic import DeleteView, UpdateView, CreateView
+from django.views.generic.base import TemplateView
+
+from ..util import paginate, boundsStuds
 
 # class form for add/edit group
 class GroupAddEditForm(forms.ModelForm):
@@ -64,6 +67,24 @@ class GroupAddEditForm(forms.ModelForm):
 		required=False,
 		max_length=1000
 		)
+
+class GroupList(TemplateView):
+	template_name = 'students/groups_list_for_cbv.html'
+
+	def get_context_data(self, **kwargs):
+		context = super(GroupList, self).get_context_data(**kwargs)
+
+		groups = Group.objects.order_by('title')
+		order_by = self.request.GET.get('order_by', '')
+		if order_by in ('id', 'title', 'leader'):
+			groups = groups.order_by(order_by)
+			if self.request.GET.get('reverse', '') == '1':
+					groups = groups.reverse()
+
+		paginate_by = 5
+		context = paginate(groups, paginate_by, self.request, context, var_name='groups')
+
+		return context
 
 # Views for Groups
 def groups_list(request):
