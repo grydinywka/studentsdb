@@ -13,7 +13,7 @@ from ..models.Student import Student
 from django.views.generic import DeleteView, UpdateView, CreateView
 from django.views.generic.base import TemplateView
 
-from ..util import paginate, boundsStuds
+from ..util import paginate, boundsStuds, get_current_group
 
 # class form for add/edit group
 class GroupAddEditForm(forms.ModelForm):
@@ -81,10 +81,26 @@ class GroupList(TemplateView):
 			if self.request.GET.get('reverse', '') == '1':
 					groups = groups.reverse()
 
+		current_group = get_current_group(self.request)
+		if current_group:
+			groups = [current_group]
+		# else:
+		# 	groups = groups.filter(pk=current_group.pk)
+
 		paginate_by = 5
 		context = paginate(groups, paginate_by, self.request, context, var_name='groups')
 
 		return context
+
+	def get_queryset(self):
+		qs = super(GroupList, self).get_queryset()
+
+		# current_group = get_current_group(self.request)
+		# if current_group:
+		# 	return [current_group]
+		# else:
+		# 	return qs.filter(pk=8)
+		return qs[:2]
 
 # Views for Groups
 def groups_list(request):

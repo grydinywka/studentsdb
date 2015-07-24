@@ -19,7 +19,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from crispy_forms.bootstrap import FormActions
 
-from ..util import paginate, boundsStuds
+from ..util import paginate, boundsStuds, get_current_group
 
 class MyModelMultipleChoiceField(forms.ModelMultipleChoiceField):
     def label_from_instance(self, obj):
@@ -105,8 +105,18 @@ class ExamList(TemplateView):
 			if self.request.GET.get('reverse', '') == '1':
 				exams = exams.reverse()
 
+		current_group = get_current_group(self.request)
+		exams1 = []
+		if current_group:
+			context['current_group'] = current_group
+			for exam in exams:
+				if current_group in exam.exam_group.all():
+					exams1.append(exam)
+		else:
+			exams1 = exams
+
 		paginate_by = 4
-		context = paginate(exams, paginate_by, self.request, context, var_name='exams')
+		context = paginate(exams1, paginate_by, self.request, context, var_name='exams')
 
 		return context
 

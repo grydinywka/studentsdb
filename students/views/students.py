@@ -15,7 +15,7 @@ from ..models.Visiting import Visiting
 from datetime import datetime
 from PIL import Image
 
-from ..util import paginate, boundsStuds
+from ..util import paginate, boundsStuds, get_current_group
 
 # import sys
 # sys.path.append('/data/work/virtualenvs/studDb/src/studDb/studDb/')
@@ -73,7 +73,13 @@ class StudentList(ListView):
 		#get original query set
 		qs = super(StudentList, self).get_queryset()
 
-		return qs.order_by('last_name')
+		# check if we need to show only one group of students
+		current_group = get_current_group(self.request)
+		if current_group:
+			return qs.filter(student_group=current_group)
+		else:
+			# otherwise show all students
+			return qs.order_by('last_name')
 
 class StudentUpdateView(UpdateView):
 	"""docstring for StudentUpdateView"""
@@ -303,7 +309,11 @@ class StudentDeleteView2(DetailView):
 
 # Views for Students
 def students_list(request):
-	students = Student.objects.all()
+	current_group = get_current_group(request)
+	if current_group:
+		students = Student.objects.filter(student_group=current_group)
+	else:
+		students = Student.objects.all()
 	allStud = len(students)
 	valStudOnPage = int(request.GET.get('valstud', 3))
 	valPage = allStud/valStudOnPage

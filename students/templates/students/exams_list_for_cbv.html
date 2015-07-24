@@ -108,9 +108,13 @@
 				<td>{{ exam.presenter }}</td>
 				<td>
 					{% with groups=exam.exam_group.all %}
-					{% for group in groups %}
-						{{ group }} ({{ group.id }})<br/>
-					{% endfor %}
+					{% if current_group %}
+						{{ current_group }} ({{ current_group.id }})<br/>
+					{% else %}
+						{% for group in groups %}
+							{{ group }} ({{ group.id }})<br/>
+						{% endfor %}
+					{% endif %}
 					{% endwith %}
 				</td>
 				<td>

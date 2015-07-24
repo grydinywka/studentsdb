@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse
 from django.views.generic.base import TemplateView
 
 from ..models import MonthJournal, Student
-from ..util import paginate, boundsStuds
+from ..util import paginate, boundsStuds, get_current_group
 
 from copy import copy
 
@@ -162,12 +162,21 @@ class JournalView(TemplateView):
 
 		valStudOnPage = 10
 
-		# get students from database, value of ones depend from number of page
-		queryset = Student.objects.order_by('last_name')
+		# get all students from database, or just one if we need to display journal for one student
+		if kwargs.get('pk'):
+			queryset = [Student.objects.get(pk=kwargs['pk'])]
+		else:
+			current_group = get_current_group(self.request)
+			if current_group:
+				queryset = Student.objects.filter(student_group=current_group)
+			else:
+				queryset = Student.objects.order_by('last_name')
 		students = [i for i in queryset]
 
 		#define bounds of students' list
 		little, large = boundsStuds(students, valStudOnPage, self.request)
+		# context['little'] = little
+		# context['large'] = large
 
 		# url to update student presence, for form post
 		update_url = reverse('journal')
