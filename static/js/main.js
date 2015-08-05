@@ -58,8 +58,12 @@ function initGroupSelector() {
 function initDateFields() {
 	var inp = 'input.dateinput';
 
-	$(inp).parent(".controls").prepend('<span class="glyphicon glyphicon-calendar"></span>');
-	$(inp).datetimepicker({
+	$(inp).wrap('<div class="input-group date col-sm-4"></div>');
+	
+	$('<span class="input-group-addon">\
+		 <span class="glyphicon glyphicon-calendar"></span>\
+	   </span>').insertAfter(inp);
+	$('.date').datetimepicker({
 		'format': 'YYYY-MM-DD'
 	}).on('dp.hide', function(event){
 		$(this).blur();
