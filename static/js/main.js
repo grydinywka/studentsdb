@@ -55,7 +55,19 @@ function initGroupSelector() {
 	});
 }
 
+function initDateFields() {
+	var inp = 'input.dateinput';
+
+	$(inp).parent(".controls").prepend('<span class="glyphicon glyphicon-calendar"></span>');
+	$(inp).datetimepicker({
+		'format': 'YYYY-MM-DD'
+	}).on('dp.hide', function(event){
+		$(this).blur();
+	});
+}
+
 $(document).ready(function(){
 	initJournal();
 	initGroupSelector();
+	initDateFields();
 });
