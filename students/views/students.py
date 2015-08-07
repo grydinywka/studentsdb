@@ -268,6 +268,12 @@ class StudentEditView(UpdateView):
 
 		return super(StudentEditView, self).form_valid(form)
 
+	def get_context_data(self, **kwargs):
+		context = super(StudentEditView, self).get_context_data(**kwargs)
+		context['title'] = u'Редагувати студента'
+
+		return context
+
 class StudentAddView(CreateView):
 	model = Student
 	template_name = 'students/students_edit3.html'
@@ -283,6 +289,12 @@ class StudentAddView(CreateView):
 			return HttpResponseRedirect(reverse('home'))
 		else:
 			return super(StudentAddView, self).post(request, *args, **kwargs)
+
+	def get_context_data(self, **kwargs):
+		context = super(StudentAddView, self).get_context_data(**kwargs)
+		context['title'] = u'Додати студента'
+
+		return context
 
 class StudentDeleteView(DeleteView):
 	"""docstring for StudentDeleteView"""

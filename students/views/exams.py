@@ -33,17 +33,21 @@ class ExamEdit(forms.ModelForm):
 		super(ExamEdit, self).__init__(*args, **kwargs)
 
 		self.helper = FormHelper(self)
-		# if 'id' in args[0]:
-		# 	if args[0]['id']:
-		pk = args[1].id
-		self.helper.form_action = reverse('exams_edit',
-			kwargs={'eid': pk})
-		# 	else:
-		# 		self.helper.form_action = reverse('exams_add')
-		# else:
-		# 	self.helper.form_action = reverse('exams_edit',
-		# 		kwargs={'eid': self.instance)})
 
+		# action for exams_edit_django_form
+		# pk = args[1].id
+		# self.helper.form_action = reverse('exams_edit',
+		# 	kwargs={'eid': pk})
+		
+		# set form tag attributes
+		if 'instance' in kwargs:
+			if kwargs['instance']:
+				self.helper.form_action = reverse('exams_edit',
+					kwargs={'eid': kwargs['instance'].id})
+			else:
+				self.helper.form_action = reverse('exams_add')
+		else:
+			self.helper.form_action = reverse('exams_add')
 		self.helper.form_method = 'POST'
 		self.helper.form_class = 'form-horizontal'
 
@@ -53,10 +57,28 @@ class ExamEdit(forms.ModelForm):
 		self.helper.label_class = 'col-sm-2 control-label'
 		self.helper.field_class = 'col-sm-10'
 
-		self.helper.layout[-1] = FormActions(
-			Submit('edit_button', u'Редагувати', css_class="btn btn-primary"),
-			Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
-			)
+		# add buttons
+		if 'instance' in kwargs:
+			if kwargs['instance']:
+				self.helper.layout[-1] = FormActions(
+					Submit('edit_button', u'Редагувати', css_class="btn btn-primary"),
+					Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
+					)
+			else:
+				self.helper.layout[-1] = FormActions(
+					Submit('add_button', u'Додати', css_class="btn btn-primary"),
+					Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
+					)
+		else:
+			self.helper.layout[-1] = FormActions(
+				Submit('add_button', u'Додати', css_class="btn btn-primary"),
+				Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
+				)
+
+		# self.helper.layout[-1] = FormActions(
+		# 	Submit('edit_button', u'Редагувати', css_class="btn btn-primary"),
+		# 	Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
+		# 	)
 
 	title = forms.CharField(
 		label = u'Назва іспиту*',
@@ -376,7 +398,8 @@ def exams_confirm_delete_handle(request, eid):
 
 class ExamEditView(UpdateView):
 	model = Exam
-	template_name = 'students/exams_edit.html'
+	template_name = 'students/exams_edit_django_form.html'
+	pk_url_kwarg = 'eid'
 	form_class = ExamEdit
 
 	def get_success_url(self):
@@ -390,9 +413,17 @@ class ExamEditView(UpdateView):
 		else:
 			return super(ExamEditView, self).post(request, *args, **kwargs)
 
+	def get_context_data(self, **kwargs):
+		context = super(ExamEditView, self).get_context_data(**kwargs)
+		context['title'] = u'Редагувати іспит'
+
+		return context
+
 class ExamAddView(CreateView):
 	model = Exam
-	template_name = 'students/exams_add.html'
+	template_name = 'students/exams_edit_django_form.html'
+	pk_url_kwarg = 'eid'
+	form_class = ExamEdit
 
 	def get_success_url(self):
 		messages.success(self.request, u'Іспит %s створено!' % self.object)
@@ -404,6 +435,12 @@ class ExamAddView(CreateView):
 			return HttpResponseRedirect(reverse('exams'))
 		else:
 			return super(ExamAddView, self).post(request, *args, **kwargs)
+
+	def get_context_data(self, **kwargs):
+		context = super(ExamAddView, self).get_context_data(**kwargs)
+		context['title'] = u'Додати іспит'
+
+		return context
 
 class ExamDeleteView(DeleteView):
 	model = Exam

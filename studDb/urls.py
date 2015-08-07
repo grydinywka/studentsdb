@@ -55,12 +55,12 @@ urlpatterns = patterns('',
     # url(r'^exams/$', 'students.views.exams.exams_list', name='exams'),
     url(r'^exams/$', ExamList.as_view(), name='exams'),
 
-    url(r'^exams/(?P<eid>\d+)/edit/$', 'students.views.exams.exams_edit_django_form', name='exams_edit'),
+    # url(r'^exams/(?P<eid>\d+)/edit/$', 'students.views.exams.exams_edit_django_form', name='exams_edit'),
     # url(r'^exams/(?P<eid>\d+)/edit/$', 'students.views.exams.exams_edit_handle', name='exams_edit'),
-    # url(r'^exams/(?P<pk>\d+)/edit/$', ExamEditView.as_view(), name='exams_edit'),
+    url(r'^exams/(?P<eid>\d+)/edit/$', ExamEditView.as_view(), name='exams_edit'),
 
-    url(r'^exams/add/$', 'students.views.exams.exams_add_handle', name='exams_add'),
-    # url(r'^exams/add/$', ExamAddView.as_view(), name='exams_add'),
+    # url(r'^exams/add/$', 'students.views.exams.exams_add_handle', name='exams_add'),
+    url(r'^exams/add/$', ExamAddView.as_view(), name='exams_add'),
 
     url(r'^exams/(?P<eid>\d+)/delete/$', 'students.views.exams.exams_confirm_delete_handle', name='exams_delete'),
     # url(r'^exams/(?P<eid>\d+)/delete/$', ExamDeleteView.as_view(), name='exams_delete'),

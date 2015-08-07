@@ -29,8 +29,9 @@
 		</div>
 
 		<div>
-			<label for="exam_date">Дата і час*</label>
-			<input type="text" name="exam_date" id="exam_date" value="{{ request.POST.exam_date }}" placeholder="Н.-д, 2015-07-12 12:00" />
+			<label for="exam_date" class="col-sm-2">Дата і час*</label>
+			<input type="text" name="exam_date" class="datetimeinput" 
+			 id="exam_date" value="{{ request.POST.exam_date }}" placeholder="Н.-д, 2015-07-12 12:00" />
 			<span>{{ errors.exam_date }}</span>
 		</div>
 

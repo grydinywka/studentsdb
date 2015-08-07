@@ -1,13 +1,12 @@
 {% extends "students/base.html" %}
 
+{% load static from staticfiles %}
 {% load crispy_forms_tags %}
 
-{% load static from staticfiles %}
-
-{% block meta_title %}Редагувати Іспит{% endblock meta_title %}
+{% block meta_title %}{{ title }}{% endblock meta_title %}
 
 {% block title %}
-	Редагувати Іспит
+	{{ title }}
 {% endblock title %}
 
 {% block status_message %}
@@ -22,16 +21,5 @@
 {% endblock status_message %}
 
 {% block content %}
-
-	<!-- <form action="{% url "exams_edit" eid %}" method="post">
-
-		{% csrf_token %}
-		{{ form.as_p }}
-		
-		<input type="submit" value="Edit" name="edit_button"
-			   class="btn btn-primary" />
-		<button type="submit" name="cancel_button" value="Cancel" 
-				class="btn btn-link">Скасувати</button>
-	</form> -->
 	{% crispy form %}
 {% endblock content %}

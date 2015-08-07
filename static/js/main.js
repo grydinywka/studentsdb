@@ -57,17 +57,32 @@ function initGroupSelector() {
 
 function initDateFields() {
 	var inp = 'input.dateinput';
+	var inpExam = 'input.datetimeinput';
 
-	$(inp).wrap('<div class="input-group date col-sm-4"></div>');
+	if ($(inp).length > 0) {
+		$(inp).wrap('<div class="input-group date col-sm-4"></div>');
+		$('<span class="input-group-addon">\
+			 <span class="glyphicon glyphicon-calendar"></span>\
+		   </span>').insertAfter(inp);
+		$('.date').datetimepicker({
+			format: 'YYYY-MM-DD',
+			locale: 'uk'
+		}).on('dp.hide', function(event){
+			$(this).blur();
+		});
+	} else if ($(inpExam).length > 0) {
+		$(inpExam).wrap('<div class="input-group date col-sm-4"></div>');
 	
-	$('<span class="input-group-addon">\
-		 <span class="glyphicon glyphicon-calendar"></span>\
-	   </span>').insertAfter(inp);
-	$('.date').datetimepicker({
-		'format': 'YYYY-MM-DD'
-	}).on('dp.hide', function(event){
-		$(this).blur();
-	});
+		$('<span class="input-group-addon">\
+			 <span class="glyphicon glyphicon-calendar"></span>\
+		   </span>').insertAfter(inpExam);
+		$(inpExam).datetimepicker({
+			format: 'YYYY-MM-DD HH:mm',
+			locale: 'uk'
+		}).on('dp.hide', function(event){
+			$(this).blur();
+		});
+	}
 }
 
 $(document).ready(function(){
