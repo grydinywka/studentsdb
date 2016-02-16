@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^$', StudentList.as_view(), name='home'),
     
     # url(r'^students/add/$', 'students.views.students.students_add2', name='students_add'),
+    # url(r'^students/add/$', 'students.views.students.salting_add', name='students_add'),
     url(r'^students/add/$', StudentAddView.as_view(), name='students_add'),
     
     # url(r'^students/(?P<sid>\d+)/edit/$', 'students.views.students.students_edit', name='students_edit'),
@@ -48,8 +49,9 @@ urlpatterns = patterns('',
     
     # Journal urls
     url(r'^journal/(?P<pk>\d+)?/?$', JournalView.as_view(), name='journal'),
-    # url(r'^journal/$', 'students.views.journals.journal_list', name='journal'),
-    # url(r'^journal/(?P<gid>\d+)/edit/$', 'students.views.journal_edit.journal_edit', name="journal_edit"),
+    url(r'^journal2/$', 'students.views.journals.journal_list', name='journal2'),
+    # url(r'^journal2/$', 'students.views.journals.data_requests'),
+    url(r'^journal2/(?P<gid>\d+)/edit/$', 'students.views.journal_edit.journal_edit', name="journal_edit"),
 
     # Exam urls
     # url(r'^exams/$', 'students.views.exams.exams_list', name='exams'),

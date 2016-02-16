@@ -85,8 +85,66 @@ function initDateFields() {
 	}
 }
 
+function initEditStudentPage() {
+	$('a.student-edit-form-link').click(function(event){
+		var link = $(this);
+		$.ajax({
+			'url': link.attr('href'),
+			'dataType': 'html',
+			'type': 'get',
+			'success': function(data, status, xhr){
+				// check if we got successfull response from the server
+				if (status != 'success') {
+					alert('Error on server. Attempt later, please!');
+					return false;
+				}
+				// update modal window with arrived content from the server
+				var modal = $('#myModal'),
+					html = $(data),
+					form = html.find('#content-colomn form');
+				modal.find('.modal-title').html(html.find('#content-column h2').text());
+				modal.find('.modal-body').html(form);
+
+				// setup and show modal window finally
+				modal.modal('show');
+			},
+			'error': function(){
+				alert('Error on server, Attempt later, please!');
+				return false;
+			}
+		});
+
+		return false;
+	});
+}
+
+function loadDoc() {
+  var xhttp;
+  if (window.XMLHttpRequest) {
+    // code for modern browsers
+    xhttp = new XMLHttpRequest();
+    } else {
+    // code for IE6, IE5
+    xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      document.getElementById("demo").innerHTML = xhttp.responseText;
+    }
+  };
+  
+  xhttp.open("GET", "http://127.0.0.1:8000/static/ajax_info.txt", true);
+  
+  xhttp.send();
+}
+
+function canvas() {
+	rect(100,50,50,50);
+}
+
 $(document).ready(function(){
 	initJournal();
 	initGroupSelector();
 	initDateFields();
+	initEditStudentPage();
 });

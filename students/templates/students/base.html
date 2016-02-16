@@ -97,6 +97,7 @@
 					{% endif %}
 					
 					{% endblock %}
+				</div>
 			</div>
 
 			<div class="row">
@@ -109,6 +110,7 @@
 			<div class="row" id="content-colomn">	
 				<div class="col-xs-12" id="content-colomn">	
 					{% block content %}{% endblock content %}
+				</div>
 			</div>
 			
 			<!-- End Main Page Content -->
@@ -125,9 +127,26 @@
 			
 		</div>
 		<!-- End Container -->
+
+		<!-- Modal Boilerplate -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+			 aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel"><!-- --></h4>
+		      </div>
+		      <div class="modal-body"><!-- --></div>
+		      <div class="modal-footer"><!-- --></div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 		
 		<!-- JavaScript Section -->
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script> <!-- For Modal windows -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
 		<script src="{% static "js/jquery.cookie.js" %}"></script>
 		<script src="https://cdn.jsdelivr.net/bootstrap/3.3.0/js/bootstrap.min.js"></script>

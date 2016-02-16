@@ -19,6 +19,8 @@ from ..util import paginate, boundsStuds, get_current_group
 class GroupAddEditForm(forms.ModelForm):
 	class Meta:
 		model = Group
+		fields = '__all__'
+		exclude = ()
 
 	# def clean(self):
 	# 	cleaned_data = super(GroupAddEditForm, self).clean()

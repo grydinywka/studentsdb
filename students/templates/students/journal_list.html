@@ -7,24 +7,7 @@
 {% block title %}Облік Відвідування{% endblock title %}
 
 {% block content %}
-	<!-- Start Visiting Listing -->
-	<table class="table table-hover table-striped table-bordered">
-		<thead>
-			<tr>
-				<th>#</th>
-				<th>Відвідування</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for visit in journal %}
-			<tr>
-				<td>{{ forloop.counter }}</td>
-				
-				<td><a href="{% url "journal_edit" visit.id %}">{{ visit }}</a></td>
-				
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	<!-- End Students' Visiting Listing -->
+<p id="demo">Let AJAX change this text.</p>
+
+<button type="button" onclick="loadDoc()">Change Content</button>
 {% endblock content %}

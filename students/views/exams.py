@@ -28,6 +28,8 @@ class MyModelMultipleChoiceField(forms.ModelMultipleChoiceField):
 class ExamEdit(forms.ModelForm):
 	class Meta:
 		model = Exam
+		fields = '__all__'
+		exclude = ()
 
 	def __init__(self, *args, **kwargs):
 		super(ExamEdit, self).__init__(*args, **kwargs)

@@ -105,6 +105,8 @@ class StudentEditForm(forms.ModelForm):
 	"""docstring for StudentEditForm"""
 	class Meta:
 		model = Student
+		fields = '__all__'
+		exclude = ()
 
 	def __init__(self, *args, **kwargs):
 		super(StudentEditForm, self).__init__(*args, **kwargs)
@@ -146,7 +148,7 @@ class StudentEditForm(forms.ModelForm):
 				Submit('add_button', u'Додати', css_class="btn btn-primary"),
 				Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
 				)
-		
+
 	def clean(self, value=None):
 		if value is not None:
 			groups = Group.objects.filter(leader=value)
@@ -179,7 +181,7 @@ class StudentEditForm(forms.ModelForm):
 		initial="1970-2-24",
 		help_text=u"Ваша дата народження у форматі РРРР-ММ-ДД",
 		error_messages={'required': u"Поле дати народження є обов’язковим",
-						'initial': u"Ведіть правильний формат Дати"}
+						'invalid': u"Ведіть правильний формат Дати"}
 		)
 
 	# actWithPhoto = forms.ChoiceField(
@@ -828,4 +830,3 @@ def students_delete_mult(request):
 			return HttpResponseRedirect(reverse('home'))
 
 	return render(request, 'students/students_confirm_delete_mult.html', {'students': students})
-
