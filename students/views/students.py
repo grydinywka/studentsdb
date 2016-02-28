@@ -24,7 +24,7 @@ from studDb.settings import SIZE_LIMIT_FILE
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView, DetailView
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
+from crispy_forms.layout import Submit, Layout, Field
 from crispy_forms.bootstrap import FormActions
 
 class isNotImageError(Exception): pass
@@ -123,11 +123,11 @@ class StudentEditForm(forms.ModelForm):
 		else:
 			self.helper.form_action = reverse('students_add')
 		self.helper.form_method = 'POST'
-		self.helper.form_class = 'form-horizontal'
+		self.helper.form_class = 'form-horizontal a'
 
 		# set form field properties
 		self.helper.help_text_inline = True
-		self.helper.html5_required = True
+		self.helper.html5_required = False
 		self.helper.label_class = 'col-sm-2 control-label'
 		self.helper.field_class = 'col-sm-10'
 		
@@ -148,6 +148,9 @@ class StudentEditForm(forms.ModelForm):
 				Submit('add_button', u'Додати', css_class="btn btn-primary"),
 				Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
 				)
+		# self.helper.layout = Layout(
+		# 	Field('first_name', css_id='ajax-edit-form'),
+		# )
 
 	def clean(self, value=None):
 		if value is not None:

@@ -85,9 +85,78 @@ function initDateFields() {
 	}
 }
 
+String.format = function() {
+    // The string containing the format items (e.g. "{0}")
+    // will and always has to be the first argument.
+    var theString = arguments[0];
+    
+    // start with the second argument (i = 1)
+    for (var i = 1; i < arguments.length; i++) {
+        // "gm" = RegEx options for Global search (more than one instance)
+        // and for Multiline search
+        var regEx = new RegExp("\\{" + (i - 1) + "\\}", "gm");
+        theString = theString.replace(regEx, arguments[i]);
+    }
+    
+    return theString;
+}
+
+function initEditStudentForm(form, modal, link) {
+	// attach datepicker
+	initDateFields();
+
+	// close modal window on Cancel button click
+	form.find('input[name="cancel_button"]').click(function(event){
+		modal.modal('hide');
+		return false;
+	});
+
+	// make form work in AJAX mode
+	form.ajaxForm({
+		'dataType': 'html',
+		'error': function(){
+			$('#content-colomns div').html('<div class="alert alert-warning">\
+			 Error on server. Attempt later, please! </div>');
+			return false;
+		},
+		'success': function(data, status, xhr) {
+			var html = $(data), newform = html.find('#content-colomn form.a');
+			var alert_my = html.find('.alert');
+
+			// copy alert to modal window
+			modal.find('.modal-body').html(alert_my);
+
+			// copy form to modal if we found it in server response
+			if (newform.length > 0) {
+				modal.find('.modal-body').append(newform);
+
+				//initialize form fields and buttons
+				initEditStudentForm(newform, modal, link);
+			} else {
+				// if no form, it means success and we need to reload page
+				// to get updated students list;
+				// reload after 2 seconds, so that user can read
+				// success message
+
+				// $('#content-colomns div').html(alert_my);
+				var str = String.format('a[href="{0}"]', link.attr('href'));
+				var my_stud = html.find(str).parent().parent();
+				my_stud.find('li').insertAfter(my_stud.find('ul.dropdown-menu'));
+				// my_stud.find('ul').append(my_stud.find('li'));
+				$('#student-id-my').html(my_stud.children());
+
+				modal.modal('hide');
+				// setTimeout(function(){location.reload(true);}, 500);
+			}
+		}
+	});
+}
+
 function initEditStudentPage() {
 	$('a.student-edit-form-link').click(function(event){
 		var link = $(this);
+		// link.append('<h1>id</h1>');
+		link.parent().parent().attr('id', 'student-id-my');
 		$.ajax({
 			'url': link.attr('href'),
 			'dataType': 'html',
@@ -105,11 +174,20 @@ function initEditStudentPage() {
 				modal.find('.modal-title').html(html.find('#content-column h2').text());
 				modal.find('.modal-body').html(form);
 
+
+				// init our edit form
+				initEditStudentForm(form, modal, link);
+
 				// setup and show modal window finally
-				modal.modal('show');
+				modal.modal({
+					'keyboard': false,
+					'backdrop': false,
+					'show': true
+				});
 			},
 			'error': function(){
-				alert('Error on server, Attempt later, please!');
+				$('#content-colomns div').html('<div class="alert alert-warning">\
+				 Error on server. Attempt later, please! </div>');
 				return false;
 			}
 		});

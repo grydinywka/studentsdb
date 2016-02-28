@@ -128,6 +128,7 @@ class JournalView(TemplateView):
 		return context
 
 	def get_context_data(self, **kwargs):
+		# import pdb;pdb.set_trace()
 		# get context data from TemplateView class
 		context = super(JournalView, self).get_context_data(**kwargs)
 

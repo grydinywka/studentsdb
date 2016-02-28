@@ -77,7 +77,7 @@
 			
 			<!-- Start Main Page Content -->
 			<div class="row" id="content-colomns">
-				<div class="col-xs-12" id="content-colomn">
+				<div class="col-xs-12">
 					
 					<!-- Status Message -->
 					{% block status_message %}
@@ -101,14 +101,14 @@
 			</div>
 
 			<div class="row">
-					<div class="col-xs-4"><h2>{% block title %}{% endblock title %}</h2></div>
+					<div class="col-xs-4" id="content-column"><h2>{% block title %}{% endblock title %}</h2></div>
 					{% block add_btn %}{% endblock add_btn %}
 					{% block data %}{% endblock data %}
 					
 			</div>
 
 			<div class="row" id="content-colomn">	
-				<div class="col-xs-12" id="content-colomn">	
+				<div class="col-xs-12">	
 					{% block content %}{% endblock content %}
 				</div>
 			</div>
@@ -146,8 +146,8 @@
 		
 		<!-- JavaScript Section -->
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
-		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script> <!-- For Modal windows -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script> <!-- For Modal windows -->
 		<script src="{% static "js/jquery.cookie.js" %}"></script>
 		<script src="https://cdn.jsdelivr.net/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.0.0/js/bootstrap-datetimepicker.min.js"></script>
