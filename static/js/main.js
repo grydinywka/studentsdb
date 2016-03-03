@@ -102,6 +102,7 @@ String.format = function() {
 }
 
 function initEditStudentForm(form, modal, link) {
+	var spinner = $('#spinner');
 	// attach datepicker
 	initDateFields();
 
@@ -114,6 +115,12 @@ function initEditStudentForm(form, modal, link) {
 	// make form work in AJAX mode
 	form.ajaxForm({
 		'dataType': 'html',
+		'beforeSend': function(xhr,setting){
+			spinner.show();
+			$('a').css({"pointer-events": "none",
+   						"cursor": "default"});
+			// $("a").off('click');
+		},
 		'error': function(){
 			$('#content-colomns div').html('<div class="alert alert-warning">\
 			 Error on server. Attempt later, please! </div>');
@@ -138,7 +145,7 @@ function initEditStudentForm(form, modal, link) {
 				// reload after 2 seconds, so that user can read
 				// success message
 
-				// $('#content-colomns div').html(alert_my);
+				$('#content-colomns div').html(alert_my);
 				var str = String.format('a[href="{0}"]', link.attr('href'));
 				var my_stud = html.find(str).parent().parent();
 				my_stud.find('li').insertAfter(my_stud.find('ul.dropdown-menu'));
@@ -155,13 +162,24 @@ function initEditStudentForm(form, modal, link) {
 function initEditStudentPage() {
 	$('a.student-edit-form-link').click(function(event){
 		var link = $(this);
-		// link.append('<h1>id</h1>');
+		var spinner = $('#spinner');
 		link.parent().parent().attr('id', 'student-id-my');
+
 		$.ajax({
 			'url': link.attr('href'),
 			'dataType': 'html',
 			'type': 'get',
+			'beforeSend': function(xhr,setting){
+				spinner.show();
+				$('a').css({"pointer-events": "none",
+       						"cursor": "default"});
+				// $("a").off('click');
+			},
 			'success': function(data, status, xhr){
+				spinner.hide();
+				$('a').css({"pointer-events": "auto",
+       						"cursor": "pointer"});
+
 				// check if we got successfull response from the server
 				if (status != 'success') {
 					alert('Error on server. Attempt later, please!');
@@ -186,6 +204,7 @@ function initEditStudentPage() {
 				});
 			},
 			'error': function(){
+				spinner.hide();
 				$('#content-colomns div').html('<div class="alert alert-warning">\
 				 Error on server. Attempt later, please! </div>');
 				return false;

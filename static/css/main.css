@@ -56,3 +56,7 @@ th.day-header {
 #presence_error {
 	display: none;
 }
+
+#spinner {
+	display: none;
+}
