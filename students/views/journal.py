@@ -8,7 +8,7 @@ from django.http import JsonResponse
 from django.core.urlresolvers import reverse
 from django.views.generic.base import TemplateView
 
-from ..models import MonthJournal, Student
+from ..models import MonthJournal, Student, Group
 from ..util import paginate, boundsStuds, get_current_group
 
 from copy import copy
@@ -24,6 +24,7 @@ class JournalView(TemplateView):
 		month = date(current_date.year, current_date.month, 1)
 		present = data['present'] and True or False
 		student = Student.objects.get(pk=data['pk'])
+		# group = Group.objects.get(pk=data['group_pk'])
 
 		# get or create journal object for given student and month
 		journal = MonthJournal.objects.get_or_create(student=student, date=month)[0]
@@ -166,6 +167,8 @@ class JournalView(TemplateView):
 		# get all students from database, or just one if we need to display journal for one student
 		if kwargs.get('pk'):
 			queryset = [Student.objects.get(pk=kwargs['pk'])]
+		elif kwargs.get('group_pk'):
+			queryset = Student.objects.filter(student_group=kwargs['group_pk'])
 		else:
 			current_group = get_current_group(self.request)
 			if current_group:

@@ -52,6 +52,7 @@ urlpatterns = patterns('',
     url(r'^journal2/$', 'students.views.journals.journal_list', name='journal2'),
     # url(r'^journal2/$', 'students.views.journals.data_requests'),
     url(r'^journal2/(?P<gid>\d+)/edit/$', 'students.views.journal_edit.journal_edit', name="journal_edit"),
+    url(r'^journal/group/(?P<group_pk>\d+)/$', JournalView.as_view(), name='journal_group'),
 
     # Exam urls
     # url(r'^exams/$', 'students.views.exams.exams_list', name='exams'),
