@@ -102,7 +102,8 @@ String.format = function() {
 }
 
 function initEditStudentForm(form, modal, link) {
-	var spinner = $('#spinner');
+	var spinner = $('#spinner_job');
+	var modal_job = $('#modal_job');
 	// attach datepicker
 	initDateFields();
 
@@ -116,12 +117,13 @@ function initEditStudentForm(form, modal, link) {
 	form.ajaxForm({
 		'dataType': 'html',
 		'beforeSend': function(xhr,setting){
+			modal_job.modal('show');
 			spinner.show();
-			$('a').css({"pointer-events": "none",
-   						"cursor": "default"});
-			// $("a").off('click');
+			$('input').attr('readonly', 'readonly');
 		},
 		'error': function(){
+			spinner.hide();
+			modal_job.modal('hide');
 			$('#content-colomns div').html('<div class="alert alert-warning">\
 			 Error on server. Attempt later, please! </div>');
 			return false;
@@ -129,6 +131,9 @@ function initEditStudentForm(form, modal, link) {
 		'success': function(data, status, xhr) {
 			var html = $(data), newform = html.find('#content-colomn form.a');
 			var alert_my = html.find('.alert');
+
+			spinner.hide();
+			modal_job.modal('hide');
 
 			// copy alert to modal window
 			modal.find('.modal-body').html(alert_my);
@@ -148,6 +153,7 @@ function initEditStudentForm(form, modal, link) {
 				$('#content-colomns div').html(alert_my);
 				var str = String.format('a[href="{0}"]', link.attr('href'));
 				var my_stud = html.find(str).parent().parent();
+
 				my_stud.find('li').insertAfter(my_stud.find('ul.dropdown-menu'));
 				// my_stud.find('ul').append(my_stud.find('li'));
 				$('#student-id-my').html(my_stud.children());
@@ -173,7 +179,6 @@ function initEditStudentPage() {
 				spinner.show();
 				$('a').css({"pointer-events": "none",
        						"cursor": "default"});
-				// $("a").off('click');
 			},
 			'success': function(data, status, xhr){
 				spinner.hide();
@@ -192,7 +197,6 @@ function initEditStudentPage() {
 				modal.find('.modal-title').html(html.find('#content-column h2').text());
 				modal.find('.modal-body').html(form);
 
-
 				// init our edit form
 				initEditStudentForm(form, modal, link);
 
@@ -202,6 +206,7 @@ function initEditStudentPage() {
 					'backdrop': false,
 					'show': true
 				});
+
 			},
 			'error': function(){
 				spinner.hide();

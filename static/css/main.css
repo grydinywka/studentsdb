@@ -57,6 +57,6 @@ th.day-header {
 	display: none;
 }
 
-#spinner {
+#spinner, #spinner_job {
 	display: none;
 }
