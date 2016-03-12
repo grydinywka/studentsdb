@@ -291,7 +291,7 @@ def groups_edit_handle(request, gid):
 												'gid': gid})
 
 		elif request.POST.get('cancel_button') is not None:
-			messages.info(request, u'Додавання групи скасовано')
+			messages.info(request, u'Редагування групи скасовано')
 			return HttpResponseRedirect(reverse('groups'))
 	else:
 		return render(request, 'students/groups_edit_handle.html', {'students': Student.objects.all().order_by('last_name'),

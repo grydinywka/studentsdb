@@ -150,6 +150,7 @@ class JournalView(TemplateView):
 		context['next_month'] = next_month.strftime('%Y-%m-%d')
 		context['year'] = month.year
 		context['month_verbose'] = month.strftime('%B')
+		context['exact_group'] = False # For /journal/group/#/
 
 		# we'll use this variable in students pagination
 		context['cur_month'] = month.strftime('%Y-%m-%d')
@@ -168,6 +169,7 @@ class JournalView(TemplateView):
 		if kwargs.get('pk'):
 			queryset = [Student.objects.get(pk=kwargs['pk'])]
 		elif kwargs.get('group_pk'):
+			context['exact_group'] = Group.objects.get(pk=kwargs['group_pk'])
 			queryset = Student.objects.filter(student_group=kwargs['group_pk'])
 		else:
 			current_group = get_current_group(self.request)

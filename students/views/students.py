@@ -321,7 +321,10 @@ class StudentDeleteView2(DetailView):
 			if request.POST.get("delete_button"):
 				messages.success(request, "%s was deleted success!" % self.get_object())
 				self.get_object().delete()
-				return HttpResponseRedirect(reverse('home'))
+			elif request.POST.get("cancel_button"):
+				messages.success(request, "Deletetion was canceled!")
+			
+			return HttpResponseRedirect(reverse('home'))
 		return super(StudentDeleteView2, self).dispatch(request, *args, **kwargs)
 
 # Views for Students

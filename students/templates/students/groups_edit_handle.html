@@ -26,10 +26,7 @@
 
 		<div>
 		<label for="title">Назва*</label>
-		<input type="text" value=
-		"{% if request.POST %}{{ request.POST.title }}
-		{% else %}{{ group.title }}
-		{% endif %}"
+		<input type="text" value="{% if request.POST %}{{ request.POST.title }}{% else %}{{ group.title }}{% endif %}"
 		name="title" id="title" />
 		<span>{{ errors.title }}</span>
 

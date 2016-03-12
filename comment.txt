@@ -1,0 +1,113 @@
+працюючи із завданням де треба було динамічно оновити рядок в таблиці я зіткнувся з проблемою, що отримую не те що очікувалося, а саме очікую
+<tr>
+			<td>9</td>
+			<td>
+				
+					<img class="img-circle" src="/media/P1014486_acPuUUg.JPG" height="30" width="30">
+				
+			</td>
+			<td><a title="edit" href="/students/9/edit/" class="student-edit-form-link">Deloy</a></td>
+			<td><a title="edit" href="/students/9/edit/" class="student-edit-form-link">Mikhailo1111</a></td>
+			<td>8767</td>
+			
+			<td>
+				<div class="dropdown">
+					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Дія
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="/journal/9">
+							Відвідування</a>
+						</li>
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="/students/9/edit/" class="student-edit-form-link">
+							Редагувати</a>
+						</li>
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="/students/9/delete/">
+							Видалити</a>
+						</li>
+					</ul>
+				</div>
+			</td>
+			<td>
+				9
+				<input type="checkbox" name="9" value="9">
+			</td>
+		</tr>
+отриимую
+
+<tr id="student-id-my">
+	<td>9</td>
+	<td>		
+		<img class="img-circle" src="/media/P1014486_acPuUUg.JPG" height="30" width="30">
+				
+	</td>
+	<td>
+		<a title="edit" href="/students/9/edit/" class="student-edit-form-link">Deloy</a>
+	</td>
+	<td>
+		<a title="edit" href="/students/9/edit/" class="student-edit-form-link">Mikhailo1111</a>
+	</td>
+	<td>8767</td>
+	<td>
+		<div class="dropdown">
+			<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Дія
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				
+				
+				
+			</ul>
+		</div>
+	</td>
+	<td>
+		9
+		<input type="checkbox" name="9" value="9">
+	</td>
+	<li role="presentation">
+		<a role="menuitem" tabindex="-1" href="/journal/9">
+		Відвідування</a>
+	</li><li role="presentation">
+		<a role="menuitem" tabindex="-1" href="/students/9/edit/" class="student-edit-form-link">
+		Редагувати</a>
+	</li><li role="presentation">
+		<a role="menuitem" tabindex="-1" href="/students/9/delete/">
+		Видалити</a>
+	</li>
+</tr>
+
+Ця проблема вирішена.
+Але коли клікаєш по редагеванню того самого студента, то аякс не спрацьовує. Відбувається завантаження стандартного редагування.
+
+І ще, коли показую статутне повідомлення на осн сторінці, то в модальному вікні воно не показується.
+-------------------------------------------------------
+Коли користувач тисне по кнопці "Редагувати", то ми показуємо спінер з написом "Йде робота. Його я взям з сайту (). Також всі лінки блокуються:
+$('a').css({"pointer-events": "none", "cursor": "default"});
+
+після успішного отримання об’єкту ми ховаємо спінер і розблоковуємо лінки:
+spinner.hide();
+$('a').css({"pointer-events": "auto", "cursor": "pointer"});
+
+Домашнє завдання 2: Подібним чином оновити клік по кнопці Зберегти
+на формі редагування в модальному вікні, щоб: 1) поля та кнопки форми
+тимчасово блокувались (скористайтесь атрибутами readonly та disabled) для
+користувача; 2) та щоб показувалось повідомлення поверх форми про те,
+що триває процес відправки даних на сервер. Підказка: для цього додаєте
+ваш Javascript код у три параметри AJAX запиту та ajaxForm виклику:
+‘beforeSend’, ‘success’, ‘error’.
+
+Щоб поля та кнопки тимчасово блокувались ми робимо:
+$('input, select').attr('readonly', 'readonly');
+$('input, select').attr('disabled', 'disabled');
+
+А щоб показувалось повідомлення поверх форми я додав ще одне модальне вікно в base.html і в нього додав спінер з написом "Йде робота 2".
+
+modal_job.modal('show');
+spinner.show();
+
+Домашнє завдання 3: Пройтись по решті форм у нашій аплікації і оновити
+їх так, щоб працювали у режимі AJAX.
+

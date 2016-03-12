@@ -1,5 +1,19 @@
+function getNumPage() {
+  var location = window.location.search;
+  var p = location.split('&');
+  var query_string = new Object();
+
+  for (var i=0;i<p.length;i++) {
+    var pair = p[i].split("=");
+    query_string[pair[0]] = pair[1];
+  }
+
+  return query_string["page"]
+}
+
 // Store what page to load next
-nextpage = 2;
+var nextpage = parseInt(getNumPage()) ? (parseInt(getNumPage()) + 1) : 2;
+// var nextpage = parseInt(getNumPage());
 
 $('#load_more').click(function(event) {
   // Retains compatibility for those with no javascript
@@ -17,11 +31,9 @@ $('#load_more').click(function(event) {
 
   $.get('/?page=' + nextpage + subAddr, function(data){
     // Put the data where it belongs. I like it more this way
-    startPath = data.search("<!-- Start Add more students -->");
-    endPath = data.search("<!-- Add more students -->");
-    path = data.substring(startPath,endPath);
-    //alert(path);
-    $("div#testframe").append(path);
+    var path = $(data).find('tbody');
+    // alert(path.children().text());
+    $('tbody').append(path.children());
     //$( path ).insertAfter( "div#testframe" );
 
     // Keep the counter up-to-date

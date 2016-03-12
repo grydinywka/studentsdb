@@ -18,6 +18,11 @@
 {% endblock status_message %}
 
 {% block content %}
+
+{% if not students %}
+<p id="neither_stud">Ви не вибрали жодного студента для видалення.</p>
+
+{% else %}
 <form action="{% url "students_delete_mult" %}" method="post">
 	{% csrf_token %}
 	<p>Ви дійсно хочете видалити наступних студентів?</p>
@@ -31,4 +36,6 @@
 	</ul>
 	<input type="submit" value="Так" name="delete_button_confirm" class="btn btn-danger" /><br /><br />
 </form>
+{% endif %}
+
 {% endblock content %}

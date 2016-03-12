@@ -4,15 +4,23 @@
 
 {% block meta_title %}Облік Відвідування{% endblock meta_title %}
 
-{% block title %}Облік Відвідування{% endblock title %}
+{% block title %}
+	Облік Відвідування{% if exact_group %} групи {{ exact_group.title }}
+	{% endif %}
+{% endblock title %}
+
 
 {% block content %}
 
 {% if not students %}
 
 <div class="alert alert-warning">
+	{% if exact_group %}
+	Поки нема жодного студента в групі {{ exact_group.title }}.
+	{% else %}
 	Поки нема жодного студента в базі. Будь-ласка, 
 	<a href="{% url "students_add" %}">додайте</a> першого.
+	{% endif %}
 </div>
 
 {% else %}
@@ -69,7 +77,8 @@
 
 			<td>
 				<a title="Редагувати" target="_blank" 
-				   href="{% url "students_edit" student.id %}">
+				   href="{% url "students_edit" student.id %}"
+				   class="student-edit-form-link">
 					{{ student.fullname }}
 				</a>
 			</td>

@@ -8,7 +8,7 @@
 
 {% block add_btn %}
 <div class="col-xs-4" id="stud">
-	<a class="btn btn-primary" href="{% url "groups_add" %}">Додати Групу</a>
+	<a class="btn btn-primary group-add-form-link" href="{% url "groups_add" %}">Додати Групу</a>
 </div>
 {% endblock add_btn %}
 
@@ -64,8 +64,8 @@
 		{% for group in groups %}
 		<tr>
 			<td>{{ group.id }}</td>
-			<td><a href="{% url "groups_edit" group.id %}">{{ group.title }}</a></td>
-			<td><a href="{% if group.leader %}{% url "students_edit" group.leader.id %}{% else %}#{% endif %}">{% if group.leader %}{{ group.leader }} ({{ group.leader.id }}){% else %}Старости нема{% endif %}</a></td>
+			<td><a href="{% url "groups_edit" group.id %}" class="group-edit-form-link">{{ group.title }}</a></td>
+			<td><a href="{% if group.leader %}{% url "students_edit" group.leader.id %}{% else %}#{% endif %}" class="student-edit-form-link">{% if group.leader %}{{ group.leader }} ({{ group.leader.id }}){% else %}Старости нема{% endif %}</a></td>
 			<td>
 				<div class="dropdown">
 					<button class="btn btn-default dropdown-toggle" 
@@ -74,15 +74,15 @@
 					</button>
 					<ul class="dropdown-menu" role="menu">
 						<li role="presentation">
-							<a role="menuitem" tabindex="-1" href="{% url "journal_group" group.id %}">
+							<a role="menuitem" tabindex="-1" href="{% url "journal_group" group.id %}" class="group-journal-form-link">
 							Відвідування</a>
 						</li>
 						<li role="presentation">
-							<a role="menuitem" tabindex="-1" href="{% url "groups_edit" group.id %}">
+							<a role="menuitem" tabindex="-1" href="{% url "groups_edit" group.id %}" class="group-edit-form-link">
 							Редагувати</a>
 						</li>
 						<li role="presentation">
-							<a role="menuitem" tabindex="-1" href="{% url "groups_delete" group.id %}">
+							<a role="menuitem" tabindex="-1" href="{% url "groups_delete" group.id %}" class="group-delete-form-link">
 							Видалити</a>
 						</li>
 					</ul>
