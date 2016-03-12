@@ -60,22 +60,22 @@
 					<ul class="nav nav-tabs" role="tablist">
 						
 						<li role="presentation" {% url 'home' as the_url_home %}{% if request.path == the_url_home %}class="active"{% endif %}>
-							<a href="{% url "home" %}">Студенти</a>
+							<a href="{% url "home" %}" class="tab">Студенти</a>
 						</li>
 						<li role="presentation" {% url 'journal' as the_url_journal %}{% if the_url_journal in request.path %}class="active"{% endif %}>
-							<a href="{% url "journal" %}">Відвідування</a>
+							<a href="{% url "journal" %}" class="tab">Відвідування</a>
 						</li>
 						<li role="presentation" {% url 'groups' as the_url_groups %}{% if the_url_groups in request.path %}class="active"{% endif %}>
-							<a href="{% url "groups" %}">Групи</a>
+							<a href="{% url "groups" %}" class="tab">Групи</a>
 						</li>
 						<li role="presentation" {% url 'exams' as the_url_exams %}{% if the_url_exams in request.path %}class="active"{% endif %}>
-							<a href="{% url "exams" %}">Іспити</a>
+							<a href="{% url "exams" %}" class="tab">Іспити</a>
 						</li>
 						<li role="presentation" {% url 'results' as the_url_results %}{% if the_url_results in request.path %}class="active"{% endif %}>
-							<a href="{% url "results" %}">Результати Іспитів</a>
+							<a href="{% url "results" %}" class="tab">Результати Іспитів</a>
 						</li>
 						<li role="presentation" {% url 'contact_admin' as the_url_c_a %}{% if the_url_c_a in request.path %}class="active"{% endif %}>
-							<a href="{% url "contact_admin" %}">Контакти</a>
+							<a href="{% url "contact_admin" %}" class="tab">Контакти</a>
 						</li>
 					</ul>
 				</div>
@@ -119,6 +119,7 @@
 					<div class="alert alert-info" id="spinner">
 						<p>Йде робота:</p>
 						<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+						<img src="{% static "img/ajax-loader.gif" %}">
 					</div>
 					{% block content %}{% endblock content %}
 				</div>

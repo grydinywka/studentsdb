@@ -122,7 +122,7 @@ function getCurrPage(link, str) {
 				var my_stud = html.find(str).parent().parent();
 				link.parent().parent().html(my_stud.find('td'));
 			}
-				
+			// initFunction();	
 		},
 		'error': function(){
 			html = '<h1>Error</h1>';
@@ -192,6 +192,7 @@ function initEditAddStudentForm(form, modal, link) {
 
 				modal.modal('hide');
 				// setTimeout(function(){location.reload(true);}, 500);
+				
 			}
 		}
 	});
@@ -231,7 +232,6 @@ function initEditAddStudentPage() {
 
 				// init our edit form
 				initEditAddStudentForm(form, modal, link);
-				initJournal();
 
 				// setup and show modal window finally\
 				modal.modal({
@@ -239,7 +239,6 @@ function initEditAddStudentPage() {
 					'backdrop': false,
 					'show': true
 				});
-
 			},
 			'error': function(){
 				spinner.hide();
@@ -252,7 +251,7 @@ function initEditAddStudentPage() {
 				return false;
 			}
 		});
-
+		event.preventDefault();
 		return false;
 	});
 }
@@ -519,7 +518,6 @@ function initEditGroupPage() {
 			},
 			'error': function(){
 				spinner.hide();
-				modal.modal('hide');
 				$('a').css({"pointer-events": "auto",
        						"cursor": "pointer"});
 				$('#content-colomns div').html('<div class="alert alert-warning">\
@@ -567,8 +565,6 @@ function initEditJournalPage() {
 				modal.find('.modal-title').html(html.find('#content-column h2').text());
 				modal.find('.modal-body').html(table);
 
-				initJournal();
-
 				modal.modal({
 					'keyboard': false,
 					'backdrop': false,
@@ -587,6 +583,70 @@ function initEditJournalPage() {
 			}
 		});
 		
+		return false;
+	});
+}
+
+function initTabs() {
+	var navLinks = $('li a.tab');
+	navLinks.click(function(event){
+		var link = $(this), spinner = $('#spinner');
+
+		$.ajax({
+			'url': link.attr('href'),
+			'dataType': 'html',
+			'type': 'get',
+			'beforeSend': function(xhr,setting){
+				spinner.show();
+				$('a').css({"pointer-events": "none",
+       						"cursor": "default"});
+				$('input, select').attr('disabled', 'disabled');
+			
+			},
+			'success': function(data, status, xhr){
+				spinner.hide();
+				$('a').css({"pointer-events": "auto",
+       						"cursor": "pointer"});
+				$('input, select').attr('disabled', false);
+
+				// check if we got successfull response from the server
+				if (status != 'success') {
+					alert('Error on server. Attempt later, please!');
+					return false;
+				}
+				// update modal window with arrived content from the server
+				var body = $('#content-colomn'),
+					html = $(data);
+				var pageTitle = html.find('h2').text();
+
+				body.html(html.find('#content-colomn div.col-xs-12'));
+				$('#content-column').parent().html(html.find('#content-column').parent().children());
+				$('.alert').remove();
+				navLinks.each(function(index){
+					if ($(this).attr('href') === link.attr('href')) {
+						$(this).parent().addClass('active');
+					} else {
+						$(this).parent().removeClass('active');
+					}
+				});
+
+				window.history.pushState("string", pageTitle, link.attr('href'));
+				document.title = html.filter('title').text();
+
+				// initFunction();
+			},
+			'error': function(){
+				spinner.hide();
+				$('a').css({"pointer-events": "auto",
+       						"cursor": "pointer"});
+				$('input, select').attr('disabled', false);
+				$('#content-colomns div').html('<div class="alert alert-warning">\
+				 Error on server. Attempt later, please! </div>');
+
+				return false;
+			}
+		});
+
 		return false;
 	});
 }
@@ -615,7 +675,9 @@ function canvas() {
 	rect(100,50,50,50);
 }
 
-$(document).ready(function(){
+$(document).ready(initFunction);
+
+function initFunction(){
 	initJournal();
 	initGroupSelector();
 	initDateFields();
@@ -624,4 +686,5 @@ $(document).ready(function(){
 	initDelete_multStudentForm();
 	initDeleteStudentPage();
 	initEditJournalPage();
-});
+	initTabs();
+}
