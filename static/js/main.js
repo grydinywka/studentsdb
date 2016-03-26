@@ -515,6 +515,7 @@ function initEditGroupPage() {
 					'backdrop': false,
 					'show': true
 				});
+
 			},
 			'error': function(){
 				spinner.hide();
@@ -599,7 +600,7 @@ function initTabs() {
 			'beforeSend': function(xhr,setting){
 				spinner.show();
 				$('a').css({"pointer-events": "none",
-       						"cursor": "default"});
+							"cursor": "default"});
 				$('input, select').attr('disabled', 'disabled');
 			
 			},
@@ -634,6 +635,12 @@ function initTabs() {
 				document.title = html.filter('title').text();
 
 				// initFunction();
+				initEditAddStudentPage();
+				initDelete_multStudentForm();
+				initDeleteStudentPage();
+				initEditJournalPage();
+				initEditGroupPage();
+				initSort();
 			},
 			'error': function(){
 				spinner.hide();
@@ -644,6 +651,96 @@ function initTabs() {
 				 Error on server. Attempt later, please! </div>');
 
 				return false;
+			}
+		});
+
+		return false;
+	});
+}
+
+function initSort(){
+	var sortLink = $('tr th > a'), spinner = $('#spinner');
+
+	sortLink.click(function(event){
+		var link = $(this);
+
+		$.ajax({
+			'url': link.attr('href'),
+			'dataType': 'html',
+			'type': 'get',
+			'beforeSend': function(xhr,setting){
+				spinner.show();
+				$('a').css({"pointer-events": "none",
+							"cursor": "default"});
+				$('input, select').attr('disabled', 'disabled');
+			
+			},
+			'success': function(data, status, xhr){
+				spinner.hide();
+				$('a').css({"pointer-events": "auto",
+       						"cursor": "pointer"});
+				$('input, select').attr('disabled', false);
+
+				// check if we got successfull response from the server
+				if (status != 'success') {
+					alert('Error on server. Attempt later, please!');
+					return false;
+				}
+
+				var html = $(data);
+				$('.table').html(html.find('.table'));
+				window.history.pushState("string", "pageTitle", link.attr('href'));
+				initEditAddStudentPage();
+				initDelete_multStudentForm();
+				initDeleteStudentPage();
+				initEditJournalPage();
+				initEditGroupPage();
+				initSort();
+			},
+			'error': function(){
+				spinner.hide();
+				$('a').css({"pointer-events": "auto",
+       						"cursor": "pointer"});
+				$('input, select').attr('disabled', false);
+				$('#content-colomns div').html('<div class="alert alert-warning">\
+				 Error on server. Attempt later, please! </div>');
+
+				return false;
+			}
+		});
+
+		return false;
+	});
+}
+
+function initPagination() {
+	var pageLink = $('ul.pagination li a');
+
+	pageLink.click(function(event){
+		var link = $(this);
+
+		$.ajax({
+			'url': link.attr('href'),
+			'dataType': 'html',
+			'type': 'get',
+			'success': function(data, status, xhr){
+				var html = $(data);
+
+				$('.table').html(html.find('.table'));
+				window.history.pushState("string", "pageTitle", link.attr('href'));
+				pageLink.each(function(index){
+					if ($(this).attr('href') === link.attr('href')) {
+						if (index === 0) {
+							$(this).parent().next().addClass("active");
+						} else if (index === (pageLink.length - 1)) {
+							$(this).parent().prev().addClass("active");
+						} else {
+							$(this).parent().addClass("active");
+						}
+					} else {
+						$(this).parent().removeClass("active");
+					}
+				});
 			}
 		});
 
@@ -687,4 +784,6 @@ function initFunction(){
 	initDeleteStudentPage();
 	initEditJournalPage();
 	initTabs();
+	initSort();
+	initPagination();
 }
