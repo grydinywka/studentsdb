@@ -76,7 +76,7 @@ PORTAL_URL = 'http://localhost:8000'
 # LANGUAGE_CODE = 'en-us'
 LANGUAGE_CODE = 'uk-Uk'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Zaporozhye'
 
 USE_I18N = True
 
