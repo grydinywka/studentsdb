@@ -24,12 +24,10 @@ class Result_exam(models.Model):
 
 	students = models.ManyToManyField('Student',
 		verbose_name=u"Студент",
-		blank=False,
-		null=True)
+		blank=False)
 	
 	exams = models.ManyToManyField('Exam',
 		blank=False,
-		null=True,
 		verbose_name=u"Іспит")
 	
 	notes = models.TextField(

@@ -27,7 +27,6 @@ class Exam(models.Model):
 	exam_group = models.ManyToManyField('Group',
 		verbose_name=u"Група для іспиту",
 		blank=True,
-		null=True,
 		related_name='exams')
 
 	notes = models.TextField(

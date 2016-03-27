@@ -16,6 +16,8 @@ from contact_form.forms import ContactForm
 
 from django.views.generic.edit import FormView
 
+import logging
+
 class CustomContactForm(ContactForm):
     """docstring for CustomContactForm"""
     
