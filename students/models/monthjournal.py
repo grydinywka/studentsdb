@@ -68,7 +68,7 @@ class MonthJournal(models.Model):
 	# present_day31 = models.BooleanField(default=False)
 	
 	def __unicode__(self):
-		return u'%s: %d, %d' % (self.student.last_name, self.date.month, self.date.year)
+		return u'Student %s: Month:%d, Year:%d' % (self.student.last_name, self.date.month, self.date.year)
 
 # limit = 32
 # for day in xrange(1, limit, 1):

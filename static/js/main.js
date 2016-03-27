@@ -122,7 +122,8 @@ function getCurrPage(link, str) {
 				var my_stud = html.find(str).parent().parent();
 				link.parent().parent().html(my_stud.find('td'));
 			}
-			// initFunction();	
+			initEditAddStudentPage();
+			initEditGroupPage();
 		},
 		'error': function(){
 			html = '<h1>Error</h1>';
@@ -634,13 +635,17 @@ function initTabs() {
 				window.history.pushState("string", pageTitle, link.attr('href'));
 				document.title = html.filter('title').text();
 
-				// initFunction();
+				initJournal();
+				initGroupSelector();
+				initDateFields();
 				initEditAddStudentPage();
+				initEditGroupPage();
 				initDelete_multStudentForm();
 				initDeleteStudentPage();
 				initEditJournalPage();
-				initEditGroupPage();
+				// initTabs();
 				initSort();
+				initPagination();
 			},
 			'error': function(){
 				spinner.hide();
@@ -690,12 +695,17 @@ function initSort(){
 				var html = $(data);
 				$('.table').html(html.find('.table'));
 				window.history.pushState("string", "pageTitle", link.attr('href'));
+				initJournal();
+				initGroupSelector();
+				initDateFields();
 				initEditAddStudentPage();
+				initEditGroupPage();
 				initDelete_multStudentForm();
 				initDeleteStudentPage();
 				initEditJournalPage();
-				initEditGroupPage();
-				initSort();
+				initTabs();
+				// initSort();
+				initPagination();
 			},
 			'error': function(){
 				spinner.hide();
@@ -719,6 +729,7 @@ function initPagination() {
 	pageLink.click(function(event){
 		var link = $(this);
 
+		$('.alert-warning').hide();
 		$.ajax({
 			'url': link.attr('href'),
 			'dataType': 'html',
@@ -741,6 +752,16 @@ function initPagination() {
 						$(this).parent().removeClass("active");
 					}
 				});
+			initJournal();
+			initGroupSelector();
+			initDateFields();
+			initEditAddStudentPage();
+			initEditGroupPage();
+			initDelete_multStudentForm();
+			initDeleteStudentPage();
+			initEditJournalPage();
+			initTabs();
+			initSort();
 			}
 		});
 
