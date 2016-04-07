@@ -37,3 +37,5 @@ class Result_exam(models.Model):
 	def __unicode__(self):
 		# listofStud = self.students.all()
 		return u"%s" % (self.valuetion)
+
+Result_exam.validate_value = validate_value
