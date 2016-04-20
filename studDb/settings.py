@@ -130,6 +130,7 @@ MANAGERS = ADMINS
 LOG_FILE = os.path.join(BASE_DIR, 'studDb.log')
 
 from django.http import UnreadablePostError
+# from .colorius import ColorizingStreamHandler
 
 def skip_unreadable_post(record):
     if record.exc_info:
@@ -161,8 +162,8 @@ LOGGING = {
             'class': 'logging.NullHandler',
         },
         'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
+            'level': 'DEBUG',
+            'class': 'studDb.colorius.ColorizingStreamHandler',
             'formatter': 'verbose'
         },
         'file': {
@@ -186,7 +187,7 @@ LOGGING = {
         },
         'students.signals': {
             'handlers': ['console', 'file'],
-            'level': 'INFO',
+            'level': 'DEBUG',
         },
         'students.views.contact_admin2': {
             'handlers': ['console', 'file', 'mail_admins'],
