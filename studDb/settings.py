@@ -108,11 +108,18 @@ EMAIL_HOST_USER = 'grydinywka@gmail.com'
 EMAIL_HOST_PASSWORD = password
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
+# ADMIN_EMAIL = 'grydinywka@gmail.com'
+# EMAIL_HOST = 'smtp.sendgrid.net.'
+# EMAIL_PORT = '587'
+# EMAIL_HOST_USER = ''
+# EMAIL_HOST_PASSWORD = ""
+# EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 ADMINS = (
-    ('serg', 'grydinywka@gmail.com'),   # email will be sent to your_email
+    # ('serg', 'grydinywka@gmail.com'),   # email will be sent to your_email
     ('serg2', 'sergeyi@univ.kiev.ua'),
 )
 
@@ -121,6 +128,15 @@ MANAGERS = ADMINS
 
 # logger section
 LOG_FILE = os.path.join(BASE_DIR, 'studDb.log')
+
+from django.http import UnreadablePostError
+
+def skip_unreadable_post(record):
+    if record.exc_info:
+        exc_type, exc_value = record.exc_info[:2]
+        if isinstance(exc_value, UnreadablePostError):
+            return False
+    return False
 
 LOGGING = {
     'version': 1,
@@ -132,6 +148,12 @@ LOGGING = {
         'simple': {
             'format': '%(levelname)s: %(message)s'
         },
+    },
+    'filters': {
+        'skip_unreadable_posts': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': skip_unreadable_post,
+        }
     },
     'handlers': {
         'null': {
@@ -149,6 +171,12 @@ LOGGING = {
             'filename': LOG_FILE,
             'formatter': 'verbose'
         },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['skip_unreadable_posts'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'verbose'
+        },
     },
     'loggers': {
         'django': {
@@ -161,8 +189,12 @@ LOGGING = {
             'level': 'INFO',
         },
         'students.views.contact_admin2': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console', 'file', 'mail_admins'],
             'level': 'INFO',
+        },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR'
         }
     }
 }

@@ -50,11 +50,15 @@ class ContactView(FormView):
 
     def form_valid(self, form):
         try:
-            form.save()
+            # form.save()
+            raise Exception()
         except Exception as e:
-            messages.error(self.request, u'Під час відправки листа виникла непередбачувана ' \
-            u'помилка. Спробуйте скористатись даною формою пізніше. ' \
-            + str(e))
+            message = u'Під час відправки листа виникла непередбачувана ' \
+                      u'помилка. Спробуйте скористатись даною формою пізніше. ' \
+                      + str(e)
+            messages.error(self.request, message)
+            logger = logging.getLogger(__name__)
+            logger.exception(message)
         else:
             messages.success(self.request, u'Повідомлення успішно надіслане!')
         return super(ContactView, self).form_valid(form)
