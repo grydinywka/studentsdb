@@ -13,21 +13,13 @@ def log_student_updated_added_event(sender, **kwargs):
 
 	student = kwargs['instance']
 	if kwargs['created']:
-	# 	logger.info("Student added: %s %s (ID: %d)", student.first_name,
-	# 												 student.last_name,
-	# 												 student.id)
-	# else:
-	# 	logger.info("Student updated: %s %s (ID: %d)", student.first_name,
-	# 												   student.last_name,
-	# 												   student.id)
-		pass
+		logger.info("Student added: %s %s (ID: %d)", student.first_name,
+													 student.last_name,
+													 student.id)
 	else:
-		logger.debug('DEBUG')
-		logger.info('INFO')
-		logger.warning('WARNING')
-		logger.error('ERROR')
-		logger.critical('CRITICAL')
-
+		logger.info("Student updated: %s %s (ID: %d)", student.first_name,
+													   student.last_name,
+													   student.id)
 post_save.connect(log_student_updated_added_event, sender=Student)
 
 @receiver(post_delete, sender=Student)
