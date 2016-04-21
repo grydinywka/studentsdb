@@ -10,6 +10,7 @@ from .models.Visiting import Visiting
 from .models.Exam import Exam
 from .models.Result_exam import Result_exam
 from .models.monthjournal import MonthJournal #, Singleton
+from .models.log_entry import LogEntry
 
 class StudentFormAdmin(ModelForm):
 
@@ -84,3 +85,4 @@ admin.site.register(Visiting)
 admin.site.register(Exam)
 admin.site.register(Result_exam)
 admin.site.register(MonthJournal)
+admin.site.register(LogEntry)
