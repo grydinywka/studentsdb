@@ -163,7 +163,7 @@ LOGGING = {
         },
         'console': {
             'level': 'INFO',
-            'class': 'studDb.colorius.ColorizingStreamHandler',
+            'class': 'studDb.custom_handlers.ColorizingStreamHandler',
             'formatter': 'verbose'
         },
         'file': {
