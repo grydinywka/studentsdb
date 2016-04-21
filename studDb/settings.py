@@ -162,7 +162,7 @@ LOGGING = {
             'class': 'logging.NullHandler',
         },
         'console': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'studDb.colorius.ColorizingStreamHandler',
             'formatter': 'verbose'
         },
@@ -178,6 +178,11 @@ LOGGING = {
             'class': 'django.utils.log.AdminEmailHandler',
             'formatter': 'verbose'
         },
+        'database': {
+            'level': 'DEBUG',
+            'class': 'studDb.custom_handlers.DatabaseHandler',
+            'formatter': 'verbose'
+        },
     },
     'loggers': {
         'django': {
@@ -186,11 +191,11 @@ LOGGING = {
             'level': 'INFO',
         },
         'students.signals': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console', 'file', 'database'],
             'level': 'DEBUG',
         },
         'students.views.contact_admin2': {
-            'handlers': ['console', 'file', 'mail_admins'],
+            'handlers': ['console', 'file', 'mail_admins', 'database'],
             'level': 'INFO',
         },
         'django.request': {

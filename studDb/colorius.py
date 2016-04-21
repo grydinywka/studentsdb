@@ -3,10 +3,6 @@ import logging
 import os
 
 class ColorizingStreamHandler(logging.StreamHandler):
-    # def __init__(self):
-    #     # run the regular StreamHandler __init__
-    #     logging.StreamHandler.__init__(self)
-
     @property
     def is_tty(self):
         isatty = getattr(self.stream, 'isatty', None)
