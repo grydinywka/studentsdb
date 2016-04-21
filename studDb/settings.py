@@ -195,7 +195,7 @@ LOGGING = {
             'level': 'DEBUG',
         },
         'students.views.contact_admin2': {
-            'handlers': ['console', 'file', 'mail_admins'],
+            'handlers': ['console', 'file', 'mail_admins', 'database'],
             'level': 'INFO',
         },
         'django.request': {

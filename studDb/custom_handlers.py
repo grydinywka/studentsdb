@@ -11,7 +11,6 @@ class DatabaseHandler(logging.Handler):
             from students.models import LogEntry
             import datetime
 
-            # record.asctime[-3] = '.'
             time = record.asctime[:-4] + '.' + record.asctime[-3:]
             time2 = datetime.datetime.strptime(record.asctime, '%Y-%m-%d %H:%M:%S,%f')
 
