@@ -77,6 +77,9 @@
 						<li role="presentation" {% url 'contact_admin' as the_url_c_a %}{% if the_url_c_a in request.path %}class="active"{% endif %}>
 							<a href="{% url "contact_admin" %}" class="tab">Контакти</a>
 						</li>
+						<li role="presentation" {% url 'log' as the_url_log %}{% if the_url_log in request.path %}class="active"{% endif %}>
+							<a href="{% url 'log' %}" class="tab">Журнал подій</a>
+						</li>
 					</ul>
 				</div>
 			</div>

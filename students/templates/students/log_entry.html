@@ -1,0 +1,36 @@
+{% extends "students/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %}Журнал подій{% endblock meta_title %}
+
+{% block title %}Журнал подій{% endblock title %}
+
+
+{% block status_message %}
+{% endblock status_message %}
+
+{% block content %}
+	<table id="logtable">
+		<thead>
+			<tr>
+				<th>id</th>
+				<th>level</th>
+				<th>date and time</th>
+				<th>module</th>
+				<th>message</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for entry in entries %}
+			<tr>
+				<th>{{ entry.id }}</th>
+				<td>{{ entry.level }}</td>
+				<td>{{ entry.asctime }}</td>
+				<td>{{ entry.module }}</td>
+				<td>{{ entry.message }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock content %}
