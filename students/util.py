@@ -96,6 +96,8 @@ def get_current_group(request):
 			group = Group.objects.get(pk=int(pk))
 		except Group.DoesNotExist:
 			return None
+		except TypeError:
+			return None
 		else:
 			return group
 	else:
