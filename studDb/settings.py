@@ -100,7 +100,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
 SIZE_LIMIT_FILE = 2 * 1024 * 1024
 
 #email settings
-from psw import password
+# from psw import password
 ADMIN_EMAIL = 'grydinywka@gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '465'
