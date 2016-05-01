@@ -72,5 +72,5 @@ class UtilsTestCase(TestCase):
 		# self.assertEqual(paginator, context['paginator'])
 		self.assertEqual(paginator.object_list, context['paginator'].object_list)
 
-		self.assertRaises(EmptyPage, paginator.page(1212))
+		self.assertRaises(EmptyPage, paginator.page, 1212)
 
