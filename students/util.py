@@ -40,7 +40,8 @@ def boundsStuds(objects, valStudOnPage, request):
 	if allStudents <= valStudOnPage and allStudents > 0:
 		valStudOnPage = allStudents
 	valPage = allStudents/valStudOnPage
-	if allStudents % valStudOnPage != 0:
+	valStudOnLastPage = allStudents % valStudOnPage
+	if valStudOnLastPage != 0:
 		valPage += 1
 
 	page = request.GET.get('page', 1)
@@ -48,12 +49,17 @@ def boundsStuds(objects, valStudOnPage, request):
 		page = int(float(page))
 	except ValueError:
 		page = 1
-	if page > valPage or page < 1:
+	if page > valPage:
 		page = valPage
+	if  page < 1:
+		page = 1
 
 	if page == valPage:
 		large = allStudents
-		little = large - valStudOnPage
+		if valStudOnLastPage > 0:
+			little = large - valStudOnLastPage
+		else:
+			little = large - valStudOnPage
 	else:
 		large = valStudOnPage*page
 		little = large - valStudOnPage
