@@ -1,0 +1,128 @@
+[
+{
+	"fields": {
+		"first_name":"Ivan",
+		"last_name": "Ivanenko",
+		"middle_name": "Ivanovich",
+		"photo": "./c.jpg",
+		"notes": "",
+		"student_group": 1,
+		"birthday": "2000-12-5",
+		"ticket": "12345",
+		"study_start": "2007-9-1"
+	},
+	"model": "students.student",
+	"pk": 1
+},
+{
+	"fields": {
+		"first_name":"Dmitro",
+		"last_name": "Renko",
+		"middle_name": "",
+		"photo": "",
+		"notes": "",
+		"student_group": 1,
+		"birthday": "2001-12-5",
+		"ticket": "23456",
+		"study_start": "2007-9-1"
+	},
+	"model": "students.student",
+	"pk": 2
+},
+{
+	"fields": {
+		"first_name":"Sashko",
+		"last_name": "Solovko",
+		"middle_name": "",
+		"photo": "",
+		"notes": "",
+		"student_group": 2,
+		"birthday": "2002-12-5",
+		"ticket": "12045",
+		"study_start": "2007-9-1"
+	},
+	"model": "students.student",
+	"pk": 3
+},
+{
+	"fields": {
+		"first_name":"Arkadiy",
+		"last_name": "Chub",
+		"middle_name": "",
+		"photo": "",
+		"notes": "",
+		"student_group": 2,
+		"birthday": "2003-12-5",
+		"ticket": "1225",
+		"study_start": "2007-9-1"
+	},
+	"model": "students.student",
+	"pk": 4
+},
+{
+	"fields": {
+		"first_name":"Roman",
+		"last_name": "Zelov",
+		"middle_name": "",
+		"photo": "",
+		"notes": "",
+		"student_group": 2,
+		"birthday": "2004-12-5",
+		"ticket": "234",
+		"study_start": "2007-9-1"
+	},
+	"model": "students.student",
+	"pk": 5
+},
+{
+	"fields": {
+		"first_name":"Stas",
+		"last_name": "Drozd",
+		"middle_name": "",
+		"photo": "",
+		"notes": "",
+		"student_group": 2,
+		"birthday": "2005-12-5",
+		"ticket": "456",
+		"study_start": "2007-9-1"
+	},
+	"model": "students.student",
+	"pk": 6
+},
+{
+	"fields": {
+		"notes": "",
+		"leader": 1,
+		"title": "Group1"
+	},
+	"model": "students.group",
+	"pk": 1
+},
+{
+	"fields": {
+		"notes": "",
+		"leader": null,
+		"title": "Group2"
+	},
+	"model": "students.group",
+	"pk": 2
+},
+{
+    "fields": {
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "is_active": true,
+        "is_superuser": true,
+        "is_staff": true,
+        "last_login": "2014-11-19T00:17:12.803Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$12000$vwDz0jnc05bN$cZSSKKOkBa0RNAvEyRqNY1OrIfFpH6mpOxdLyc2aB0g=",
+        "email": "admin@admin.com",
+        "date_joined": "2014-11-01T12:59:32.011Z"
+    },
+    "model": "auth.user",
+    "pk": 1
+}
+]

@@ -101,19 +101,19 @@ class TestStudentList(TestCase):
 
 	def test_order_by(self):
 		# set order by Last Name
-		response = self.client.get(self.url, {'order_by': 'last_name'})
+		response = self.client.get(self.url, {'order_by': 'first_name'})
 
 		# now check if we got proper order
 		students = response.context['students']
-		self.assertEqual(students[0].last_name, 'Chub')
-		self.assertEqual(students[1].last_name, 'Drozd')
-		self.assertEqual(students[2].last_name, 'Ivanenko')
-		self.assertEqual(students[3].last_name, 'Renko')
-		self.assertEqual(students[4].last_name, 'Solovko')
+		self.assertEqual(students[0].first_name, 'Arkadiy')
+		self.assertEqual(students[1].first_name, 'Dmitro')
+		self.assertEqual(students[2].first_name, 'Ivan')
+		self.assertEqual(students[3].first_name, 'Roman')
+		self.assertEqual(students[4].first_name, 'Sashko')
 
-		response = self.client.get(self.url, {'order_by': 'last_name', 'page': '2'})
+		response = self.client.get(self.url, {'order_by': 'first_name', 'page': '2'})
 		students = response.context['students']
-		self.assertEqual(students[0].last_name, 'Zelov')
+		self.assertEqual(students[0].first_name, 'Stas')
 
 	def test_order_by_reverse(self):
 		# set order by Last Name
