@@ -85,3 +85,55 @@ class TestStudentUpdateForm(TestCase):
 		# check proper redirect after form post
 		self.assertIn(u'Студента %s успішно збережено!' % student, response.content)
 		
+	# def test_access(self):
+	# 	# try to access form as anonymus user
+	# 	response = self.client.get(self.url, follow=True)
+
+	# 	# we have to get 200 code and login form
+	# 	self.assertEqual(response.status_code, 200)
+
+	# 	# check that we're on login form
+	# 	# self.assertIn('Login Form', response.content)
+	# 	self.assertIn(u'Django адміністрування', response.content)
+
+	# 	# check redirect url
+	# 	# self.assertEqual(response.redirect_chain,
+	# 		# ('http://testserver/admin/login/?next=/students/2/edit/', 302))
+
+	def test_cancel_button(self):
+		self.client.login(username='admin', password='admin')
+
+		group = Group.objects.filter(title='Group2')[0]
+		response = self.client.post(
+			self.url,
+				{
+					'first_name': 'Updated Name',
+					'last_name': 'Updated Last Name',
+					'ticket': '22233',
+					'student_group': group.id,
+					'birthday': '1990-11-11',
+					'study_start': '2011-9-1',
+					'cancel_button': '1'
+				},
+				follow=True)
+
+		# check response status
+		self.assertEqual(response.status_code, 200)
+
+		# test updated student details
+		student = Student.objects.get(pk=2)
+		self.assertEqual(student.first_name, 'Dmitro')
+		self.assertEqual(student.last_name, 'Renko')
+		self.assertEqual(student.ticket, '23456')
+		self.assertEqual(student.student_group, Group.objects.filter(title='Group1')[0])
+
+		self.assertIn(u'Редагування студента %s відмінено!' % student, response.content)
+
+	def test_css_and_other(self):
+		self.client.login(username='admin', password='admin')
+
+		response = self.client.get(self.url, follow=True)
+
+		self.assertIn(u'class="dateinput form-control"', response.content)
+		self.assertIn(u'class="textinput textInput form-control"', response.content)
+		
