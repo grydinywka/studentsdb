@@ -5,6 +5,7 @@ Django==1.8.2
 django-contact-form==1.0
 django-crispy-forms==1.6.0
 django-jenkins==0.18.1
+jslint==0.6.0
 lazy-object-proxy==1.2.2
 MySQL-python==1.2.5
 pep8==1.7.0
