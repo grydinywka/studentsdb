@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'students',
     'django_jenkins',
+    'django_coverage',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -214,3 +215,5 @@ JENKINS_TASKS = ('django_jenkins.tasks.run_pylint',
                 # 'django_jenkins.tasks.run_csslint',    
                 # 'django_jenkins.tasks.run_sloccount'
                )
+
+COVERAGE_REPORT_HTML_OUTPUT_DIR = os.path.join(BASE_DIR, '..', 'coverage')

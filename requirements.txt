@@ -1,8 +1,9 @@
 astroid==1.4.5
 colorama==0.3.7
-coverage==4.0.3
+coverage==3.7.1
 Django==1.8.2
 django-contact-form==1.0
+django-coverage==1.2.4
 django-crispy-forms==1.6.0
 django-jenkins==0.18.1
 jslint==0.6.0
