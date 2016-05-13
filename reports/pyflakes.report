@@ -1,0 +1,71 @@
+../../local/lib/python2.7/site-packages/django/contrib/admin/util.py:9: [E] PYFLAKES:'from django.contrib.admin.utils import *' used; unable to detect undefined names
+../../local/lib/python2.7/site-packages/django/contrib/admin/util.py:9: [E] PYFLAKES:'django.contrib.admin.utils.*' imported but unused
+../../local/lib/python2.7/site-packages/django/contrib/contenttypes/generic.py:13: [E] PYFLAKES:'GenericTabularInline' imported but unused
+../../local/lib/python2.7/site-packages/django/contrib/contenttypes/generic.py:13: [E] PYFLAKES:'GenericStackedInline' imported but unused
+../../local/lib/python2.7/site-packages/django/contrib/contenttypes/generic.py:13: [E] PYFLAKES:'GenericInlineModelAdmin' imported but unused
+../../local/lib/python2.7/site-packages/django/contrib/contenttypes/generic.py:16: [E] PYFLAKES:'GenericForeignKey' imported but unused
+../../local/lib/python2.7/site-packages/django/contrib/contenttypes/generic.py:16: [E] PYFLAKES:'GenericRelation' imported but unused
+../../local/lib/python2.7/site-packages/django/contrib/contenttypes/generic.py:19: [E] PYFLAKES:'BaseGenericInlineFormSet' imported but unused
+../../local/lib/python2.7/site-packages/django/contrib/contenttypes/generic.py:19: [E] PYFLAKES:'generic_inlineformset_factory' imported but unused
+../../local/lib/python2.7/site-packages/django/contrib/messages/__init__.py:1: [E] PYFLAKES:'from django.contrib.messages.api import *' used; unable to detect undefined names
+../../local/lib/python2.7/site-packages/django/contrib/messages/__init__.py:1: [E] PYFLAKES:'django.contrib.messages.api.*' imported but unused
+../../local/lib/python2.7/site-packages/django/contrib/messages/__init__.py:2: [E] PYFLAKES:'from django.contrib.messages.constants import *' used; unable to detect undefined names
+../../local/lib/python2.7/site-packages/django/contrib/messages/__init__.py:2: [E] PYFLAKES:'django.contrib.messages.constants.*' imported but unused
+../../local/lib/python2.7/site-packages/contact_form/tests/__init__.py:1: [E] PYFLAKES:'from forms import *' used; unable to detect undefined names
+../../local/lib/python2.7/site-packages/contact_form/tests/__init__.py:1: [E] PYFLAKES:'forms.*' imported but unused
+../../local/lib/python2.7/site-packages/contact_form/tests/__init__.py:2: [E] PYFLAKES:'from views import *' used; unable to detect undefined names
+../../local/lib/python2.7/site-packages/contact_form/tests/__init__.py:2: [E] PYFLAKES:'views.*' imported but unused
+../../local/lib/python2.7/site-packages/crispy_forms/compatibility.py:3: [E] PYFLAKES:'SimpleLazyObject' imported but unused
+../../local/lib/python2.7/site-packages/crispy_forms/templatetags/crispy_forms_tags.py:16: [E] PYFLAKES:'from crispy_forms.templatetags.crispy_forms_filters import *' used; unable to detect undefined names
+../../local/lib/python2.7/site-packages/crispy_forms/templatetags/crispy_forms_tags.py:16: [E] PYFLAKES:'crispy_forms.templatetags.crispy_forms_filters.*' imported but unused
+../../local/lib/python2.7/site-packages/crispy_forms/tests/test_form_helper.py:6: [E] PYFLAKES:'django' imported but unused
+students/apps.py:9: [E] PYFLAKES:'signals' imported but unused
+students/signals.py:5: [E] PYFLAKES:'pre_delete' imported but unused
+students/tests/test_signals.py:7: [E] PYFLAKES:'signals' imported but unused
+students/tests/test_contact_admin.py:18: [E] PYFLAKES:local variable 'response' is assigned to but never used
+students/tests/test_student_forms.py:76: [E] PYFLAKES:local variable 'x' is assigned to but never used
+students/tests/test_student_views.py:6: [E] PYFLAKES:'datetime' imported but unused
+students/tests/test_util.py:132: [E] PYFLAKES:local variable 'page' is assigned to but never used
+students/tests/test_models.py:56: [E] PYFLAKES:local variable 'exam' is assigned to but never used
+students/views/students.py:5: [E] PYFLAKES:'HttpResponse' imported but unused
+students/views/students.py:7: [E] PYFLAKES:'Paginator' imported but unused
+students/views/students.py:7: [E] PYFLAKES:'PageNotAnInteger' imported but unused
+students/views/students.py:7: [E] PYFLAKES:'EmptyPage' imported but unused
+students/views/students.py:9: [E] PYFLAKES:'ValidationError' imported but unused
+students/views/students.py:18: [E] PYFLAKES:'boundsStuds' imported but unused
+students/views/students.py:27: [E] PYFLAKES:'Field' imported but unused
+students/views/students.py:27: [E] PYFLAKES:'Layout' imported but unused
+students/views/students.py:413: [E] PYFLAKES:undefined name 'student'
+students/views/students.py:417: [E] PYFLAKES:undefined name 'student'
+students/views/groups.py:5: [E] PYFLAKES:'HttpResponse' imported but unused
+students/views/groups.py:6: [E] PYFLAKES:'Paginator' imported but unused
+students/views/groups.py:6: [E] PYFLAKES:'PageNotAnInteger' imported but unused
+students/views/groups.py:6: [E] PYFLAKES:'EmptyPage' imported but unused
+students/views/groups.py:16: [E] PYFLAKES:'boundsStuds' imported but unused
+students/views/groups.py:252: [E] PYFLAKES:list comprehension redefines 'group' from line 241
+students/views/results.py:4: [E] PYFLAKES:'HttpResponse' imported but unused
+students/views/journals.py:21: [E] PYFLAKES:undefined name 'serializers'
+students/views/journal.py:14: [E] PYFLAKES:'copy' imported but unused
+students/views/journal.py:85: [E] PYFLAKES:local variable 'little' is assigned to but never used
+students/views/contact_admin2.py:4: [E] PYFLAKES:'forms' imported but unused
+students/views/contact_admin2.py:5: [E] PYFLAKES:'send_mail' imported but unused
+students/views/contact_admin2.py:10: [E] PYFLAKES:'ADMIN_EMAIL' imported but unused
+students/views/journal_edit.py:4: [E] PYFLAKES:'HttpResponse' imported but unused
+students/views/journal_edit.py:44: [E] PYFLAKES:local variable 'month' is assigned to but never used
+students/views/journal_edit.py:45: [E] PYFLAKES:local variable 'year' is assigned to but never used
+students/views/exams.py:6: [E] PYFLAKES:'redirect' imported but unused
+students/views/exams.py:7: [E] PYFLAKES:'HttpResponse' imported but unused
+students/views/exams.py:22: [E] PYFLAKES:'boundsStuds' imported but unused
+students/views/exams.py:259: [E] PYFLAKES:local variable 'data_exam_group' is assigned to but never used
+students/migrations/0010_auto_20150708_1102.py:4: [E] PYFLAKES:'models' imported but unused
+students/migrations/0012_auto_20150709_0438.py:4: [E] PYFLAKES:'models' imported but unused
+students/migrations/0008_auto_20150708_1054.py:4: [E] PYFLAKES:'models' imported but unused
+students/migrations/revMigr/0015_auto_20150710_0611.py:4: [E] PYFLAKES:'models' imported but unused
+students/models/__init__.py:1: [E] PYFLAKES:'Group' imported but unused
+students/models/__init__.py:2: [E] PYFLAKES:'Student' imported but unused
+students/models/__init__.py:3: [E] PYFLAKES:'Visiting' imported but unused
+students/models/__init__.py:4: [E] PYFLAKES:'MonthJournal' imported but unused
+students/models/__init__.py:5: [E] PYFLAKES:'Exam' imported but unused
+students/models/__init__.py:6: [E] PYFLAKES:'Result_exam' imported but unused
+students/models/__init__.py:7: [E] PYFLAKES:'LogEntry' imported but unused
+../../local/lib/python2.7/site-packages/django_jenkins/management/commands/jenkins.py:67: [E] PYFLAKES:'apps' imported but unused
