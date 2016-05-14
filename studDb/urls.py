@@ -11,7 +11,7 @@ from students.views.exams import ExamList, ExamEditView, ExamAddView, ExamDelete
 from students.views.contact_admin2 import ContactView
 from students.views.contact_admin import ContactView2
 
-from students.views.log_entry import log_entries
+from students.views.log_entry import LogEntryList
 
 urlpatterns = patterns('',
     # Students urls
@@ -79,7 +79,7 @@ urlpatterns = patterns('',
     (r'^contact/', include('contact_form.urls')),
     url(r'^contact2/$', ContactView2.as_view(), name='contact2'),
 
-    url(r'^log-entry/$', log_entries, name='log'),
+    url(r'^log-entry/$', LogEntryList.as_view(), name='log'),
 
     url(r'^admin/', include(admin.site.urls)),
 )
