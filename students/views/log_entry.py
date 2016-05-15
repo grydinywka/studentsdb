@@ -28,6 +28,8 @@ class LogEntryList(TemplateView):
 			reverse = self.request.GET.get('reverse', '')
 			if reverse == '1':
 				entries = entries.reverse()
+		else:
+			entries = LogEntry.objects.order_by('asctime')
 		
 		paginate_by = 6
 

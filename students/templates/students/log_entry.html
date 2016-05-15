@@ -1,6 +1,7 @@
 {% extends "students/base.html" %}
 
 {% load static from staticfiles %}
+{% load switch %}
 
 {% block meta_title %}Журнал подій{% endblock meta_title %}
 
@@ -11,7 +12,7 @@
 {% endblock status_message %}
 
 {% block content %}
-<table class="table table-hover table-striped">
+<table class="table table-hover">
 	{% with order_by=request.GET.order_by reverse=request.GET.reverse page=request.GET.page %}
 	<thead>
 		<tr>
@@ -45,7 +46,23 @@
 	<!-- Table Body -->
 	<tbody>
 		{% for entry in entries %}
-		<tr>
+		<tr {% switch entry.level %}
+				{% case 'DEBUG' %}
+					class="success"
+				{% endcase %}
+				{% case 'INFO' %}
+					class="info"
+				{% endcase %}
+				{% case 'WARNING' %}
+					class="active"
+				{% endcase %}
+				{% case 'ERROR' %}
+					class="warning"
+				{% endcase %}
+				{% case 'CRITICAL' %}
+					class="danger"
+				{% endcase %}
+			{% endswitch %}>
 			<th>{{ entry.id }}</th>
 			<td>{{ entry.level }}</td>
 			<td>{{ entry.asctime }}</td>
