@@ -3,7 +3,7 @@
 import logging
 
 from django.db.models.signals import post_save, post_delete, m2m_changed, pre_delete
-from django.dispatch import receiver
+from django.dispatch import receiver, Signal
 
 from .models import Student, Group, MonthJournal, Exam, Result_exam
 
@@ -124,3 +124,12 @@ def log_resultexam_change_list_stud_event(sender, **kwargs):
 	if kwargs['action'] == 'post_add':
 		logger.info("List of students was modified \
 					 in result_exam {}".format(result_exam.id))
+
+# bellow will be custom signal
+contact_admin_signal = Signal(providing_args=['data'])
+
+def contact_admin_handler(sender, **kwargs):
+	logger = logging.getLogger('contact_admin_logger')
+	logger.info("My custom handler for contact admin form.")
+
+contact_admin_signal.connect(contact_admin_handler)

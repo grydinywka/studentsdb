@@ -204,6 +204,10 @@ LOGGING = {
         'django.request': {
             'handlers': ['mail_admins'],
             'level': 'ERROR'
+        },
+        'contact_admin_logger': {
+            'handlers': ['file'],
+            'level': 'INFO'
         }
     }
 }

@@ -18,6 +18,8 @@ from django.views.generic.edit import FormView
 
 import logging
 
+from ..signals import contact_admin_signal
+
 class CustomContactForm(ContactForm):
     """docstring for CustomContactForm"""
     
@@ -63,6 +65,7 @@ class ContactView(FormView):
             messages.success(self.request, u'Повідомлення успішно надіслане!')
             logger = logging.getLogger(__name__)
             logger.info('Message to admin was sent success!')
+            contact_admin_signal.send(sender=self)
         return super(ContactView, self).form_valid(form)
 
     def get_form_kwargs(self):
