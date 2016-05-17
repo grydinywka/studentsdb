@@ -3,9 +3,15 @@
 import logging
 
 from django.db.models.signals import post_save, post_delete, m2m_changed, pre_delete
+from django.db.models.signals import post_migrate
+
+from django.core.signals import request_started, request_finished
+
 from django.dispatch import receiver, Signal
 
 from .models import Student, Group, MonthJournal, Exam, Result_exam
+
+request_counter = 0
 
 def log_student_updated_added_event(sender, **kwargs):
 	"""Writes information about newly added or updated student info log file"""
@@ -126,10 +132,25 @@ def log_resultexam_change_list_stud_event(sender, **kwargs):
 					 in result_exam {}".format(result_exam.id))
 
 # bellow will be custom signal
-contact_admin_signal = Signal(providing_args=['data'])
+contact_admin_signal = Signal(providing_args=[])
 
 def contact_admin_handler(sender, **kwargs):
 	logger = logging.getLogger('contact_admin_logger')
 	logger.info("My custom handler for contact admin form.")
 
 contact_admin_signal.connect(contact_admin_handler)
+
+# handler for requests
+def counter_start_request(sender, **kwargs):
+	global request_counter
+	request_counter += 1
+	# print request_counter
+request_started.connect(counter_start_request)
+
+@receiver(post_migrate)
+def all_migrate_command(sender, **kwargs):
+	logger = logging.getLogger(__name__)
+	db_info = kwargs['using']
+	app_config_label = kwargs['app_config'].label
+
+	logger.info("Here is used {} database! App: {}".format(db_info, app_config_label))

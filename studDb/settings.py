@@ -185,7 +185,7 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'studDb.custom_handlers.DatabaseHandler',
             'formatter': 'verbose'
-        },
+        }
     },
     'loggers': {
         'django': {
@@ -201,10 +201,10 @@ LOGGING = {
             'handlers': ['console', 'file', 'mail_admins', 'database'],
             'level': 'INFO',
         },
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR'
-        },
+        # 'django.request': {
+        #     'handlers': ['mail_admins'],
+        #     'level': 'ERROR'
+        # },
         'contact_admin_logger': {
             'handlers': ['file'],
             'level': 'INFO'

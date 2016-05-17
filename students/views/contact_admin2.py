@@ -65,7 +65,7 @@ class ContactView(FormView):
             messages.success(self.request, u'Повідомлення успішно надіслане!')
             logger = logging.getLogger(__name__)
             logger.info('Message to admin was sent success!')
-            contact_admin_signal.send(sender=self)
+            contact_admin_signal.send(sender=self.__class__)
         return super(ContactView, self).form_valid(form)
 
     def get_form_kwargs(self):
