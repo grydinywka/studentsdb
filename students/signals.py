@@ -148,13 +148,16 @@ contact_admin_signal.connect(contact_admin_handler)
 
 # handler for requests
 def counter_start_request(sender, **kwargs):
-	day_counter, created = DayCounterRequest.objects.get_or_create(date=date.today())
-	if not created:
-		day_counter.counter += 1
-	day_counter.save()
+	f = open('/data/work/virtualenvs/studDb/src/studDb/students/counter_file.txt', 'r')
+	counter = int(f.readline()) + 1
+	f.close()
+	
+	f = open('/data/work/virtualenvs/studDb/src/studDb/students/counter_file.txt', 'w')
+	f.write(str(counter))
+	f.close()
 	
 	logger = logging.getLogger('django.request')
-	logger.info("request #{}".format(day_counter.counter))
+	logger.info("request #{}".format(counter))
 request_started.connect(counter_start_request)
 
 @receiver(post_migrate)
