@@ -13,7 +13,9 @@ from django.core.signals import request_started, request_finished
 
 from django.dispatch import receiver, Signal
 
-from .models import Student, Group, MonthJournal, Exam, Result_exam
+from .models import Student, Group, MonthJournal, Exam, Result_exam, DayCounterRequest
+
+from datetime import date
 
 request_counter = 0
 
@@ -146,11 +148,13 @@ contact_admin_signal.connect(contact_admin_handler)
 
 # handler for requests
 def counter_start_request(sender, **kwargs):
-	global request_counter
-	request_counter += 1
-	# print request_counter
+	day_counter, created = DayCounterRequest.objects.get_or_create(date=date.today())
+	if not created:
+		day_counter.counter += 1
+	day_counter.save()
+	
 	logger = logging.getLogger('django.request')
-	logger.info("request #{}".format(request_counter))
+	logger.info("request #{}".format(day_counter.counter))
 request_started.connect(counter_start_request)
 
 @receiver(post_migrate)
