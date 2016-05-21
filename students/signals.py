@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 import logging
 
 from django.db.models.signals import post_save, post_delete, m2m_changed, pre_delete
