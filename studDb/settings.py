@@ -201,10 +201,10 @@ LOGGING = {
             'handlers': ['console', 'file', 'mail_admins', 'database'],
             'level': 'INFO',
         },
-        # 'django.request': {
-        #     'handlers': ['mail_admins'],
-        #     'level': 'ERROR'
-        # },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'INFO'
+        },
         'contact_admin_logger': {
             'handlers': ['file'],
             'level': 'INFO'

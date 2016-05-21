@@ -145,6 +145,8 @@ def counter_start_request(sender, **kwargs):
 	global request_counter
 	request_counter += 1
 	# print request_counter
+	logger = logging.getLogger('django.request')
+	logger.info("request #{}".format(request_counter))
 request_started.connect(counter_start_request)
 
 @receiver(post_migrate)
