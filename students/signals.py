@@ -149,8 +149,7 @@ contact_admin_signal.connect(contact_admin_handler)
 # handler for requests
 def counter_start_request(sender, **kwargs):
 	day_counter, created = DayCounterRequest.objects.get_or_create(date=date.today())
-	if not created:
-		day_counter.counter += 1
+	day_counter.counter += 1
 	day_counter.save()
 	
 	logger = logging.getLogger('django.request')

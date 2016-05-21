@@ -17,7 +17,7 @@ class DayCounterRequest(models.Model):
 	counter = models.IntegerField(
 		verbose_name=u'Лічильник',
 		blank=False,
-		default=1
+		default=0
 	)
 	def __unicode__(self):
 		return u"%s, requests' values %s" % (self.date, self.counter)
