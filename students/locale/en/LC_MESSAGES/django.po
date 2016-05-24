@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-23 16:31+0000\n"
+"POT-Creation-Date: 2016-05-24 06:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,123 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: templates/students/base.html:10
+#: templates/students/base.html:9 templates/students/base.html.py:41
+#: templates/students/base.html:138
 msgid "Students Accounting Service"
+msgstr ""
+
+#: templates/students/base.html:11
+msgid "App to manage students database"
+msgstr ""
+
+#: templates/students/base.html:47
+msgid "Group:"
+msgstr ""
+
+#: templates/students/base.html:49
+msgid "All students"
+msgstr ""
+
+#: templates/students/base.html:64
+#: templates/students/students_list_for_cbv.html:6
+msgid "Students"
+msgstr ""
+
+#: templates/students/base.html:67
+#: templates/students/students_list_for_cbv.html:99
+msgid "Journal"
+msgstr ""
+
+#: templates/students/base.html:70
+msgid "Groups"
+msgstr ""
+
+#: templates/students/base.html:73
+msgid "Exams"
+msgstr ""
+
+#: templates/students/base.html:76
+msgid "Result of exams"
+msgstr ""
+
+#: templates/students/base.html:79
+msgid "Contact"
+msgstr ""
+
+#: templates/students/base.html:82
+msgid "Log of events"
+msgstr ""
+
+#: templates/students/base.html:124 templates/students/base.html.py:175
+msgid "Work goes on..."
+msgstr ""
+
+#: templates/students/groups_confirm_delete_handle.html:6
+#: templates/students/groups_confirm_delete_handle.html:8
+msgid "Delete Group"
+msgstr ""
+
+#: templates/students/groups_confirm_delete_handle.html:16
+msgid "Please correct next errors!"
+msgstr ""
+
+#: templates/students/groups_confirm_delete_handle.html:27
+#, python-format
+msgid "Do you really want to delete group: \"%(group)s \"?"
+msgstr ""
+
+#: templates/students/groups_confirm_delete_handle.html:28
+msgid "Yes"
+msgstr ""
+
+#: templates/students/groups_confirm_delete_handle.html:29
+msgid "Cancel"
+msgstr ""
+
+#: templates/students/students_list_for_cbv.html:8
+msgid "Students List"
+msgstr ""
+
+#: templates/students/students_list_for_cbv.html:13
+msgid "Add Student"
+msgstr ""
+
+#: templates/students/students_list_for_cbv.html:22
+msgid "There are not exist any students in list yet!"
+msgstr ""
+
+#: templates/students/students_list_for_cbv.html:41
+msgid "Photo"
+msgstr ""
+
+#: templates/students/students_list_for_cbv.html:45
+msgid "Last Name"
+msgstr ""
+
+#: templates/students/students_list_for_cbv.html:52
+msgid "First Name"
+msgstr ""
+
+#: templates/students/students_list_for_cbv.html:58
+msgid "Ticket #"
+msgstr ""
+
+#: templates/students/students_list_for_cbv.html:63
+msgid "Action"
+msgstr ""
+
+#: templates/students/students_list_for_cbv.html:65
+msgid "Delete choosen"
+msgstr ""
+
+#: templates/students/students_list_for_cbv.html:93
+msgid "Actions"
+msgstr ""
+
+#: templates/students/students_list_for_cbv.html:103
+msgid "Edit"
+msgstr ""
+
+#: templates/students/students_list_for_cbv.html:107
+msgid "Delete"
 msgstr ""

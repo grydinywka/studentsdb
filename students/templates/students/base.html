@@ -1,15 +1,14 @@
-{% load static from staticfiles %}
 {% load i18n %}
+{% load static from staticfiles %}
 
 <!DOCTYPE html>
 <html lang="uk">
 	
 	<head>
 		<meta charset="UTF-8"/>
-		<!-- <title>Сервіс Обліку Студентів - {% block meta_title %}{% endblock meta_title %}</title> -->
 		<title>{% trans "Students Accounting Service" %} - {% block meta_title %}{% endblock meta_title %}</title>
 		<meta name="description"
-			  value="Система Обліку Студентів Навчального Закладу" />
+			  value="{% trans 'App to manage students database' %}" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		
 		<!-- Style Section -->
@@ -39,15 +38,15 @@
 				<!-- Logo -->
 				<div class="col-xs-8">
 					{% block logo %}
-					<h1>Сервіс Обліку Студентів</h1>
+					<h1>{% trans 'Students Accounting Service' %}</h1>
 					{% endblock logo %}
 				</div>
 				
 				<!-- Groups Selector -->
 				<div class="col-xs-4" id="group-selector">
-					<strong>Група:</strong>
+					<strong>{% trans "Group:" %}</strong>
 					<select>
-						<option value="">Усі Студенти</option>
+						<option value="">{% trans "All students" %}</option>
 						{% for group in GROUPS %}
 						<option value="{{ group.id }}"{% if group.selected %}selected="1"{% endif %}>{{ group.title }}{% if group.leader %}, {{ group.leader }}{% endif %}</option>
 						{% endfor %}
@@ -62,25 +61,25 @@
 					<ul class="nav nav-tabs" role="tablist">
 						
 						<li role="presentation" {% url 'home' as the_url_home %}{% if request.path == the_url_home %}class="active"{% endif %}>
-							<a href="{% url "home" %}" class="tab">Студенти</a>
+							<a href="{% url "home" %}" class="tab">{% trans 'Students' %}</a>
 						</li>
 						<li role="presentation" {% url 'journal' as the_url_journal %}{% if the_url_journal in request.path %}class="active"{% endif %}>
-							<a href="{% url "journal" %}" class="tab">Відвідування</a>
+							<a href="{% url "journal" %}" class="tab">{% trans 'Journal' %}</a>
 						</li>
 						<li role="presentation" {% url 'groups' as the_url_groups %}{% if the_url_groups in request.path %}class="active"{% endif %}>
-							<a href="{% url "groups" %}" class="tab">Групи</a>
+							<a href="{% url "groups" %}" class="tab">{% trans 'Groups' %}</a>
 						</li>
 						<li role="presentation" {% url 'exams' as the_url_exams %}{% if the_url_exams in request.path %}class="active"{% endif %}>
-							<a href="{% url "exams" %}" class="tab">Іспити</a>
+							<a href="{% url "exams" %}" class="tab">{% trans 'Exams' %}</a>
 						</li>
 						<li role="presentation" {% url 'results' as the_url_results %}{% if the_url_results in request.path %}class="active"{% endif %}>
-							<a href="{% url "results" %}" class="tab">Результати Іспитів</a>
+							<a href="{% url "results" %}" class="tab">{% trans 'Result of exams' %}</a>
 						</li>
 						<li role="presentation" {% url 'contact_admin' as the_url_c_a %}{% if the_url_c_a in request.path %}class="active"{% endif %}>
-							<a href="{% url "contact_admin" %}" class="tab">Контакти</a>
+							<a href="{% url "contact_admin" %}" class="tab">{% trans 'Contact' %}</a>
 						</li>
 						<li role="presentation" {% url 'log' as the_url_log %}{% if the_url_log in request.path %}class="active"{% endif %}>
-							<a href="{% url 'log' %}" class="tab">Журнал подій</a>
+							<a href="{% url 'log' %}" class="tab">{% trans 'Log of events' %}</a>
 						</li>
 					</ul>
 				</div>
@@ -122,7 +121,7 @@
 			<div class="row" id="content-colomn">	
 				<div class="col-xs-12">	
 					<div class="alert alert-info" id="spinner">
-						<p>Йде робота:</p>
+						<p>{% trans 'Work goes on...' %}</p>
 						<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
 						<img src="{% static "img/ajax-loader.gif" %}">
 					</div>
@@ -136,7 +135,7 @@
 			<div class="row" id="footer">
 				<div class="col-xs-12">
 				{% block footer %}
-					&copy; 2015 Сервіс Обліку Студентів
+					&copy; 2016 {% trans 'Students Accounting Service' %}
 				{% endblock footer %}
 				</div>
 			</div>
@@ -173,7 +172,7 @@
 		      </div>
 		      <div class="modal-body">
 		      	<div class="alert alert-info" id="spinner_job">
-					<p>Йде робота2:</p>
+					<p>{% trans 'Work goes on...' %}2</p>
 					<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
 				</div>
 		      </div>
