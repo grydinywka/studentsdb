@@ -1,15 +1,16 @@
 {% extends "students/base.html" %}
 
+{% load i18n %}
 {% load static from staticfiles %}
 
-{% block meta_title %}Видалити Студентів{% endblock meta_title %}
+{% block meta_title %}{% trans 'Delete Students' %}{% endblock meta_title %}
 
-{% block title %}Видалення Студентів{% endblock title %}
+{% block title %}{% trans 'Delete Students' %}{% endblock title %}
 
 {% block status_message %}
   {% if messages %}
   <div class="alert alert-warning" role="alert">
-  	Будь-ласка, виправте наступні помилки
+  	{% trans 'Please correct next errors' %}
   </div>
   {% endif %}
 
@@ -20,12 +21,12 @@
 {% block content %}
 
 {% if not students %}
-<p id="neither_stud">Ви не вибрали жодного студента для видалення.</p>
+<p id="neither_stud">{% trans 'You did not choose neither student!' %}</p>
 
 {% else %}
 <form action="{% url "students_delete_mult" %}" method="post">
 	{% csrf_token %}
-	<p>Ви дійсно хочете видалити наступних студентів?</p>
+	<p>{% trans 'Do you really want to remove defined students?' %}</p>
 	<ul>
 		{% for student in students %}
 		<li>
@@ -34,7 +35,7 @@
 		</li>
 		{% endfor %}
 	</ul>
-	<input type="submit" value="Так" name="delete_button_confirm" class="btn btn-danger" /><br /><br />
+	<input type="submit" value="{% trans 'Yes' %}" name="delete_button_confirm" class="btn btn-danger" /><br /><br />
 </form>
 {% endif %}
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-24 06:10+0000\n"
+"POT-Creation-Date: 2016-05-24 16:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,12 +36,12 @@ msgstr "Група:"
 msgid "All students"
 msgstr "Усі студенти"
 
-#: templates/students/base.html:64
+#: templates/students/base.html:64 templates/students/students_list.html:6
 #: templates/students/students_list_for_cbv.html:6
 msgid "Students"
 msgstr "Студенти"
 
-#: templates/students/base.html:67
+#: templates/students/base.html:67 templates/students/students_list.html:90
 #: templates/students/students_list_for_cbv.html:99
 msgid "Journal"
 msgstr "Відвідування"
@@ -85,57 +85,345 @@ msgid "Do you really want to delete group: \"%(group)s \"?"
 msgstr "Ви справді хочете видалти групу: \"%(group)s\"?"
 
 #: templates/students/groups_confirm_delete_handle.html:28
+#: templates/students/students_confirm_delete.html:25
+#: templates/students/students_confirm_delete2.html:25
+#: templates/students/students_confirm_delete_mult.html:38
 msgid "Yes"
 msgstr "Так"
 
 #: templates/students/groups_confirm_delete_handle.html:29
+#: views/students.py:137 views/students.py:142 views/students.py:147
 msgid "Cancel"
 msgstr "Відмінити"
 
+#: templates/students/students_confirm_delete.html:6
+#: templates/students/students_confirm_delete.html:8
+#: templates/students/students_confirm_delete2.html:6
+#: templates/students/students_confirm_delete2.html:8
+msgid "Delete Student"
+msgstr "Видалити Студентів"
+
+#: templates/students/students_confirm_delete.html:13
+#: templates/students/students_confirm_delete2.html:13
+#: templates/students/students_confirm_delete_mult.html:13
+msgid "Please correct next errors"
+msgstr "Будь-ласка виправте наступні помилки!"
+
+#: templates/students/students_confirm_delete.html:24
+#: templates/students/students_confirm_delete2.html:24
+msgid "Do you really want to delete student: \"%(object)s\"?"
+msgstr "Ви справді хочете видалити студента: \"%(object)s\"?"
+
+#: templates/students/students_confirm_delete.html:26
+msgid "No"
+msgstr "Ні"
+
+#: templates/students/students_confirm_delete_mult.html:6
+#: templates/students/students_confirm_delete_mult.html:8
+msgid "Delete Students"
+msgstr "Видалити Студентів"
+
+#: templates/students/students_confirm_delete_mult.html:24
+msgid "You did not choose neither student!"
+msgstr "Ви не вибрали жодного студента!"
+
+#: templates/students/students_confirm_delete_mult.html:29
+msgid "Do you really want to remove defined students?"
+msgstr "Ви справді хочете видалити вибраних студентів?"
+
+#: templates/students/students_list.html:8
 #: templates/students/students_list_for_cbv.html:8
 msgid "Students List"
 msgstr "Список Студентів"
 
+#: templates/students/students_list.html:13
 #: templates/students/students_list_for_cbv.html:13
 msgid "Add Student"
 msgstr "Додати Студента"
+
+#: templates/students/students_list.html:32
+#: templates/students/students_list_for_cbv.html:41 views/students.py:195
+msgid "Photo"
+msgstr "Фото"
+
+#: templates/students/students_list.html:36
+#: templates/students/students_list_for_cbv.html:45
+msgid "Last Name"
+msgstr "Прізвище"
+
+#: templates/students/students_list.html:43
+#: templates/students/students_list_for_cbv.html:52
+msgid "First Name"
+msgstr "Ім'я"
+
+#: templates/students/students_list.html:49
+#: templates/students/students_list_for_cbv.html:58 views/students.py:204
+msgid "Ticket #"
+msgstr "№ Білета"
+
+#: templates/students/students_list.html:54
+#: templates/students/students_list_for_cbv.html:63
+msgid "Action"
+msgstr "Дія"
+
+#: templates/students/students_list.html:56
+#: templates/students/students_list_for_cbv.html:65
+msgid "Delete choosen"
+msgstr "Видалити обраних"
+
+#: templates/students/students_list.html:84
+#: templates/students/students_list_for_cbv.html:93
+msgid "Actions"
+msgstr "Дії"
+
+#: templates/students/students_list.html:94
+#: templates/students/students_list_for_cbv.html:103 views/students.py:136
+msgid "Edit"
+msgstr "Редагувати"
+
+#: templates/students/students_list.html:98
+#: templates/students/students_list_for_cbv.html:107
+msgid "Delete"
+msgstr "Видалити"
 
 #: templates/students/students_list_for_cbv.html:22
 msgid "There are not exist any students in list yet!"
 msgstr "Поки немає жодного студента в базі..."
 
-#: templates/students/students_list_for_cbv.html:41
-msgid "Photo"
-msgstr "Фото"
+#: views/students.py:90
+msgid "Student was changed successfull!"
+msgstr "Студент був поредагований успішно!"
 
-#: templates/students/students_list_for_cbv.html:45
-msgid "Last Name"
-msgstr "Прізвище"
+#: views/students.py:95
+msgid "Edition of student was canceled"
+msgstr "Редагування студента відмінено"
 
-#: templates/students/students_list_for_cbv.html:52
-msgid "First Name"
-msgstr "Ім'я"
+#: views/students.py:141 views/students.py:146
+msgid "Add"
+msgstr "Додати"
 
-#: templates/students/students_list_for_cbv.html:58
-msgid "Ticket #"
-msgstr "№ Білета"
+#: views/students.py:161
+msgid "Name*"
+msgstr "Ім'я*"
 
-#: templates/students/students_list_for_cbv.html:63
-msgid "Action"
-msgstr "Дія"
+#: views/students.py:162
+msgid "Andrew"
+msgstr "Андрій"
 
-#: templates/students/students_list_for_cbv.html:65
-msgid "Delete choosen"
-msgstr "Видалити обраних"
+#: views/students.py:164
+msgid "Input your name"
+msgstr "Введіть ваше ім'я"
 
-#: templates/students/students_list_for_cbv.html:93
-msgid "Actions"
-msgstr "Дії"
+#: views/students.py:165 views/students.py:472
+msgid "Name is mandatory!"
+msgstr "Ім'я є обов'язковим!"
 
-#: templates/students/students_list_for_cbv.html:103
-msgid "Edit"
-msgstr "Редагувати"
+#: views/students.py:169
+msgid "Surname*"
+msgstr "Прізвище*"
 
-#: templates/students/students_list_for_cbv.html:107
-msgid "Delete"
-msgstr "Видалити"
+#: views/students.py:170
+msgid "Koval"
+msgstr "Коваль"
+
+#: views/students.py:171
+msgid "Input your last name"
+msgstr "Введіть ваше прізвище"
+
+#: views/students.py:172 views/students.py:478
+msgid "Surname is mandatory!"
+msgstr "Прізвище є обов'язковим!"
+
+#: views/students.py:176
+msgid "Middle name"
+msgstr "По-батькові"
+
+#: views/students.py:181
+msgid "Date of birth*"
+msgstr "Дата народження*"
+
+#: views/students.py:183
+msgid "Your date of birth in YYYY-MM-DD format"
+msgstr "Ваша дата народження у форматі РРРР-ММ-ДД"
+
+#: views/students.py:184
+msgid "Field date of birth is mandatory"
+msgstr "Поле дати народження є обов'язковим"
+
+#: views/students.py:185
+msgid "Input valid format of date"
+msgstr "Введіть правильний формат дати"
+
+#: views/students.py:196
+msgid "Choose Photo"
+msgstr "Оберіть фото"
+
+#: views/students.py:198
+msgid "Your photo is not valid!"
+msgstr "Ваше фото не пройшло валідацію!"
+
+#: views/students.py:199
+msgid "Photo is mandatory"
+msgstr "Фото є обов'язковим"
+
+#: views/students.py:203
+msgid "Ticket*"
+msgstr "Білет*"
+
+#: views/students.py:207
+msgid "At least 1!"
+msgstr "Щонайменше 1!"
+
+#: views/students.py:211
+msgid "Note"
+msgstr "Нотатки"
+
+#: views/students.py:212
+msgid "Addition information"
+msgstr "Додаткова інформація"
+
+#: views/students.py:218
+msgid "Group*"
+msgstr "Група*"
+
+#: views/students.py:220 views/students.py:221
+msgid "Choose Group"
+msgstr "Виберіть Групу"
+
+#: views/students.py:222
+msgid "Field Group is mandatory"
+msgstr "Поле групи є обов'язковим"
+
+#: views/students.py:223
+msgid "Invalid group"
+msgstr "Неправильна група"
+
+#: views/students.py:227
+msgid "Study begin*"
+msgstr "Початок навчання"
+
+#: views/students.py:229
+msgid "Start of study at YYYY-MM-DD format"
+msgstr "Дата у форматі РРРР-ММ-ДД"
+
+#: views/students.py:230
+msgid "Field of Study begin is mandatory"
+msgstr "Поле дати є обов'язковим"
+
+#: views/students.py:234
+msgid "Visiting"
+msgstr "Журнал Відвідування"
+
+#: views/students.py:236 views/students.py:238
+msgid "Choose journal"
+msgstr "Оберіть Журнал"
+
+#: views/students.py:252 views/students.py:294
+#, python-format
+msgid "Student %s successfull saved!"
+msgstr "Студент %s був створений успішно!"
+
+#: views/students.py:257
+#, python-format
+msgid "Editing of student %s canceled!"
+msgstr "Редагування студента %s відмінено"
+
+#: views/students.py:269
+msgid "Student {} is leader of other group"
+msgstr "Студент {} є лідером іншої групи"
+
+#: views/students.py:279
+#, python-format
+msgid "Errors during editing %s student!"
+msgstr "Пимилки під час редагування %s студента"
+
+#: views/students.py:284
+msgid "Edit student"
+msgstr "Редагувати Студента"
+
+#: views/students.py:299
+msgid "Creating student canceled!"
+msgstr "Створення студента відмінено"
+
+#: views/students.py:306
+msgid "Add student"
+msgstr "Додати Студента"
+
+#: views/students.py:315
+msgid "Errors during creating student!"
+msgstr "Помилки під час створення студента!"
+
+#: views/students.py:325
+#, python-format
+msgid "Student %s successful deleted!"
+msgstr "Студент %s був видалений спішно!"
+
+#: views/students.py:336
+#, python-format
+msgid "%s was deleted success!"
+msgstr "%s був видалений успішно!"
+
+#: views/students.py:339
+msgid "Deletetion was canceled!"
+msgstr "Видалення студента відмінено!"
+
+#: views/students.py:442
+msgid "Validation errors"
+msgstr "Помилки валідації"
+
+#: views/students.py:448
+msgid "Adding student was canceled!"
+msgstr "Створення студента відмінено"
+
+#: views/students.py:484
+msgid "Date of birth is mandatory!"
+msgstr "Поле дати народження є обов'язковим"
+
+#: views/students.py:489 views/students.py:516
+msgid "Input date at YYYY-MM-DD format"
+msgstr "Ваша дата народження у форматі РРРР-ММ-ДД"
+
+#: views/students.py:495
+msgid "Ticket is mandatory!"
+msgstr "Номер квитка є обов'язковим!"
+
+#: views/students.py:501
+msgid "Choose a group for student!"
+msgstr "Виберіть групу для студента!"
+
+#: views/students.py:505
+msgid "Choose valid group!"
+msgstr "Виберіть правильну Групу"
+
+#: views/students.py:511
+msgid "Field study begin is mandatory!"
+msgstr "Поле початку навчання є обов'язковим!"
+
+#: views/students.py:530
+msgid "Error during opening a photo"
+msgstr "Помилки під час відкриття фото"
+
+#: views/students.py:534
+msgid "It is not a image"
+msgstr "Це не забраження"
+
+#: views/students.py:558
+#, python-format
+msgid "Student %s successful added!"
+msgstr "Студент %s був створений успішно!"
+
+#: views/students.py:564
+msgid "Please, correct next errors!"
+msgstr "Будь-ласка виправте наступні помилки!"
+
+#: views/students.py:571
+msgid "Adding student canceled!"
+msgstr "Створення студента відмінено"
+
+#: views/students.py:611
+msgid "were deleted success!"
+msgstr "були видалені успішно!"
+
+#: views/students.py:613
+msgid "deletetion was canceled!"
+msgstr "видалення студента відмінено!"
