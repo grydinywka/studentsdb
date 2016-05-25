@@ -22,8 +22,6 @@ urlpatterns = patterns('',
     # url(r'^students/add/$', 'students.views.students.salting_add', name='students_add'),
     url(r'^students/add/$', StudentAddView.as_view(), name='students_add'),
     
-    # url(r'^students/(?P<sid>\d+)/edit/$', 'students.views.students.students_edit', name='students_edit'),
-    # url(r'^students/(?P<sid>\d+)/edit/$', 'students.views.students.students_edit2', name='students_edit'),
     url(r'^students/(?P<sid>\d+)/edit/$', StudentEditView.as_view(), name="students_edit"),
     # url(r'^students/(?P<sid>\d+)/edit/$', StudentUpdateView.as_view(), name="students_edit"),
    
