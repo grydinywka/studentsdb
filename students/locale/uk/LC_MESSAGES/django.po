@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-24 16:38+0000\n"
+"POT-Creation-Date: 2016-05-26 07:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,60 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: models/Student.py:9
+msgid "Student"
+msgstr "Студент"
+
+#: models/Student.py:10 templates/students/base.html:64
+#: templates/students/students_list.html:6
+#: templates/students/students_list_for_cbv.html:6
+msgid "Students"
+msgstr "Студенти"
+
+#: models/Student.py:15
+msgid "Name"
+msgstr "Ім'я"
+
+#: models/Student.py:20 templates/students/students_list.html:36
+#: templates/students/students_list_for_cbv.html:45
+msgid "Last Name"
+msgstr "Прізвище"
+
+#: models/Student.py:25
+msgid "Middle Name"
+msgstr "По-батькові"
+
+#: models/Student.py:30
+msgid "Date of birth"
+msgstr "Дата народження"
+
+#: models/Student.py:35 templates/students/students_list.html:32
+#: templates/students/students_list_for_cbv.html:41 views/students.py:195
+msgid "Photo"
+msgstr "Фото"
+
+#: models/Student.py:41
+msgid "Ticket"
+msgstr "Білет"
+
+#: models/Student.py:45
+msgid "Notes"
+msgstr "Нотатки"
+
+#: models/Student.py:48
+msgid "Group"
+msgstr "Група"
+
+#: models/Student.py:55
+msgid "Study begin"
+msgstr "Початок навчання"
+
+#: models/Student.py:61 templates/students/base.html:67
+#: templates/students/students_list.html:90
+#: templates/students/students_list_for_cbv.html:99
+msgid "Journal"
+msgstr "Відвідування"
 
 #: templates/students/base.html:9 templates/students/base.html.py:41
 #: templates/students/base.html:138
@@ -35,16 +89,6 @@ msgstr "Група:"
 #: templates/students/base.html:49
 msgid "All students"
 msgstr "Усі студенти"
-
-#: templates/students/base.html:64 templates/students/students_list.html:6
-#: templates/students/students_list_for_cbv.html:6
-msgid "Students"
-msgstr "Студенти"
-
-#: templates/students/base.html:67 templates/students/students_list.html:90
-#: templates/students/students_list_for_cbv.html:99
-msgid "Journal"
-msgstr "Відвідування"
 
 #: templates/students/base.html:70
 msgid "Groups"
@@ -111,6 +155,7 @@ msgstr "Будь-ласка виправте наступні помилки!"
 
 #: templates/students/students_confirm_delete.html:24
 #: templates/students/students_confirm_delete2.html:24
+#, python-format
 msgid "Do you really want to delete student: \"%(object)s\"?"
 msgstr "Ви справді хочете видалити студента: \"%(object)s\"?"
 
@@ -140,16 +185,6 @@ msgstr "Список Студентів"
 #: templates/students/students_list_for_cbv.html:13
 msgid "Add Student"
 msgstr "Додати Студента"
-
-#: templates/students/students_list.html:32
-#: templates/students/students_list_for_cbv.html:41 views/students.py:195
-msgid "Photo"
-msgstr "Фото"
-
-#: templates/students/students_list.html:36
-#: templates/students/students_list_for_cbv.html:45
-msgid "Last Name"
-msgstr "Прізвище"
 
 #: templates/students/students_list.html:43
 #: templates/students/students_list_for_cbv.html:52

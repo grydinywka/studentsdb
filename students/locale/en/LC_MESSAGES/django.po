@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-24 16:38+0000\n"
+"POT-Creation-Date: 2016-05-26 07:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,412 +17,447 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: models/Student.py:9
+msgid "Student"
+msgstr "Student"
+
+#: models/Student.py:10 templates/students/base.html:64
+#: templates/students/students_list.html:6
+#: templates/students/students_list_for_cbv.html:6
+msgid "Students"
+msgstr "Students"
+
+#: models/Student.py:15
+msgid "Name"
+msgstr "Name"
+
+#: models/Student.py:20 templates/students/students_list.html:36
+#: templates/students/students_list_for_cbv.html:45
+msgid "Last Name"
+msgstr "Last Name"
+
+#: models/Student.py:25
+msgid "Middle Name"
+msgstr "Middle Name"
+
+#: models/Student.py:30
+msgid "Date of birth"
+msgstr "Date of birth"
+
+#: models/Student.py:35 templates/students/students_list.html:32
+#: templates/students/students_list_for_cbv.html:41 views/students.py:195
+msgid "Photo"
+msgstr "Photo"
+
+#: models/Student.py:41
+msgid "Ticket"
+msgstr "Ticket"
+
+#: models/Student.py:45
+msgid "Notes"
+msgstr "Notes"
+
+#: models/Student.py:48
+
+msgid "Group"
+msgstr "Group"
+
+#: models/Student.py:55
+msgid "Study begin"
+msgstr "Study begin"
+
+#: models/Student.py:61 templates/students/base.html:67
+#: templates/students/students_list.html:90
+#: templates/students/students_list_for_cbv.html:99
+msgid "Journal"
+msgstr "Journal"
+
 #: templates/students/base.html:9 templates/students/base.html.py:41
 #: templates/students/base.html:138
 msgid "Students Accounting Service"
-msgstr ""
+msgstr "Students Accounting Service"
 
 #: templates/students/base.html:11
 msgid "App to manage students database"
-msgstr ""
+msgstr "App to manage students database"
 
 #: templates/students/base.html:47
 msgid "Group:"
-msgstr ""
+msgstr "Group:"
 
 #: templates/students/base.html:49
 msgid "All students"
-msgstr ""
-
-#: templates/students/base.html:64 templates/students/students_list.html:6
-#: templates/students/students_list_for_cbv.html:6
-msgid "Students"
-msgstr ""
-
-#: templates/students/base.html:67 templates/students/students_list.html:90
-#: templates/students/students_list_for_cbv.html:99
-msgid "Journal"
-msgstr ""
+msgstr "All students"
 
 #: templates/students/base.html:70
 msgid "Groups"
-msgstr ""
+msgstr "Groups"
 
 #: templates/students/base.html:73
 msgid "Exams"
-msgstr ""
+msgstr "Exams"
 
 #: templates/students/base.html:76
 msgid "Result of exams"
-msgstr ""
+msgstr "Result of exams"
 
 #: templates/students/base.html:79
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 #: templates/students/base.html:82
 msgid "Log of events"
-msgstr ""
+msgstr "Log of events"
 
 #: templates/students/base.html:124 templates/students/base.html.py:175
 msgid "Work goes on..."
-msgstr ""
+msgstr "Work goes on..."
 
 #: templates/students/groups_confirm_delete_handle.html:6
 #: templates/students/groups_confirm_delete_handle.html:8
 msgid "Delete Group"
-msgstr ""
+msgstr "Delete Group"
 
 #: templates/students/groups_confirm_delete_handle.html:16
 msgid "Please correct next errors!"
-msgstr ""
+msgstr "Please correct next errors!"
 
 #: templates/students/groups_confirm_delete_handle.html:27
 #, python-format
 msgid "Do you really want to delete group: \"%(group)s \"?"
-msgstr ""
+msgstr "Do you really want to delete group: \"%(group)s \"?"
 
 #: templates/students/groups_confirm_delete_handle.html:28
 #: templates/students/students_confirm_delete.html:25
 #: templates/students/students_confirm_delete2.html:25
 #: templates/students/students_confirm_delete_mult.html:38
 msgid "Yes"
-msgstr ""
+msgstr "Yes"
 
 #: templates/students/groups_confirm_delete_handle.html:29
 #: views/students.py:137 views/students.py:142 views/students.py:147
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel"
 
 #: templates/students/students_confirm_delete.html:6
 #: templates/students/students_confirm_delete.html:8
 #: templates/students/students_confirm_delete2.html:6
 #: templates/students/students_confirm_delete2.html:8
 msgid "Delete Student"
-msgstr ""
+msgstr "Delete Student"
 
 #: templates/students/students_confirm_delete.html:13
 #: templates/students/students_confirm_delete2.html:13
 #: templates/students/students_confirm_delete_mult.html:13
 msgid "Please correct next errors"
-msgstr ""
+msgstr "Please correct next errors"
 
 #: templates/students/students_confirm_delete.html:24
 #: templates/students/students_confirm_delete2.html:24
 #, python-format
 msgid "Do you really want to delete student: \"%(object)s\"?"
-msgstr ""
+msgstr "Do you really want to delete student: \"%(object)s\"?"
 
 #: templates/students/students_confirm_delete.html:26
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: templates/students/students_confirm_delete_mult.html:6
 #: templates/students/students_confirm_delete_mult.html:8
 msgid "Delete Students"
-msgstr ""
+msgstr "Delete Students"
 
 #: templates/students/students_confirm_delete_mult.html:24
 msgid "You did not choose neither student!"
-msgstr ""
+msgstr "You did not choose neither student!"
 
 #: templates/students/students_confirm_delete_mult.html:29
 msgid "Do you really want to remove defined students?"
-msgstr ""
+msgstr "Do you really want to remove defined students?"
 
 #: templates/students/students_list.html:8
 #: templates/students/students_list_for_cbv.html:8
 msgid "Students List"
-msgstr ""
+msgstr "Students List"
 
 #: templates/students/students_list.html:13
 #: templates/students/students_list_for_cbv.html:13
 msgid "Add Student"
-msgstr ""
-
-#: templates/students/students_list.html:32
-#: templates/students/students_list_for_cbv.html:41 views/students.py:195
-msgid "Photo"
-msgstr ""
-
-#: templates/students/students_list.html:36
-#: templates/students/students_list_for_cbv.html:45
-msgid "Last Name"
-msgstr ""
+msgstr "Add Student"
 
 #: templates/students/students_list.html:43
 #: templates/students/students_list_for_cbv.html:52
 msgid "First Name"
-msgstr ""
+msgstr "First Name"
 
 #: templates/students/students_list.html:49
 #: templates/students/students_list_for_cbv.html:58 views/students.py:204
 msgid "Ticket #"
-msgstr ""
+msgstr "Ticket #"
 
 #: templates/students/students_list.html:54
 #: templates/students/students_list_for_cbv.html:63
 msgid "Action"
-msgstr ""
+msgstr "Action"
 
 #: templates/students/students_list.html:56
 #: templates/students/students_list_for_cbv.html:65
 msgid "Delete choosen"
-msgstr ""
+msgstr "Delete choosen"
 
 #: templates/students/students_list.html:84
 #: templates/students/students_list_for_cbv.html:93
 msgid "Actions"
-msgstr ""
+msgstr "Actions"
 
 #: templates/students/students_list.html:94
 #: templates/students/students_list_for_cbv.html:103 views/students.py:136
 msgid "Edit"
-msgstr ""
+msgstr "Edit"
 
 #: templates/students/students_list.html:98
 #: templates/students/students_list_for_cbv.html:107
 msgid "Delete"
-msgstr ""
+msgstr "Delete"
 
 #: templates/students/students_list_for_cbv.html:22
 msgid "There are not exist any students in list yet!"
-msgstr ""
+msgstr "There not exist any students in list yet!"
 
 #: views/students.py:90
 msgid "Student was changed successfull!"
-msgstr ""
+msgstr "Student was changed successfull!"
 
 #: views/students.py:95
 msgid "Edition of student was canceled"
-msgstr ""
+msgstr "Edition of student was canceled"
 
 #: views/students.py:141 views/students.py:146
 msgid "Add"
-msgstr ""
+msgstr "Add"
 
 #: views/students.py:161
 msgid "Name*"
-msgstr ""
+msgstr "Name*"
 
 #: views/students.py:162
 msgid "Andrew"
-msgstr ""
+msgstr "Andrew"
 
 #: views/students.py:164
 msgid "Input your name"
-msgstr ""
+msgstr "Input your name"
 
 #: views/students.py:165 views/students.py:472
 msgid "Name is mandatory!"
-msgstr ""
+msgstr "Name is mandarory!"
 
 #: views/students.py:169
 msgid "Surname*"
-msgstr ""
+msgstr "Surname*"
 
 #: views/students.py:170
 msgid "Koval"
-msgstr ""
+msgstr "Koval"
 
 #: views/students.py:171
 msgid "Input your last name"
-msgstr ""
+msgstr "Input your last name"
 
 #: views/students.py:172 views/students.py:478
 msgid "Surname is mandatory!"
-msgstr ""
+msgstr "Surname is mandatory!"
 
 #: views/students.py:176
 msgid "Middle name"
-msgstr ""
+msgstr "Middle name"
 
 #: views/students.py:181
 msgid "Date of birth*"
-msgstr ""
+msgstr "Date of birth*"
 
 #: views/students.py:183
 msgid "Your date of birth in YYYY-MM-DD format"
-msgstr ""
+msgstr "Your date of birth in YYYY-MM-DD format"
 
 #: views/students.py:184
 msgid "Field date of birth is mandatory"
-msgstr ""
+msgstr "Field date of birth is mandatory"
 
 #: views/students.py:185
 msgid "Input valid format of date"
-msgstr ""
+msgstr "Input valid format of date"
 
 #: views/students.py:196
 msgid "Choose Photo"
-msgstr ""
+msgstr "Choose Photo"
 
 #: views/students.py:198
 msgid "Your photo is not valid!"
-msgstr ""
+msgstr "Your photo is not valid!"
 
 #: views/students.py:199
 msgid "Photo is mandatory"
-msgstr ""
+msgstr "Photo is mandatory"
 
 #: views/students.py:203
 msgid "Ticket*"
-msgstr ""
+msgstr "Ticket*"
 
 #: views/students.py:207
 msgid "At least 1!"
-msgstr ""
+msgstr "At least 1!"
 
 #: views/students.py:211
 msgid "Note"
-msgstr ""
+msgstr "Note"
 
 #: views/students.py:212
 msgid "Addition information"
-msgstr ""
+msgstr "Addition information"
 
 #: views/students.py:218
 msgid "Group*"
-msgstr ""
+msgstr "Group*"
 
 #: views/students.py:220 views/students.py:221
 msgid "Choose Group"
-msgstr ""
+msgstr "Choose Group"
 
 #: views/students.py:222
 msgid "Field Group is mandatory"
-msgstr ""
+msgstr "Field Group is mandatory"
 
 #: views/students.py:223
 msgid "Invalid group"
-msgstr ""
+msgstr "Invalid group"
 
 #: views/students.py:227
 msgid "Study begin*"
-msgstr ""
+msgstr "Study begin*"
 
 #: views/students.py:229
 msgid "Start of study at YYYY-MM-DD format"
-msgstr ""
+msgstr "Start of study at YYYY-MM-DD format"
 
 #: views/students.py:230
 msgid "Field of Study begin is mandatory"
-msgstr ""
+msgstr "Field of Study begin is mandatory"
 
 #: views/students.py:234
 msgid "Visiting"
-msgstr ""
+msgstr "Visiting"
 
 #: views/students.py:236 views/students.py:238
 msgid "Choose journal"
-msgstr ""
+msgstr "Choose journal"
 
 #: views/students.py:252 views/students.py:294
 #, python-format
 msgid "Student %s successfull saved!"
-msgstr ""
+msgstr "Student %s successfull saved!"
 
 #: views/students.py:257
 #, python-format
 msgid "Editing of student %s canceled!"
-msgstr ""
+msgstr "Editing of student %s canceled!"
 
 #: views/students.py:269
 msgid "Student {} is leader of other group"
-msgstr ""
+msgstr "Student {} is leader of other group"
 
 #: views/students.py:279
 #, python-format
 msgid "Errors during editing %s student!"
-msgstr ""
+msgstr "Errors during editing %s student!"
 
 #: views/students.py:284
 msgid "Edit student"
-msgstr ""
+msgstr "Edit student"
 
 #: views/students.py:299
 msgid "Creating student canceled!"
-msgstr ""
+msgstr "Creating student canceled!"
 
 #: views/students.py:306
 msgid "Add student"
-msgstr ""
+msgstr "Add student"
 
 #: views/students.py:315
 msgid "Errors during creating student!"
-msgstr ""
+msgstr "Errors during creating student!"
 
 #: views/students.py:325
 #, python-format
 msgid "Student %s successful deleted!"
-msgstr ""
+msgstr "Student %s successful deleted!"
 
 #: views/students.py:336
 #, python-format
 msgid "%s was deleted success!"
-msgstr ""
+msgstr "%s was deleted success!"
 
 #: views/students.py:339
 msgid "Deletetion was canceled!"
-msgstr ""
+msgstr "Deletetion was canceled!"
 
 #: views/students.py:442
 msgid "Validation errors"
-msgstr ""
+msgstr "Validation errors"
 
 #: views/students.py:448
 msgid "Adding student was canceled!"
-msgstr ""
+msgstr "Adding student was canceled!"
 
 #: views/students.py:484
 msgid "Date of birth is mandatory!"
-msgstr ""
+msgstr "Date of birth is mandatory!"
 
 #: views/students.py:489 views/students.py:516
 msgid "Input date at YYYY-MM-DD format"
-msgstr ""
+msgstr "Input date at YYYY-MM-DD format"
 
 #: views/students.py:495
 msgid "Ticket is mandatory!"
-msgstr ""
+msgstr "Ticket is mandatory!"
 
 #: views/students.py:501
 msgid "Choose a group for student!"
-msgstr ""
+msgstr "Choose a group for student!"
 
 #: views/students.py:505
 msgid "Choose valid group!"
-msgstr ""
+msgstr "Choose valid group!"
 
 #: views/students.py:511
 msgid "Field study begin is mandatory!"
-msgstr ""
+msgstr "Field study begin is mandatory!"
 
 #: views/students.py:530
 msgid "Error during opening a photo"
-msgstr ""
+msgstr "Error during opening a photo"
 
 #: views/students.py:534
 msgid "It is not a image"
-msgstr ""
+msgstr "It is not an image"
 
 #: views/students.py:558
 #, python-format
 msgid "Student %s successful added!"
-msgstr ""
+msgstr "Student %s successful added!"
 
 #: views/students.py:564
 msgid "Please, correct next errors!"
-msgstr ""
+msgstr "Please, correct next errors!"
 
 #: views/students.py:571
 msgid "Adding student canceled!"
-msgstr ""
+msgstr "Adding student canceled!"
 
 #: views/students.py:611
 msgid "were deleted success!"
-msgstr ""
+msgstr "were deleted success!"
 
 #: views/students.py:613
 msgid "deletetion was canceled!"
-msgstr ""
+msgstr "deletetion was canceled!"
