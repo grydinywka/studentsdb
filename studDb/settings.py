@@ -53,6 +53,7 @@ INSTALLED_APPS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -77,11 +78,16 @@ PORTAL_URL = 'http://localhost:8000'
 
 USE_I18N = True
 # LANGUAGE_CODE = 'en-us'
-LANGUAGE_CODE = 'uk-Uk'
+LANGUAGE_CODE = 'uk-UK'
 USE_L10N = True
 USE_TZ = True
 # TIME_ZONE = 'Europe/Zaporozhye'
 TIME_ZONE = 'UTC'
+
+# LANGUAGES = (
+#     ('en', 'English'),
+#     ('uk', 'Ukrainian'),
+# )
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
@@ -211,9 +217,6 @@ LOGGING = {
 JENKINS_TASKS = ('django_jenkins.tasks.run_pylint',
                 'django_jenkins.tasks.run_pep8',
                 'django_jenkins.tasks.run_pyflakes',
-                # 'django_jenkins.tasks.run_jslint',
-                # 'django_jenkins.tasks.run_csslint',    
-                # 'django_jenkins.tasks.run_sloccount'
                )
 
 COVERAGE_REPORT_HTML_OUTPUT_DIR = os.path.join(BASE_DIR, '..', 'coverage')
