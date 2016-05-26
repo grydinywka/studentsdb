@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-26 07:06+0000\n"
+"POT-Creation-Date: 2016-05-26 11:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -140,6 +140,63 @@ msgstr "Так"
 msgid "Cancel"
 msgstr "Відмінити"
 
+#: templates/students/journal.html:6 templates/students/journal.html.py:9
+msgid "Accounting Visits"
+msgstr "Облік Студентів"
+
+#: templates/students/journal.html:20
+#, python-format
+msgid "There is not any student in group: %(exact_group.title)s. "
+msgstr "Поки немає жодного студента в групі: %(exact_group.title)s. "
+
+#: templates/students/journal.html:22
+msgid "There is not any student in database. Please,"
+msgstr "Поки немає жодного студента в базі. Будь-ласка"
+
+#: templates/students/journal.html:23
+msgid "add"
+msgstr "додайте"
+
+#: templates/students/journal.html:23
+msgid "first one"
+msgstr "першого"
+
+#: templates/students/journal.html:30
+msgid ""
+"Journal's changes are being saved automatically while someone clicks on cell "
+"table"
+msgstr "Зміни в журналі зберігаются автоматично при клацанв по комірці в "
+"таблиці"
+
+#: templates/students/journal.html:31
+msgid "Saving process..."
+msgstr "Процес збереження..."
+
+#: templates/students/journal.html:34
+msgid "Saving error"
+msgstr "Помилка збереження"
+
+#: templates/students/journal.html:39
+msgid "Last month"
+msgstr "Попередній місяць"
+
+#: templates/students/journal.html:43
+msgid "Next month"
+msgstr "Наступний місяць"
+
+#: templates/students/journal.html:51
+msgid "#"
+msgstr "№"
+
+#: templates/students/journal.html:52
+msgid "Student / -s"
+msgstr "Студент / -и"
+
+#: templates/students/journal.html:80 templates/students/students_list.html:94
+#: templates/students/students_list_for_cbv.html:103 views/students.py:136
+msgid "Edit"
+msgstr "Редагувати"
+
 #: templates/students/students_confirm_delete.html:6
 #: templates/students/students_confirm_delete.html:8
 #: templates/students/students_confirm_delete2.html:6
@@ -210,11 +267,6 @@ msgstr "Видалити обраних"
 #: templates/students/students_list_for_cbv.html:93
 msgid "Actions"
 msgstr "Дії"
-
-#: templates/students/students_list.html:94
-#: templates/students/students_list_for_cbv.html:103 views/students.py:136
-msgid "Edit"
-msgstr "Редагувати"
 
 #: templates/students/students_list.html:98
 #: templates/students/students_list_for_cbv.html:107

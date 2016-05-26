@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
 from calendar import monthrange, weekday, day_abbr
@@ -190,32 +188,34 @@ class JournalView(TemplateView):
 		# go over all students and collect data about presence
 		# during selected month
 		i = little
-		while i < large:
-			# try to get journal object by month selected
-			# month and current student
-			try:
-				journal = MonthJournal.objects.get(student=queryset[i], date=month)
-			except Exception:
-				journal = None
+		if len(queryset) > 0:
+			while i < large:
+				# try to get journal object by month selected
+				# month and current student
+				try:
+					journal = MonthJournal.objects.get(student=queryset[i], date=month)
+				except Exception:
+					journal = None
 
-			# fill in days presence list for current student
-			days = []
-			for day in range(1, number_of_days+1):
-				days.append({
-					'day': day,
-					'present': journal and getattr(journal, 'present_day%d' % day, False) or False,
-					'date': date(myear, mmonth, day).strftime('%Y-%m-%d'),
-				})
+				# fill in days presence list for current student
+				days = []
+				for day in range(1, number_of_days+1):
+					days.append({
+						'day': day,
+						'present': journal and getattr(journal, 'present_day%d' % day, False) or False,
+						'date': date(myear, mmonth, day).strftime('%Y-%m-%d'),
+					})
 
-			# prepare metadata for current student
-			students[i] = {
-				'fullname': u'%s %s' % (queryset[i].last_name, queryset[i].first_name),
-				'days': days,
-				'id': queryset[i].id,
-				'update_url': update_url,
-			}
-			i += 1
-			
+				# prepare metadata for current student
+
+				students[i] = {
+					'fullname': u'%s %s' % (queryset[i].last_name, queryset[i].first_name),
+					'days': days,
+					'id': queryset[i].id,
+					'update_url': update_url,
+				}
+				i += 1
+				
 		# apply pagination, 10 students per page
 		context = paginate(students, valStudOnPage, self.request, context,
 			var_name='students')
