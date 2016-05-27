@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
 import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
 from django.test import TestCase, Client
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext as _
 
 from students.models import Student, Group
 
@@ -33,9 +33,10 @@ class TestStudentUpdateForm(TestCase):
 		self.assertEqual(response.status_code, 200)
 
 		# check page title, few field titles on edit form
-		self.assertIn(u'Редагувати', response.content)
-		self.assertIn(u'Білет', response.content)
-		self.assertIn(u'Прізвище', response.content)
+		self.assertIn(_(u'Edit'), response.content)
+		self.assertIn(_(u'Ticket'), response.content)
+		self.assertIn(_(u'Surname'), response.content)
+		
 		self.assertIn('name="edit_button"', response.content)
 		self.assertIn('name="cancel_button"', response.content)
 		self.assertIn('action="%s"' % self.url, response.content)
@@ -83,7 +84,7 @@ class TestStudentUpdateForm(TestCase):
 		self.assertRegexpMatches(student.photo.name, u'./my(?P<x>.*).jpeg')
 
 		# check proper redirect after form post
-		self.assertIn(u'Студента %s успішно збережено!' % student, response.content)
+		self.assertIn(u'Student %s successfully saved!' % student, response.content)
 		
 	# def test_access(self):
 	# 	# try to access form as anonymus user
@@ -94,7 +95,7 @@ class TestStudentUpdateForm(TestCase):
 
 	# 	# check that we're on login form
 	# 	# self.assertIn('Login Form', response.content)
-	# 	self.assertIn(u'Django адміністрування', response.content)
+	# 	self.assertIn(_(u'Django administration'), response.content)
 
 	# 	# check redirect url
 	# 	# self.assertEqual(response.redirect_chain,
@@ -127,7 +128,7 @@ class TestStudentUpdateForm(TestCase):
 		self.assertEqual(student.ticket, '23456')
 		self.assertEqual(student.student_group, Group.objects.filter(title='Group1')[0])
 
-		self.assertIn(u'Редагування студента %s відмінено!' % student, response.content)
+		self.assertIn(u'Editing of student %s canceled!' % student, response.content)
 
 	def test_css_and_other(self):
 		self.client.login(username='admin', password='admin')

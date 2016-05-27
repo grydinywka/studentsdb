@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
-
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.utils.translation import ugettext as _
 from ..models.Result_exam import Result_exam
 
 def result_list(request):

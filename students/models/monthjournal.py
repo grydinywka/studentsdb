@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 # def getInstance(mjClass, *args):
 # 	mj = mjClass
@@ -17,22 +17,22 @@ class MonthJournal(models.Model):
 	"""Student Monthly Journal"""
 
 	class Meta:
-		verbose_name = u'Місячний Журнал'
-		verbose_name_plural = u'Місячні Журнали'
+		verbose_name = _(u'Month Journal')
+		verbose_name_plural = _(u'Month Journals')
 
 	student = models.ForeignKey('Student',
-		verbose_name=u'Студент',
+		verbose_name=_(u'Student'),
 		blank=False,
 		unique_for_month='date')
 		
 	# we only need year and month, so always set day ofthe month
 	date = models.DateField(
-		verbose_name=u'Дата',
+		verbose_name=_(u'Date'),
 		blank=False)
 
 	scope = locals()
 	for item in xrange(1, 32, 1):
-		scope['present_day' + str(item)] = models.BooleanField(verbose_name = u'День №'+str(item), default=False)
+		scope['present_day' + str(item)] = models.BooleanField(verbose_name = _(u'Day #')+str(item), default=False)
 	
 	# list of days, each says whether student  was presented or not
 	# present_day1 = models.BooleanField(default=False)
@@ -68,7 +68,9 @@ class MonthJournal(models.Model):
 	# present_day31 = models.BooleanField(default=False)
 	
 	def __unicode__(self):
-		return u'Student %s: Month:%d, Year:%d' % (self.student.last_name, self.date.month, self.date.year)
+		return _(u'Student {}: Month:{}, Year:{}').format(self.student.last_name,
+														  self.date.month,
+														  self.date.year)
 
 # limit = 32
 # for day in xrange(1, limit, 1):

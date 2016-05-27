@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from datetime import datetime
 
 from django import forms
@@ -7,13 +5,13 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.views.generic import UpdateView, CreateView, DeleteView
+from django.views.generic.base import TemplateView
+from django.utils.translation import ugettext as _
 
 from ..models.Exam import Exam
 from ..models.Group import Group
 from ..models.Student import Student
-
-from django.views.generic import UpdateView, CreateView, DeleteView
-from django.views.generic.base import TemplateView
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
@@ -63,55 +61,55 @@ class ExamEdit(forms.ModelForm):
 		if 'instance' in kwargs:
 			if kwargs['instance']:
 				self.helper.layout[-1] = FormActions(
-					Submit('edit_button', u'Редагувати', css_class="btn btn-primary"),
-					Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
+					Submit('edit_button', _(u'Edit'), css_class="btn btn-primary"),
+					Submit('cancel_button', _(u'Cancel'), css_class="btn btn-link")
 					)
 			else:
 				self.helper.layout[-1] = FormActions(
-					Submit('add_button', u'Додати', css_class="btn btn-primary"),
-					Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
+					Submit('add_button', _(u'Add'), css_class="btn btn-primary"),
+					Submit('cancel_button', _(u'Cancel'), css_class="btn btn-link")
 					)
 		else:
 			self.helper.layout[-1] = FormActions(
-				Submit('add_button', u'Додати', css_class="btn btn-primary"),
-				Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
+				Submit('add_button', _(u'Add'), css_class="btn btn-primary"),
+				Submit('cancel_button', _(u'Cancel'), css_class="btn btn-link")
 				)
 
 		# self.helper.layout[-1] = FormActions(
-		# 	Submit('edit_button', u'Редагувати', css_class="btn btn-primary"),
-		# 	Submit('cancel_button', u'Скасувати', css_class="btn btn-link")
+		# 	Submit('edit_button', _(u'Edit'), css_class="btn btn-primary"),
+		# 	Submit('cancel_button', _(u'Cancel'), css_class="btn btn-link")
 		# 	)
 
 	title = forms.CharField(
-		label = u'Назва іспиту*',
-		error_messages = {'required': u'ПОЛЕ НАЗВИ Є ОБОВ’ЯЗКОВЕ'},
-		help_text = u'Введіть назву іспиту'
+		label = _(u'Title*'),
+		error_messages = {'required': _(u'Title is required!')},
+		help_text = _(u'Input title')
 		)
 
 	exam_date = forms.DateTimeField(
-		label = u'Дата і час*',
-		help_text = u'формат РРРР-ММ-ДД ГГ:ХХ',
-		error_messages = {'required': u'ПОЛЕ дати повинно бути присутнім!!!',
-						  'initial': u'Формат неправильний'}
+		label = _(u'Date and time*'),
+		help_text = _(u'format YYYY-MM-DD hh:mm'),
+		error_messages = {'required': _(u'Date fild is required!'),
+						  'initial': _(u'Format failed!')}
 		)
 
 	presenter = forms.CharField(
-		label = u'Екзаменатор*',
-		error_messages = {'required': u'Поле екзаменатора є обов’язковим!'},
-		help_text = u'Ім’я та По-батькові'
+		label = _(u'Presenter*'),
+		error_messages = {'required': _(u'Presenter field is required!')},
+		help_text = _(u'First and middle name')
 		)
 
 	exam_group = forms.ModelMultipleChoiceField(
 		required = False,
-		label = u'Груп -а/-и',
-		# help_text = u'Затисніть клавішу "Control", або "Command" на Маку, щоб обрати більше однієї опції.',
+		label = _(u'Group /-s'),
+		# help_text = _(u'Press "Control" or "Command" at Mac for choosing more options.'),
 		queryset=Group.objects.all().order_by('title'),
-		error_messages = {'invalid_choice': u'Неправильна група'}
+		error_messages = {'invalid_choice': _(u'Failed group')}
 		)
 
 	notes = forms.CharField(
-		label=u"Нотатки",
-		help_text=u"Додаткова інформація",
+		label=_(u"Notes"),
+		help_text=_(u"Additional info"),
 		required=False,
 		max_length=1000
 		)
@@ -195,24 +193,24 @@ def exams_edit_handle(request, eid):
 
 			title = request.POST.get('title', '').strip()
 			if not title:
-				errors['title'] = u'Поле назви є обов’язковим'
+				errors['title'] = _(u'Title field is required!')
 			else:
 				data['title'] = title
 
 			exam_date = request.POST.get('exam_date', '').strip()
 			if not exam_date:
-				errors['exam_date'] = u'Поле дати і часу іспиту є обов’язковим!'
+				errors['exam_date'] = _(u'Date field is required!')
 			else:
 				try:
 					datetime.strptime(exam_date, '%Y-%m-%d %H:%M')
 				except Exception as e:
-					errors['exam_date'] = u'Неправильний формат дати і часу: ' + str(e)
+					errors['exam_date'] = _(u'Improper format date and time: ') + str(e)
 				else:
 					data['exam_date'] = exam_date
 			
 			presenter = request.POST.get('presenter', '').strip()
 			if not presenter:
-				errors['presenter'] = u'Екзаменатор є обов’язковим!'
+				errors['presenter'] = _(u'Presenter field is required!')
 			else:
 				data['presenter'] = presenter
 
@@ -233,17 +231,17 @@ def exams_edit_handle(request, eid):
 				for group in data_exam_group:
 					exam.exam_group.add(group)
 
-				messages.success(request, u'Іспит %s поредаговано!' % exam)
+				messages.success(request, _(u'Exam %s edited!') % exam)
 				return HttpResponseRedirect(reverse('exams'))
 			else:
-				messages.error(request, u'Виправте наступні помилки')
+				messages.error(request, _(u'Fix next errors!'))
 				return render(request, 'students/exams_edit_handle.html', {'groups': Group.objects.all().order_by('title'),
 																		  'errors': errors,
 																		  'data_exam_group': data_exam_group,
 																		  'eid': eid,
 																		  'exam_group': exam_group})
 		elif request.POST.get('cancel_button') is not None:
-			messages.info(request, u'Редагування іспиту %s відмінено!' % exam)
+			messages.info(request, _(u'Editing exam %s canceled!') % exam)
 			return HttpResponseRedirect(reverse("exams"))
 	else:
 		return render(request, 'students/exams_edit_handle.html', {'exam': exam,
@@ -268,9 +266,9 @@ def exams_edit_django_form(request, eid):
 				try:
 					exam.save()
 				except Exception as e:
-					messages.error(request, (u"Невдале редагування %s!" % exam) + str(e))
+					messages.error(request, (_(u"Unsuccessful editing %s!") % exam) + str(e))
 				else:
-					messages.success(request, u"Іспит %s був поредагований успішно!" % exam)
+					messages.success(request, _(u"Exam %s was successful edited!") % exam)
 
 				return HttpResponseRedirect(reverse('exams'))
 			else:
@@ -280,7 +278,7 @@ def exams_edit_django_form(request, eid):
 					 'form': form})
 
 		elif request.POST.get('cancel_button') is not None:
-			messages.info(request, u'Редагування іспиту %s відмінено!' % exam)
+			messages.info(request, _(u'Editing exam %s canceled!') % exam)
 			return HttpResponseRedirect(reverse("exams"))
 	else:
 		default = {'title': exam.title,
@@ -316,24 +314,24 @@ def exams_add_handle(request):
 
 			title = request.POST.get('title', '').strip()
 			if not title:
-				errors['title'] = u'Назва іспиту є обов’язковою!'
+				errors['title'] = _(u'Titlt is required!')
 			else:
 				data['title'] = title
 
 			exam_date = request.POST.get('exam_date','').strip()
 			if not exam_date:
-				errors['exam_date'] = u'Дата і час іспиту є обов’язкові!'
+				errors['exam_date'] = _(u'Date and time of exan is required!')
 			else:
 				try:
 					datetime.strptime(exam_date, '%Y-%m-%d %H:%M')
 				except Exception as e:
-					errors['exam_date'] = u'Неправильний формат .' + str(e)
+					errors['exam_date'] = _(u'not right format.') + str(e)
 				else:
 					data['exam_date'] = exam_date
 
 			presenter = request.POST.get('presenter', '').strip()
 			if not presenter:
-				errors['presenter'] = u'Екзаменатор є обов’язковим!'
+				errors['presenter'] = _(u'Presenter is required!')
 			else:
 				data['presenter'] = presenter
 
@@ -350,14 +348,14 @@ def exams_add_handle(request):
 			# if type_e_g is list:
 			# 	for group_id in exam_group:
 			# 		if not group_id in id_all_groups:
-			# 			errors['exam_group'] = u'ПОмилка у виборі групи1'
+			# 			errors['exam_group'] = _(u'Error during choosing group1')
 			# 	if not hasattr(errors, 'exam_group'):
 			# 		data['exam_group'] = exam_group
 			# else:
 			# 	if exam_group in id_all_groups:
 			# 		data['exam_group'] = exam_group
 			# 	else:
-			# 		errors['exam_group'] = u'ПОмилка у виборі групи2'
+			# 		errors['exam_group'] = _(u'Error during choosing group2')
 
 			if not errors:
 				exam = Exam(**data)
@@ -365,10 +363,10 @@ def exams_add_handle(request):
 				for group in data_exam_group:
 					exam.exam_group.add(group)
 
-				messages.success(request, u'Іспит додано!')
+				messages.success(request, _(u'Exam added!'))
 				return HttpResponseRedirect(reverse('exams'))
 			else:
-				messages.error(request, u'Виправте наступні помилки')
+				messages.error(request, _(u'Correct next errors'))
 				return render(request, 'students/exams_add_handle.html', {'groups': Group.objects.all().order_by('title'),
 																		  'errors': errors,
 																		  'e_g': exam_group,
@@ -377,7 +375,7 @@ def exams_add_handle(request):
 																		  'students': Student.objects.all()})
 
 		elif request.POST.get('cancel_button') is not None:
-			messages.info(request, u'Відмінено створення іспиту!')
+			messages.info(request, _(u'Creating exam canceled!'))
 			return HttpResponseRedirect(reverse("exams"))
 	else:
 		return render(request, 'students/exams_add_handle.html', {'groups': groups,
@@ -388,10 +386,10 @@ def exams_confirm_delete_handle(request, eid):
 
 	if request.method == 'POST':
 		if request.POST.get('cancel_button') is not None:
-			messages.info(request, u'Видалення іспиту %s відмінено!' % exam)
+			messages.info(request, _(u'Deleting exam %s canceled!') % exam)
 			return HttpResponseRedirect(reverse('exams'))
 		elif request.POST.get('delete_button') is not None:
-			messages.success(request, u'Іспит %s видалено!' % exam)
+			messages.success(request, _(u'Exam %s deleted!') % exam)
 			exam.delete()
 			return HttpResponseRedirect(reverse('exams'))
 	else:
@@ -405,19 +403,19 @@ class ExamEditView(UpdateView):
 	form_class = ExamEdit
 
 	def get_success_url(self):
-		messages.success(self.request, u'Іспит %s усішно поредаговано!' % self.object)
+		messages.success(self.request, _(u'Exam %s successfully edited!') % self.object)
 		return reverse('exams')
 
 	def post(self, request, *args, **kwargs):
 		if request.POST.get('cancel_button'):
-			messages.info(request, u'Редагування іспиту %s відмінено!' % self.get_object())
+			messages.info(request, _(u'Editing exam %s canceled!') % self.get_object())
 			return HttpResponseRedirect(reverse('exams'))
 		else:
 			return super(ExamEditView, self).post(request, *args, **kwargs)
 
 	def get_context_data(self, **kwargs):
 		context = super(ExamEditView, self).get_context_data(**kwargs)
-		context['title'] = u'Редагувати іспит'
+		context['title'] = _(u'Edit exam')
 
 		return context
 
@@ -428,19 +426,19 @@ class ExamAddView(CreateView):
 	form_class = ExamEdit
 
 	def get_success_url(self):
-		messages.success(self.request, u'Іспит %s створено!' % self.object)
+		messages.success(self.request, _(u'Exam %s created!') % self.object)
 		return reverse('exams')
 
 	def post(self, request, *args, **kwargs):
 		if request.POST.get('cancel_button'):
-			messages.info(request, u'Створення іспиту відмінено!')
+			messages.info(request, _(u'Creating exam canceled!'))
 			return HttpResponseRedirect(reverse('exams'))
 		else:
 			return super(ExamAddView, self).post(request, *args, **kwargs)
 
 	def get_context_data(self, **kwargs):
 		context = super(ExamAddView, self).get_context_data(**kwargs)
-		context['title'] = u'Додати іспит'
+		context['title'] = _(u'Add exam')
 
 		return context
 
@@ -450,14 +448,14 @@ class ExamDeleteView(DeleteView):
 	pk_url_kwarg = 'eid'
 
 	def get_success_url(self):
-		# messages.success(self.request, u'Іспит %s видалено!' % self.object)
+		# messages.success(self.request, _(u'Exam %s deleted!') % self.object)
 		return reverse('exams')
 
 	def post(self, request, *args, **kwargs):
 		if request.POST.get("delete_button"):
-			messages.success(request, "Іспит %s був видалений!" % self.get_object())
+			messages.success(request, _("Exam %s was deleted!") % self.get_object())
 			self.get_object().delete()
 		elif request.POST.get("cancel_button"):
-			messages.info(request, "Видалення іспиту %s скасовано!" % self.get_object())
+			messages.info(request, _("Deleting exam %s canceled!") % self.get_object())
 		
 		return HttpResponseRedirect(reverse('exams'))

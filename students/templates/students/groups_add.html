@@ -1,15 +1,16 @@
 {% extends "students/base.html" %}
 
+{% load i18n %}
 {% load static from staticfiles %}
 
-{% block meta_title %}Додати Групу{% endblock meta_title %}
+{% block meta_title %}{% trans 'Add group' %}{% endblock meta_title %}
 
-{% block title %}Додати Групу{% endblock title %}
+{% block title %}{% trans 'Add group' %}{% endblock title %}
 
 {% block status_message %}
   {% if messages %}
   <div class="alert alert-warning" role="alert">
-  	Будь-ласка, виправте наступні помилки
+  	{% trans 'Please fix the next errors!' %}
   </div>
   {% endif %}
 
@@ -25,10 +26,10 @@
 
 		{{ form.as_p }}
 		
-		<input type="submit" value="Зберегти" name="add_button"
+		<input type="submit" value={% trans 'Save' %} name="add_button"
 			   class="btn btn-primary" />
-		<button type="submit" name="cancel_button" value="Скасувати" 
-				class="btn btn-link">Скасувати</button>
+		<button type="submit" name="cancel_button" value={% trans 'Cancel' %} 
+				class="btn btn-link">{% trans 'Cancel' %}</button>
 	</form>
 
 {% endblock content %}

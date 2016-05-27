@@ -1,18 +1,17 @@
-# -*- coding: utf-8 -*-
-
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 class Visiting(models.Model):
 	"""Visit's Model"""
 
 	class Meta(object):	
-		verbose_name = u"Відвідування"
-		verbose_name_plural = u"Усі відвідування"
+		verbose_name = _(u"Visiting")
+		verbose_name_plural = _(u"All Visiting")
 
 	title = models.CharField(
 		max_length=256,
 		blank=False,
-		verbose_name=u"Назва")
+		verbose_name=_(u"Title"))
 	
 	def __unicode__(self):
 		if True:

@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext as _
 
 from ..models import Student, Group, MonthJournal, Exam, Result_exam
 from ..models.Result_exam import validate_value
@@ -40,7 +41,7 @@ class MonthJournalModelTests(TestCase):
 			ticket=12345,
 			study_start=date(2007, 9, 1))
 		month_journal = MonthJournal.objects.get_or_create(student=student, date=date(2015, 10, 12))[0]
-		self.assertEqual(unicode(month_journal), u'Student Petrov: Month:10, Year:2015')
+		self.assertEqual(unicode(month_journal), _(u'Student Petrov: Month:10, Year:2015'))
 
 class ExamModelTests(TestCase):
 	"""test exam model"""

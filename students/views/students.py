@@ -249,7 +249,7 @@ class StudentEditView(UpdateView):
 	form_class = StudentEditForm
 
 	def get_success_url(self):
-		messages.success(self.request, _(u'Student %s successfull saved!' % self.object))
+		messages.success(self.request, _(u'Student %s successfully saved!' % self.object))
 		return reverse('home')
 
 	def post(self, request, *args, **kwargs):

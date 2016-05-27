@@ -1,15 +1,12 @@
-# -*- coding: utf-8 -*-
-
 from datetime import datetime
-
 from django.core.urlresolvers import reverse
-
 from django.shortcuts import render
+from django.utils.translation import ugettext as _
+from django.views.generic.base import TemplateView
 from ..models.log_entry import LogEntry
 
-from django.views.generic.base import TemplateView
-
 from ..util import paginate, get_current_group
+
 
 def log_entries(request):
 	entries = LogEntry.objects.all()

@@ -84,10 +84,10 @@ USE_TZ = True
 # TIME_ZONE = 'Europe/Zaporozhye'
 TIME_ZONE = 'UTC'
 
-# LANGUAGES = (
-#     ('en', 'English'),
-#     ('uk', 'Ukrainian'),
-# )
+LANGUAGES = (
+    ('en', 'English'),
+    ('uk', 'Ukrainian'),
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/

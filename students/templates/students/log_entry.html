@@ -1,11 +1,12 @@
 {% extends "students/base.html" %}
 
+{% load i18n %}
 {% load static from staticfiles %}
 {% load switch %}
 
-{% block meta_title %}Журнал подій{% endblock meta_title %}
+{% block meta_title %}{% trans 'Log events' %}{% endblock meta_title %}
 
-{% block title %}Журнал подій{% endblock title %}
+{% block title %}{% trans 'Log events' %}{% endblock title %}
 
 
 {% block status_message %}
@@ -17,25 +18,25 @@
 	<thead>
 		<tr>
 			<th><a href="{% url "log" %}?page=1&amp;order_by=id{% if order_by == 'id' and reverse != '1' %}&amp;reverse=1{% endif %}">
-				id
+				{% trans 'id' %}
 				{% if order_by == 'id' and reverse != '1' %}&uarr;
 				{% elif order_by == 'id' and reverse == '1' %}&darr;
 				{% endif %}
 			</a></th>
 			<th>
-				level
+				{% trans 'level' %}
 			</th>
 			<th>
-				date and time
+				{% trans 'date and time' %}
 			</th>
 			<th><a href="{% url "log" %}?page=1&amp;order_by=module{% if order_by == 'module' and reverse != '1' %}&amp;reverse=1{% endif %}">
-				module
+				{% trans 'module' %}
 				{% if order_by == 'module' and reverse != '1' %}&uarr;
 				{% elif order_by == 'module' and reverse == '1' %}&darr;
 				{% endif %}
 			</a></th>
 			<th><a href="{% url "log" %}?page=1&amp;order_by=message{% if order_by == 'message' and reverse != '1' %}&amp;reverse=1{% endif %}">
-				message
+				{% trans 'message' %}
 				{% if order_by == 'message' and reverse != '1' %}&uarr;
 				{% elif order_by == 'message' and reverse == '1' %}&darr;
 				{% endif %}

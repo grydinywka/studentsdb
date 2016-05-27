@@ -1,15 +1,14 @@
-# -*- coding: utf-8 -*-
-
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 class LogEntry(models.Model):
 	level = models.CharField(
 		max_length=20,
 		blank=False,
-		verbose_name='Level')
+		verbose_name=_(u'Level'))
 	asctime = models.DateTimeField(
 		blank=False,
-		verbose_name='Date and time event',
+		verbose_name=_(u'Date and time event'),
 		null=True)
 	module = models.CharField(
 		max_length=100,

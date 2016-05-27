@@ -1,10 +1,11 @@
 {% extends "students/base.html" %}
 
+{% load i18n %}
 {% load static from staticfiles %}
 
-{% block meta_title %}Результати{% endblock meta_title %}
+{% block meta_title %}{% trans 'Results' %}{% endblock meta_title %}
 
-{% block title %}Результати іспитів{% endblock title %}
+{% block title %}{% trans 'Results of exams' %}{% endblock title %}
 
 {% block content %}
 <!-- Start Groups Listing -->
@@ -17,7 +18,7 @@
 				{% if order_by == 'id' and reverse != '1' %}
 					&amp;reverse=1
 				{% endif %}">
-					#
+					{% trans '#' %}
 					{% if order_by == 'id' and reverse != '1' %}&uarr;
 					{% elif order_by == 'id' and reverse == '1' %}&darr;
 					{% endif %}
@@ -25,17 +26,17 @@
 			</th>
 			<th>
 				<a href="#">
-					Предмет
+					{% trans 'Subject' %}
 				</a>
 			</th>
 			<th>
 				<a href="#">
-					Студенти
+					{% trans 'Students' %}
 				</a>
 			</th>
 			<th>
 				<a href="#">
-					Оцінка
+					{% trans 'Valuetion' %}
 				</a>
 			</th>
 		</tr>
