@@ -84,7 +84,7 @@ class TestStudentUpdateForm(TestCase):
 		self.assertRegexpMatches(student.photo.name, u'./my(?P<x>.*).jpeg')
 
 		# check proper redirect after form post
-		self.assertIn(u'Student %s successfully saved!' % student, response.content)
+		self.assertIn(_(u'Student %s successfully saved!') % student, response.content)
 		
 	# def test_access(self):
 	# 	# try to access form as anonymus user
@@ -128,7 +128,7 @@ class TestStudentUpdateForm(TestCase):
 		self.assertEqual(student.ticket, '23456')
 		self.assertEqual(student.student_group, Group.objects.filter(title='Group1')[0])
 
-		self.assertIn(u'Editing of student %s canceled!' % student, response.content)
+		self.assertIn(_(u'Editing of student %s canceled!') % student, response.content)
 
 	def test_css_and_other(self):
 		self.client.login(username='admin', password='admin')

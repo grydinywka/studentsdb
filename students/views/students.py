@@ -249,12 +249,12 @@ class StudentEditView(UpdateView):
 	form_class = StudentEditForm
 
 	def get_success_url(self):
-		messages.success(self.request, _(u'Student %s successfully saved!' % self.object))
+		messages.success(self.request, _(u'Student %s successfully saved!') % self.object)
 		return reverse('home')
 
 	def post(self, request, *args, **kwargs):
 		if request.POST.get('cancel_button'):
-			messages.info(self.request, _(u'Editing of student %s canceled!' % self.get_object()))
+			messages.info(self.request, _(u'Editing of student %s canceled!') % self.get_object())
 			return HttpResponseRedirect(reverse('home'))
 		else:
 			return super(StudentEditView, self).post(request, *args, **kwargs)
@@ -291,7 +291,7 @@ class StudentAddView(CreateView):
 	form_class = StudentEditForm
 
 	def get_success_url(self):
-		messages.success(self.request, _(u'Student %s successfull saved!' % self.object))
+		messages.success(self.request, _(u'Student %s successfull saved!') % self.object)
 		return reverse('home')
 
 	def post(self, request, *args, **kwargs):

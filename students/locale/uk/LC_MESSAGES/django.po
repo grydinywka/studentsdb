@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-27 18:05+0000\n"
+"POT-Creation-Date: 2016-05-27 18:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -565,6 +565,16 @@ msgstr "Поки немає жодного студента в базі..."
 msgid "Student Petrov: Month:10, Year:2015"
 msgstr "Студент Petrov: Місяць:10, Рік:2015"
 
+#: tests/test_student_forms.py:87 views/students.py:252
+#, python-format
+msgid "Student %s successfully saved!"
+msgstr "Студент %s поредагований успішно!"
+
+#: tests/test_student_forms.py:131 views/students.py:257
+#, python-format
+msgid "Editing of student %s canceled!"
+msgstr "Редагування студента %s відмінено"
+
 #: views/contact_admin2.py:44
 msgid "Send"
 msgstr "Надіслати"
@@ -969,16 +979,6 @@ msgstr "Поле дати є обов'язковим"
 msgid "Choose journal"
 msgstr "Оберіть Журнал"
 
-#: views/students.py:252
-#, python-format
-msgid "Student %s successfully saved!"
-msgstr "Студент %s поредагований успішно!"
-
-#: views/students.py:257
-#, python-format
-msgid "Editing of student %s canceled!"
-msgstr "Редагування студента %s відмінено"
-
 #: views/students.py:269
 msgid "Student {} is leader of other group"
 msgstr "Студент {} є лідером іншої групи"
@@ -1080,8 +1080,3 @@ msgstr "були видалені успішно!"
 msgid "deletetion was canceled!"
 msgstr "видалення студента відмінено!"
 
-#~ msgid "Editional %s canceled!"
-#~ msgstr "Редагування %s відмінено!"
-
-#~ msgid "Student %s saved successfully!"
-#~ msgstr "Студент %s збережений успішно!"

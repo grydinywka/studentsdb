@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-27 18:05+0000\n"
+"POT-Creation-Date: 2016-05-27 18:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -628,6 +628,17 @@ msgstr "There not exist any students in list yet!"
 msgid "Student Petrov: Month:10, Year:2015"
 msgstr ""
 
+#: tests/test_student_forms.py:87 views/students.py:252
+#, fuzzy, python-format
+#| msgid "Student %s successfull saved!"
+msgid "Student %s successfully saved!"
+msgstr "Student %s successfull saved!"
+
+#: tests/test_student_forms.py:131 views/students.py:257
+#, python-format
+msgid "Editing of student %s canceled!"
+msgstr "Editing of student %s canceled!"
+
 #: views/contact_admin2.py:44
 msgid "Send"
 msgstr ""
@@ -1082,17 +1093,6 @@ msgstr "Field of Study begin is mandatory"
 #: views/students.py:236 views/students.py:238
 msgid "Choose journal"
 msgstr "Choose journal"
-
-#: views/students.py:252
-#, fuzzy, python-format
-#| msgid "Student %s successfull saved!"
-msgid "Student %s successfully saved!"
-msgstr "Student %s successfull saved!"
-
-#: views/students.py:257
-#, python-format
-msgid "Editing of student %s canceled!"
-msgstr "Editing of student %s canceled!"
 
 #: views/students.py:269
 msgid "Student {} is leader of other group"
