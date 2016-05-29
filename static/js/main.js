@@ -22,7 +22,7 @@ function initJournal() {
 				// alert(error);
 				indicator.hide();
 				presence_error.show();
-				$('div#presence_error').append("<p>" + error + "</p>");
+				$('div#presence_error').append(gettext("<p>" + error + "</p>"));
 			},
 			'success': function(data, status, xhr){
 				indicator.hide();
@@ -112,7 +112,7 @@ function getCurrPage(link, str) {
 		},
 		'success': function(data, status, xhr){
 			if (status != 'success') {
-				alert('Error on server. Attempt later, please!');
+				alert(gettext('Error on server. Attempt later, please!'));
 				return false;
 			}
 			html = $(data);
@@ -126,7 +126,7 @@ function getCurrPage(link, str) {
 			initEditGroupPage();
 		},
 		'error': function(){
-			html = '<h1>Error</h1>';
+			html = gettext('<h1>Error</h1>');
 		}
 	});
 
@@ -157,8 +157,9 @@ function initEditAddStudentForm(form, modal, link) {
 		'error': function(){
 			spinner.hide();
 			modal_job.modal('hide');
-			$('#content-colomns div').html('<div class="alert alert-warning">\
-			 Error on server. Attempt later, please! </div>');
+			$('#content-colomns div').html(gettext('<div class="alert alert-warning">\
+						 Error on server. Attempt later, please! </div>'));
+
 			return false;
 		},
 		'success': function(data, status, xhr) {
@@ -220,7 +221,7 @@ function initEditAddStudentPage() {
 
 				// check if we got successfull response from the server
 				if (status != 'success') {
-					alert('Error on server. Attempt later, please!');
+					alert(gettext('Error on server. Attempt later, please!'));
 					return false;
 				}
 				// update modal window with arrived content from the server
@@ -246,9 +247,9 @@ function initEditAddStudentPage() {
 				modal.modal('hide');
 				$('a').css({"pointer-events": "auto",
        						"cursor": "pointer"});
-				$('#content-colomns div').html('<div class="alert alert-warning">\
-				 Error on server. Attempt later, please! </div>');
-
+				$('#content-colomns div').html(gettext('<div class="alert alert-warning">\
+								 Error on server. Attempt later, please! </div>'));
+				alert(gettext('There was an error on the server!'));
 				return false;
 			}
 		});
@@ -313,7 +314,7 @@ function initDelete_multStudentForm() {
 						modal_job.modal('hide');
 						spinner_job.hide();
 
-						alert('Error on server!');
+						alert(gettext('Error on server!'));
 					}
 				});
 			} else {
@@ -327,8 +328,8 @@ function initDelete_multStudentForm() {
 			modal.modal('hide');
 			$('a').css({"pointer-events": "auto",
    						"cursor": "pointer"});
-			$('#content-colomns div').html('<div class="alert alert-warning">\
-			 Error on server. Attempt later, please! </div>');
+			$('#content-colomns div').html(gettext('<div class="alert alert-warning">\
+						 Error on server. Attempt later, please! </div>'));
 
 			return false;
 		}
@@ -358,8 +359,8 @@ function initDeleteStudentForm(form, modal, link){
 			modal.modal('hide');
 			$('input, select').attr('readonly', false);
 			$('input, select').attr('disabled', false);
-			$('#content-colomns div').html('<div class="alert alert-warning">\
-			 Error on server. Attempt later, please! </div>');
+			$('#content-colomns div').html(gettext('<div class="alert alert-warning">\
+						 Error on server. Attempt later, please! </div>'));
 			return false;
 		},
 		'success': function(data, status, xhr) {
@@ -397,7 +398,7 @@ function initDeleteStudentPage() {
 			'type': 'get',
 			'success': function(data, status, xhr){
 				if (status != 'success') {
-					alert('Error on server. Attempt later, please!');
+					alert(gettext('Error on server. Attempt later, please!'));
 					return false;
 				}
 				// update modal window with arrived content from the server
@@ -445,8 +446,8 @@ function initEditGroupForm(form, modal, link) {
 		'error': function(){
 			spinner_job.hide();
 			modal_job.modal('hide');
-			$('#content-colomns div').html('<div class="alert alert-warning">\
-			 Error on server. Attempt later, please! </div>');
+			$('#content-colomns div').html(gettext('<div class="alert alert-warning">\
+						 Error on server. Attempt later, please! </div>'));
 			return false;
 		},
 		'success': function(data, status, xhr) {
@@ -498,7 +499,7 @@ function initEditGroupPage() {
 
 				// check if we got successfull response from the server
 				if (status != 'success') {
-					alert('Error on server. Attempt later, please!');
+					alert(gettext('Error on server. Attempt later, please!'));
 					return false;
 				}
 				// update modal window with arrived content from the server
@@ -522,8 +523,8 @@ function initEditGroupPage() {
 				spinner.hide();
 				$('a').css({"pointer-events": "auto",
        						"cursor": "pointer"});
-				$('#content-colomns div').html('<div class="alert alert-warning">\
-				 Error on server. Attempt later, please! </div>');
+				$('#content-colomns div').html(gettext('<div class="alert alert-warning">\
+								 Error on server. Attempt later, please! </div>'));
 
 				return false;
 			}
@@ -554,7 +555,7 @@ function initEditJournalPage() {
 
 				// check if we got successfull response from the server
 				if (status != 'success') {
-					alert('Error on server. Attempt later, please!');
+					alert(gettext('Error on server. Attempt later, please!'));
 					return false;
 				}
 				// update modal window with arrived content from the server
@@ -578,8 +579,8 @@ function initEditJournalPage() {
 				modal.modal('hide');
 				$('a').css({"pointer-events": "auto",
        						"cursor": "pointer"});
-				$('#content-colomns div').html('<div class="alert alert-warning">\
-				 Error on server. Attempt later, please! </div>');
+				$('#content-colomns div').html(gettext('<div class="alert alert-warning">\
+								 Error on server. Attempt later, please! </div>'));
 
 				return false;
 			}
@@ -613,7 +614,7 @@ function initTabs() {
 
 				// check if we got successfull response from the server
 				if (status != 'success') {
-					alert('Error on server. Attempt later, please!');
+					alert(gettext('Error on server. Attempt later, please!'));
 					return false;
 				}
 				// update modal window with arrived content from the server
@@ -652,8 +653,8 @@ function initTabs() {
 				$('a').css({"pointer-events": "auto",
        						"cursor": "pointer"});
 				$('input, select').attr('disabled', false);
-				$('#content-colomns div').html('<div class="alert alert-warning">\
-				 Error on server. Attempt later, please! </div>');
+				$('#content-colomns div').html(gettext('<div class="alert alert-warning">\
+								 Error on server. Attempt later, please! </div>'));
 
 				return false;
 			}
@@ -688,7 +689,7 @@ function initSort(){
 
 				// check if we got successfull response from the server
 				if (status != 'success') {
-					alert('Error on server. Attempt later, please!');
+					alert(gettext('Error on server. Attempt later, please!'));
 					return false;
 				}
 
@@ -712,8 +713,8 @@ function initSort(){
 				$('a').css({"pointer-events": "auto",
        						"cursor": "pointer"});
 				$('input, select').attr('disabled', false);
-				$('#content-colomns div').html('<div class="alert alert-warning">\
-				 Error on server. Attempt later, please! </div>');
+				$('#content-colomns div').html(gettext('<div class="alert alert-warning">\
+								 Error on server. Attempt later, please! </div>'));
 
 				return false;
 			}
@@ -793,6 +794,19 @@ function canvas() {
 	rect(100,50,50,50);
 }
 
+function setLanguage() {
+	$('.lang').click(function(event){
+		var lang = $(this).attr('value');
+		
+		$.cookie('cust_lang', lang, {'path': '/', 'expires': 365});
+
+		// and reload a page
+		location.reload(true);
+
+		return true;
+	});
+}
+
 $(document).ready(initFunction);
 
 function initFunction(){
@@ -807,4 +821,5 @@ function initFunction(){
 	initTabs();
 	initSort();
 	initPagination();
+	setLanguage();
 }

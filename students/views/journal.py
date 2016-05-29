@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from django.views.generic.base import TemplateView
 
 from ..models import MonthJournal, Student, Group
-from ..util import paginate, boundsStuds, get_current_group
+from ..util import paginate, boundsStuds, get_current_group, get_custom_language
 
 from copy import copy
 

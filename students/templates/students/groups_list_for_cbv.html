@@ -40,7 +40,7 @@
 				{% if order_by == 'title' and reverse != '1' %}
 					&amp;reverse=1
 				{% endif %}">
-					Назва
+					{% trans 'Title' %}
 					{% if order_by == 'title' and reverse != '1' %}&uarr;
 					{% elif order_by == 'title' and reverse == '1' %}&darr;
 					{% endif %}

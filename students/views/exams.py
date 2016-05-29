@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.views.generic import UpdateView, CreateView, DeleteView
 from django.views.generic.base import TemplateView
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 from ..models.Exam import Exam
 from ..models.Group import Group

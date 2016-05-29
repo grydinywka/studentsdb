@@ -36,10 +36,21 @@
 			<div class="row" id="header">
 				
 				<!-- Logo -->
-				<div class="col-xs-8">
+				<div class="col-xs-6">
 					{% block logo %}
 					<h1>{% trans 'Students Accounting Service' %}</h1>
 					{% endblock logo %}
+				</div>
+
+				<!-- Set Language -->
+				<div class="col-xs-2">
+					<div class="btn-group" role="group" aria-label="...">
+						<button type="button" class="btn btn-default lang {% if LANG == "uk-Uk" %}active{% endif %}" value="uk-Uk"><img src="{% static 'img/ua.png' %}" alt="Українська"></button>
+						<button type="button" class="btn btn-default lang {% if LANG == "en-us" %}active{% endif %}" value="en-us"><img src="{% static 'img/en.png' %}" alt="English"></button>
+					</div>
+					<!-- <div class="lang" value="uk-Uk"><a href="#">uk</a></div>
+					<div class="lang" value="en-us"><a href="#">en</a></div> -->
+					
 				</div>
 				
 				<!-- Groups Selector -->
@@ -198,6 +209,7 @@
 
 		<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.0.0/js/bootstrap-datetimepicker.min.js"></script> -->
 		<script src="{% static "js/bootstrap-datetimepicker.min.js" %}"></script>
+		<script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
 
 		<script src="{% static "js/uk.js" %}"></script>
 		<script src="{% static "js/main.js" %}"></script>

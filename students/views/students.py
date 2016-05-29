@@ -6,7 +6,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView, DetailView
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _, ungettext
 
 from ..models.Student import Student
 from ..models.Group import Group
@@ -169,7 +169,7 @@ class StudentEditForm(forms.ModelForm):
 		label=_(u'Surname*'),
 		initial=_(u"Koval"),
 		help_text=_(u"Input your last name"),
-		error_messages={'required': _(u"Surname is mandatory!")}
+		error_messages={'required': _(u"Surname is mandatory1!")}
 		)
 
 	middle_name = forms.CharField(
@@ -343,7 +343,7 @@ class StudentDeleteView2(DetailView):
 
 # Views for Students
 def students_list(request):
-	current_group = get_current_group(request)
+	# current_group = get_current_group(request)
 	if current_group:
 		students = Student.objects.filter(student_group=current_group)
 	else:
@@ -615,3 +615,18 @@ def students_delete_mult(request):
 			return HttpResponseRedirect(reverse('home'))
 
 	return render(request, 'students/students_confirm_delete_mult.html', {'students': students})
+
+def count_apple(request):
+	count = request.GET.get('count', '1')
+	count = int(count)
+	
+
+	text = ungettext(
+		'There is %(count)d apple available.',
+		'There are %(count)d apples available.',
+		count
+	) % {
+		'count': count
+	}
+
+	return render(request, 'students/counts.html', {'text': text})

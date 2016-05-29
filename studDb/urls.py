@@ -13,6 +13,11 @@ from students.views.contact_admin import ContactView2
 
 from students.views.log_entry import LogEntryList
 
+js_info_dict = {
+    'domain': 'djangojs',
+    'packages': ('students',),
+}
+
 urlpatterns = patterns('',
     # Students urls
     # url(r'^$', 'students.views.students.students_list', name='home'),
@@ -78,6 +83,10 @@ urlpatterns = patterns('',
     url(r'^contact2/$', ContactView2.as_view(), name='contact2'),
 
     url(r'^log-entry/$', LogEntryList.as_view(), name='log'),
+
+    url(r'^jsi18n\.js$', 'django.views.i18n.javascript_catalog', js_info_dict),
+
+    url(r'^counts/$', 'students.views.students.count_apple', name="count"),
 
     url(r'^admin/', include(admin.site.urls)),
 )

@@ -11,7 +11,7 @@ from django.utils.translation import ugettext as _
 from ..models.Group import Group
 from ..models.Student import Student
 
-from ..util import paginate, boundsStuds, get_current_group
+from ..util import paginate, boundsStuds, get_current_group, get_custom_language
 
 # class form for add/edit group
 class GroupAddEditForm(forms.ModelForm):
@@ -81,6 +81,7 @@ class GroupList(TemplateView):
 			if self.request.GET.get('reverse', '') == '1':
 					groups = groups.reverse()
 
+		# get_custom_language(self.request)
 		current_group = get_current_group(self.request)
 		if current_group:
 			groups = [current_group]

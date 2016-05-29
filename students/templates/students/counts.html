@@ -1,0 +1,12 @@
+{% extends "students/base.html" %}
+
+{% load i18n %}
+{% load static from staticfiles %}
+
+{% block meta_title %}{% trans 'Counts' %}{% endblock meta_title %}
+
+{% block title %}{% trans 'Counts' %}{% endblock title %}
+
+{% block content %}
+<p>{{ text }}</p>
+{% endblock content %}

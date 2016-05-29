@@ -108,3 +108,14 @@ def get_current_group(request):
 			return group
 	else:
 		return None
+
+def get_custom_language(request):
+	lang = request.COOKIES.get('cust_lang')
+
+	if lang:
+		from django.utils.translation import activate, deactivate
+		try:
+			deactivate()
+			activate(lang)
+		except Exception as e:
+			return
