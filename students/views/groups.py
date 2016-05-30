@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.views.generic import DeleteView, UpdateView, CreateView
 from django.views.generic.base import TemplateView
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 from ..models.Group import Group
 from ..models.Student import Student
@@ -72,6 +72,7 @@ class GroupList(TemplateView):
 	template_name = 'students/groups_list_for_cbv.html'
 
 	def get_context_data(self, **kwargs):
+		get_custom_language(self.request)
 		context = super(GroupList, self).get_context_data(**kwargs)
 
 		groups = Group.objects.order_by('title')
@@ -81,7 +82,6 @@ class GroupList(TemplateView):
 			if self.request.GET.get('reverse', '') == '1':
 					groups = groups.reverse()
 
-		# get_custom_language(self.request)
 		current_group = get_current_group(self.request)
 		if current_group:
 			groups = [current_group]
@@ -371,11 +371,16 @@ class GroupAddView(CreateView):
 	success_url = '/groups/'
 	form_class = GroupAddEditForm
 
+	def dispatch(self, request, *args, **kwargs):
+		get_custom_language(request)
+		return super(GroupAddView, self).dispatch(request, *args, **kwargs)
+
 	def get_success_url(self):
 		messages.success(self.request, _(u'Group %s successfully created!') % self.object)
 		return reverse('groups')
 
 	def post(self, request, *args, **kwargs):
+		get_custom_language(request)
 		if request.POST.get('cancel_button'):
 			messages.info(request, _(u'Creating new group was canceled!'))
 			return HttpResponseRedirect(reverse('groups'))

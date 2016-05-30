@@ -3,8 +3,11 @@ from django.http import HttpResponse
 from django.utils.translation import ugettext as _
 from ..models.Result_exam import Result_exam
 
+from ..util import get_custom_language
+
 def result_list(request):
 	results = Result_exam.objects.all()
+	get_custom_language(request)
 
 	order_by = request.GET.get('order_by', '')
 	if order_by in ('id',):

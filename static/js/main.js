@@ -142,6 +142,9 @@ function initEditAddStudentForm(form, modal, link) {
 	// close modal window on Cancel button click
 	form.find('input[name="cancel_button"]').click(function(event){
 		modal.modal('hide');
+		var html = $(data);
+		var alert_my = html.find('.alert');
+		// $('#content-colomns div').html(alert_my);
 		return false;
 	});
 
@@ -342,6 +345,8 @@ function initDeleteStudentForm(form, modal, link){
 
 	form.find('input[name="cancel_button"]').click(function(event){
 		modal.modal('hide');
+		var html = $(data);
+		var alert_my = html.find('.alert');
 		return false;
 	});
 

@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.views.generic.edit import FormView
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 from studDb.settings import ADMIN_EMAIL
 
@@ -17,7 +17,7 @@ from contact_form.forms import ContactForm
 import logging
 
 from ..signals import contact_admin_signal
-
+from ..util import get_custom_language
 
 class CustomContactForm(ContactForm):
     """docstring for CustomContactForm"""
@@ -42,12 +42,28 @@ class CustomContactForm(ContactForm):
 
         #form buttons
         self.helper.add_input(Submit('send_button', _(u'Send')))
+
+    email = forms.EmailField(
+        label=_(u"Your email address"))
+    
+    name = forms.CharField(
+        label=_(u"Your name"),
+        max_length=128)
+    
+    body = forms.CharField(
+        label=_(u"Your message"),
+        max_length=2560,
+        widget=forms.Textarea)
    
 class ContactView(FormView):
     """docstring for ContactView"""
     template_name = 'contact_form/contact_form.html'
     form_class = CustomContactForm
     success_url = '/contact-admin/'
+
+    def dispatch(self, request, *args, **kwargs):
+        get_custom_language(request)
+        return super(ContactView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         try:
@@ -76,6 +92,7 @@ class ContactView(FormView):
 
 
 def contact_admin(request):
+    get_custom_language(request)
     #check if form was posted
     if request.method == 'POST':
         #create a form instance and populate  it with data from the request

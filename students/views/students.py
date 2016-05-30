@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django import forms
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
@@ -15,7 +15,7 @@ from ..models.Visiting import Visiting
 from datetime import datetime
 from PIL import Image
 
-from ..util import paginate, boundsStuds, get_current_group
+from ..util import paginate, boundsStuds, get_current_group, get_custom_language
 
 # import sys
 # sys.path.append('/data/work/virtualenvs/studDb/src/studDb/studDb/')
@@ -37,6 +37,10 @@ class StudentList(ListView):
 	context_object_name = 'students'
 	# template = 'students/student_class_based_view_template'
 	# paginate_by = 5
+
+	def dispatch(self, request, *args, **kwargs):
+		get_custom_language(request)
+		return super(StudentList, self).dispatch(request, *args, **kwargs)
 
 	def get_context_data(self, **kwargs):
 		"""This method adds extra variables to template"""
@@ -248,6 +252,10 @@ class StudentEditView(UpdateView):
 	pk_url_kwarg = 'sid'
 	form_class = StudentEditForm
 
+	def dispatch(self, request, *args, **kwargs):
+		get_custom_language(request)
+		return super(StudentEditView, self).dispatch(request, *args, **kwargs)
+
 	def get_success_url(self):
 		messages.success(self.request, _(u'Student %s successfully saved!') % self.object)
 		return reverse('home')
@@ -290,6 +298,10 @@ class StudentAddView(CreateView):
 	template_name = 'students/students_edit3.html'
 	form_class = StudentEditForm
 
+	def dispatch(self, request, *args, **kwargs):
+		get_custom_language(request)
+		return super(StudentAddView, self).dispatch(request, *args, **kwargs)
+
 	def get_success_url(self):
 		messages.success(self.request, _(u'Student %s successfull saved!') % self.object)
 		return reverse('home')
@@ -299,6 +311,7 @@ class StudentAddView(CreateView):
 			messages.info(self.request, _(u'Creating student canceled!'))
 			return HttpResponseRedirect(reverse('home'))
 		else:
+			# import pdb;pdb.set_trace()
 			return super(StudentAddView, self).post(request, *args, **kwargs)
 
 	def get_context_data(self, **kwargs):
@@ -331,6 +344,7 @@ class StudentDeleteView2(DetailView):
 	model = Student
 
 	def dispatch(self, request, *args, **kwargs):
+		get_custom_language(request)
 		if request.method == "POST":
 			if request.POST.get("delete_button"):
 				messages.success(request, _(u"%s was deleted success!" % self.get_object()))
@@ -591,6 +605,7 @@ def students_delete2(request, sid):
 
 def students_delete_mult(request):
 	students = Student.objects.all()
+	get_custom_language(request)
 
 	if request.method == "POST":
 		if request.POST.get('delete_button') is not None:
@@ -603,12 +618,12 @@ def students_delete_mult(request):
 			delMsg = ''
 			for student in students:
 				if request.POST.get(str(student.id)) is not None:
-					delMsg += _((u"{} {}, ").format(student.first_name, student.last_name))
+					delMsg += str(_((u"{} {}, ").format(student.first_name, student.last_name)))
 					
 					student.delete()
 			if delMsg is not '':
 				delMsg = delMsg[:-2] + ' '
-				messages.success(request, delMsg + _(u"were deleted success!"))
+				messages.success(request, delMsg + str(_(u"were deleted success!")))
 			else:
 				messages.info(request, _(u"deletetion was canceled!"))
 			

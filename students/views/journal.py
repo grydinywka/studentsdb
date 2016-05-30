@@ -14,6 +14,10 @@ from copy import copy
 class JournalView(TemplateView):
 	template_name = 'students/journal.html'
 
+	def dispatch(self, request, *args, **kwargs):
+		get_custom_language(request)
+		return super(JournalView, self).dispatch(request, *args, **kwargs)
+
 	def post(self, request, *args, **kwargs):
 		data = request.POST
 

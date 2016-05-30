@@ -44,10 +44,12 @@
 
 				<!-- Set Language -->
 				<div class="col-xs-2">
+					{% with request.COOKIES.cust_lang as lang %}
 					<div class="btn-group" role="group" aria-label="...">
-						<button type="button" class="btn btn-default lang {% if LANG == "uk-Uk" %}active{% endif %}" value="uk-Uk"><img src="{% static 'img/ua.png' %}" alt="Українська"></button>
-						<button type="button" class="btn btn-default lang {% if LANG == "en-us" %}active{% endif %}" value="en-us"><img src="{% static 'img/en.png' %}" alt="English"></button>
+						<button type="button" class="btn btn-default lang {% if lang == "uk-Uk" or lang == '' %}active{% endif %}" value="uk-Uk"><img src="{% static 'img/ua.png' %}" alt="Українська"></button>
+						<button type="button" class="btn btn-default lang {% if lang == "en-us" %}active{% endif %}" value="en-us"><img src="{% static 'img/en.png' %}" alt="English"></button>
 					</div>
+					{% endwith %}
 					<!-- <div class="lang" value="uk-Uk"><a href="#">uk</a></div>
 					<div class="lang" value="en-us"><a href="#">en</a></div> -->
 					

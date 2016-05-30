@@ -5,4 +5,4 @@ def groups_processor(request):
 
 def language_processor(request):
 	get_custom_language(request)
-	return {'LANG': request.COOKIES['cust_lang']}
+	return {'LANG': request.COOKIES.has_key('cust_lang') and request.COOKIES['cust_lang'] or False}

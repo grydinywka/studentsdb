@@ -1,18 +1,19 @@
-# -*- coding: utf-8 -*-
-
 from django.shortcuts import render
 from django import forms
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django.views.generic.edit import FormView
+from django.utils.translation import ugettext_lazy as _
 
 from studDb.settings import ADMIN_EMAIL
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
-from django.views.generic.edit import FormView
+from ..util import get_custom_language
+
 
 class ContactForm(forms.Form):
 	"""docstring for ContactForm"""
@@ -36,17 +37,17 @@ class ContactForm(forms.Form):
 		self.helper.field_class = 'col-sm-10'
 
 		#form buttons
-		self.helper.add_input(Submit('send_button', u'Надіслати'))
+		self.helper.add_input(Submit('send_button', _(u'Send')))
 		
 	form_email = forms.EmailField(
-		label=u"Ваша Імайл Адреса")
+		label=_(u"Your email address"))
 	
 	subject = forms.CharField(
-		label=u"Заголовок листа",
+		label=_(u"email's subject"),
 		max_length=128)
 	
 	message = forms.CharField(
-		label=u"Текст повідомлення",
+		label=_(u"Text of message"),
 		max_length=2560,
 		widget=forms.Textarea)
 
@@ -57,19 +58,22 @@ class ContactView2(FormView):
 	form_class = ContactForm
 	success_url = '/contact2/'
 
+	def dispatch(self, request, *args, **kwargs):
+		get_custom_language(request)
+		return super(ContactView2, self).dispatch(request, *args, **kwargs)
+
 	def form_valid(self, form):
 		#send email
 		subject = form.cleaned_data['subject']
 		message = form.cleaned_data['message']
 		form_email = form.cleaned_data['form_email']
 		try:
-			send_mail(subject, message, form_email, [ADMIN_EMAIL, 'sergeyi@univ.kiev.ua'])
+			send_mail(subject, message, form_email, [ADMIN_EMAIL])
 		except Exception as e:
-			messages.error(self.request, u'Під час відправки листа виникла непередбачувана ' \
-			u'помилка. Спробуйте скористатись даною формою пізніше. ' \
-			+ str(e))
+			msg = _(u'During sending mail appeared unexpected error. Try send later.') + str(e)
+			messages.error(self.request, msg)
 		else:
-			messages.success(self.request, u'Повідомлення успішно надіслане!')
+			messages.success(self.request, _(u'Message sent successfully!'))
 		return super(ContactView2, self).form_valid(form)
 		
 
@@ -88,11 +92,10 @@ def contact_admin(request):
 			try:
 				send_mail(subject, message, form_email, [ADMIN_EMAIL])
 			except Exception as e:
-				messages.error(request, u'Під час відправки листа виникла непередбачувана ' \
-				u'помилка. Спробуйте скористатись даною формою пізніше. ' \
-				+ str(e))
+				msg = _(u'During sending mail appeared unexpected error. Try send later.') + str(e)
+				messages.error(self.request, msg)
 			else:
-				messages.success(request, u'Повідомлення успішно надіслане!')
+				messages.success(self.request, _(u'Message sent successfully!'))
 
 			#redirect to same contact page with success message
 			return HttpResponseRedirect(reverse('contact2'))
