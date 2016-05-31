@@ -211,6 +211,10 @@ LOGGING = {
         'contact_admin_logger': {
             'handlers': ['file'],
             'level': 'INFO'
+        },
+        'students.util': {
+            'handlers': ['file'],
+            'level': 'INFO'
         }
     }
 }

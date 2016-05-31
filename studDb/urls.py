@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.views.i18n import javascript_catalog
 from .settings import MEDIA_ROOT, DEBUG
 
 from students.views.students import StudentList, StudentUpdateView, StudentEditView, StudentAddView, StudentDeleteView
@@ -84,7 +85,7 @@ urlpatterns = patterns('',
 
     url(r'^log-entry/$', LogEntryList.as_view(), name='log'),
 
-    url(r'^jsi18n\.js$', 'django.views.i18n.javascript_catalog', js_info_dict),
+    url(r'^jsi18n\.js$', javascript_catalog, js_info_dict, name="javascript-catalog"),
 
     url(r'^counts/$', 'students.views.students.count_apple', name="count"),
 

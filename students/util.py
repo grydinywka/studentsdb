@@ -111,11 +111,16 @@ def get_current_group(request):
 
 def get_custom_language(request):
 	lang = request.COOKIES.get('cust_lang')
+	
+	# if lang:
+	# 	import logging
+	# 	from django.utils.translation import activate, deactivate
+	# 	try:
+	# 		activate(lang)
+	# 	except Exception as e:
+	# 		logger = logging.getLogger(__name__)
+	# 		logger.exception('Error during setting language. Was tried {} language'.format(lang))
+	# 	else:
+	# 		logger = logging.getLogger(__name__)
+	# 		logger.info('Was set {} language'.format(lang))
 
-	if lang:
-		from django.utils.translation import activate, deactivate
-		try:
-			deactivate()
-			activate(lang)
-		except Exception as e:
-			return

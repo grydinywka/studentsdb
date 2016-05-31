@@ -803,7 +803,7 @@ function setLanguage() {
 	$('.lang').click(function(event){
 		var lang = $(this).attr('value');
 		
-		$.cookie('cust_lang', lang, {'path': '/', 'expires': 365});
+		$.cookie('django_language', lang, {'path': '/', 'expires': 365});
 
 		// and reload a page
 		location.reload(true);
