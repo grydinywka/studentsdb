@@ -17,7 +17,6 @@ from contact_form.forms import ContactForm
 import logging
 
 from ..signals import contact_admin_signal
-from ..util import get_custom_language
 
 class CustomContactForm(ContactForm):
     """docstring for CustomContactForm"""
@@ -62,7 +61,6 @@ class ContactView(FormView):
     success_url = '/contact-admin/'
 
     def dispatch(self, request, *args, **kwargs):
-        get_custom_language(request)
         return super(ContactView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -92,7 +90,6 @@ class ContactView(FormView):
 
 
 def contact_admin(request):
-    get_custom_language(request)
     #check if form was posted
     if request.method == 'POST':
         #create a form instance and populate  it with data from the request

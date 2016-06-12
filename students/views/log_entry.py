@@ -5,7 +5,7 @@ from django.utils.translation import ugettext as _
 from django.views.generic.base import TemplateView
 from ..models.log_entry import LogEntry
 
-from ..util import paginate, get_current_group, get_custom_language
+from ..util import paginate, get_current_group
 
 
 def log_entries(request):
@@ -16,7 +16,6 @@ class LogEntryList(TemplateView):
 	template_name = "students/log_entry.html"
 
 	def dispatch(self, request, *args, **kwargs):
-		get_custom_language(request)
 		return super(LogEntryList, self).dispatch(request, *args, **kwargs)
 
 	def get_context_data(self, **kwargs):

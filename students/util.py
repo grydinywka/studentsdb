@@ -1,4 +1,6 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import JsonResponse
+from django.conf import settings
 
 def paginate(objects, size, request, context, var_name='object_list'):
 	"""Paginate objects provided by view.
@@ -109,18 +111,20 @@ def get_current_group(request):
 	else:
 		return None
 
-def get_custom_language(request):
-	lang = request.COOKIES.get('cust_lang')
+def get_language_cookie_name(request):
+	lang = request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME)
+	response_dict = {'django_lang': ''}
 	
-	# if lang:
-	# 	import logging
-	# 	from django.utils.translation import activate, deactivate
-	# 	try:
-	# 		activate(lang)
-	# 	except Exception as e:
-	# 		logger = logging.getLogger(__name__)
-	# 		logger.exception('Error during setting language. Was tried {} language'.format(lang))
-	# 	else:
-	# 		logger = logging.getLogger(__name__)
-	# 		logger.info('Was set {} language'.format(lang))
+	if lang:
+		import logging
+		try:
+			response_dict['django_lang'] = settings.LANGUAGE_COOKIE_NAME
+		except Exception as e:
+			logger = logging.getLogger(__name__)
+			logger.exception('Error during setting language. Was tried {} language'.format(lang))
+		else:
+			logger = logging.getLogger(__name__)
+			logger.info('Was set {} language'.format(lang))
+
+	return JsonResponse(response_dict, safe=False)
 

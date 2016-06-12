@@ -6,6 +6,7 @@ django-contact-form==1.0
 django-coverage==1.2.4
 django-crispy-forms==1.6.0
 django-jenkins==0.18.1
+django-localeurl==2.0.2
 jslint==0.6.0
 lazy-object-proxy==1.2.2
 MySQL-python==1.2.5

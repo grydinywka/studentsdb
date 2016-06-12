@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load static from staticfiles %}
+{% load crispy_forms_tags %}
 
 <!DOCTYPE html>
 <html lang="uk">
@@ -53,49 +54,8 @@
 					{% endwith %}
 				</div>
 				
-				<!-- Groups Selector -->
-				<div class="col-xs-4" id="group-selector">
-					<strong>{% trans "Group:" %}</strong>
-					<select>
-						<option value="">{% trans "All students" %}</option>
-						{% for group in GROUPS %}
-						<option value="{{ group.id }}"{% if group.selected %}selected="1"{% endif %}>{{ group.title }}{% if group.leader %}, {{ group.leader }}{% endif %}</option>
-						{% endfor %}
-					</select>
-				</div>
 			</div>
 			<!-- End Header -->
-			
-			<!-- Start SubHeader -->
-			<div class="row" id="sub-header">
-				<div class="col-xs-12">
-					<ul class="nav nav-tabs" role="tablist">
-						
-						<li role="presentation" {% url 'home' as the_url_home %}{% if request.path == the_url_home %}class="active"{% endif %}>
-							<a href="{% url "home" %}" class="tab">{% trans 'Students' %}</a>
-						</li>
-						<li role="presentation" {% url 'journal' as the_url_journal %}{% if the_url_journal in request.path %}class="active"{% endif %}>
-							<a href="{% url "journal" %}" class="tab">{% trans 'Journal' %}</a>
-						</li>
-						<li role="presentation" {% url 'groups' as the_url_groups %}{% if the_url_groups in request.path %}class="active"{% endif %}>
-							<a href="{% url "groups" %}" class="tab">{% trans 'Groups' %}</a>
-						</li>
-						<li role="presentation" {% url 'exams' as the_url_exams %}{% if the_url_exams in request.path %}class="active"{% endif %}>
-							<a href="{% url "exams" %}" class="tab">{% trans 'Exams' %}</a>
-						</li>
-						<li role="presentation" {% url 'results' as the_url_results %}{% if the_url_results in request.path %}class="active"{% endif %}>
-							<a href="{% url "results" %}" class="tab">{% trans 'Result of exams' %}</a>
-						</li>
-						<li role="presentation" {% url 'contact_admin' as the_url_c_a %}{% if the_url_c_a in request.path %}class="active"{% endif %}>
-							<a href="{% url "contact_admin" %}" class="tab">{% trans 'Contact' %}</a>
-						</li>
-						<li role="presentation" {% url 'log' as the_url_log %}{% if the_url_log in request.path %}class="active"{% endif %}>
-							<a href="{% url 'log' %}" class="tab">{% trans 'Log of events' %}</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<!-- End SubHeader -->
 			
 			<!-- Start Main Page Content -->
 			<div class="row" id="content-colomns">
@@ -104,12 +64,6 @@
 					<!-- Status Message -->
 					{% block status_message %}
 					
-					<!-- {% comment 'message' %}
-					{% if request.GET.status_message %}
-					<div class="alert alert-warning">{{ request.GET.status_message }}</div>
-					{% endif %}
-					{% endcomment %} -->
-
 					{% if messages %}
 						{% for message in messages %}
 							<div class="alert alert-warning">
@@ -123,8 +77,7 @@
 			</div>
 
 			<div class="row">
-					<div class="col-xs-4" id="content-column"><h2>{% block title %}{% endblock title %}</h2></div>
-					{% block add_btn %}{% endblock add_btn %}
+					<div class="col-xs-4" id="content-column"><h2>{% block title %}Authorisation{% endblock title %}</h2></div>
 					{% block data %}{% endblock data %}
 					
 			</div>
@@ -136,7 +89,9 @@
 						<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
 						<img src="{% static "img/ajax-loader.gif" %}">
 					</div>
-					{% block content %}{% endblock content %}
+					{% block content %}
+						{% crispy form %}
+					{% endblock content %}
 				</div>
 			</div>
 			
@@ -154,43 +109,6 @@
 			
 		</div>
 		<!-- End Container -->
-
-		<!-- Modal Boilerplate -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
-			 aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel"><!-- --></h4>
-		      </div>
-		      <div class="modal-body"><!-- --></div>
-		      <div class="modal-footer"><!-- --></div>
-		    </div><!-- /.modal-content -->
-		  </div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
-
-		<!-- Modal Job is going! -->
-		<div class="modal fade" id="modal_job" tabindex="-1" role="dialog" 
-			 aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel"><!-- --></h4>
-		      </div>
-		      <div class="modal-body">
-		      	<div class="alert alert-info" id="spinner_job">
-					<p>{% trans 'Work goes on...' %}2</p>
-					<i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
-				</div>
-		      </div>
-		      <div class="modal-footer"><!-- --></div>
-		    </div><!-- /.modal-content -->
-		  </div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
 		
 		<!-- JavaScript Section -->
 		<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script> -->

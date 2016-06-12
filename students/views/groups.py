@@ -11,7 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from ..models.Group import Group
 from ..models.Student import Student
 
-from ..util import paginate, boundsStuds, get_current_group, get_custom_language
+from ..util import paginate, boundsStuds, get_current_group
 
 # class form for add/edit group
 class GroupAddEditForm(forms.ModelForm):
@@ -72,7 +72,6 @@ class GroupList(TemplateView):
 	template_name = 'students/groups_list_for_cbv.html'
 
 	def get_context_data(self, **kwargs):
-		get_custom_language(self.request)
 		context = super(GroupList, self).get_context_data(**kwargs)
 
 		groups = Group.objects.order_by('title')
@@ -372,7 +371,6 @@ class GroupAddView(CreateView):
 	form_class = GroupAddEditForm
 
 	def dispatch(self, request, *args, **kwargs):
-		get_custom_language(request)
 		return super(GroupAddView, self).dispatch(request, *args, **kwargs)
 
 	def get_success_url(self):
@@ -380,7 +378,6 @@ class GroupAddView(CreateView):
 		return reverse('groups')
 
 	def post(self, request, *args, **kwargs):
-		get_custom_language(request)
 		if request.POST.get('cancel_button'):
 			messages.info(request, _(u'Creating new group was canceled!'))
 			return HttpResponseRedirect(reverse('groups'))

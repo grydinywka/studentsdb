@@ -10,3 +10,4 @@ emails.py
 *.egg-info
 *.mo
 *.egg
+reports

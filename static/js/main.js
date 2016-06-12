@@ -801,12 +801,28 @@ function canvas() {
 
 function setLanguage() {
 	$('.lang').click(function(event){
-		var lang = $(this).attr('value');
+		var lang = $(this);
+		$.ajax(lang.data('url'), {
+			'type': 'GET',
+			'async': true,
+			'dataType': 'json',
+			'beforeSend': function(xhr,setting){
+				
+			},
+			'error': function(xhr, status, error){
+				$('#content-colomns div').html(gettext('<div class="alert alert-warning">\
+						 Error on server. Attempt later, please! </div>'));
+			},
+			'success': function(data, status, xhr){
+				$.cookie(data.django_lang, lang.attr('value') , {'path': '/', 'expires': 365});
+				$('#content-colomns div').html(gettext('<div class="alert alert-success">\
+						 Language set! </div>'));
+				location.reload(true);
+			}
+		});
 		
-		$.cookie('django_language', lang, {'path': '/', 'expires': 365});
-
 		// and reload a page
-		location.reload(true);
+		
 
 		return true;
 	});

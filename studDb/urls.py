@@ -89,6 +89,10 @@ urlpatterns = patterns('',
 
     url(r'^counts/$', 'students.views.students.count_apple', name="count"),
 
+    url(r'^get-lang-cookie-name/$', 'students.util.get_language_cookie_name', name='get_language_cookie_name'),
+
+    url(r'^login/$', 'students.views.login.login', name='login'),
+
     url(r'^admin/', include(admin.site.urls)),
 )
 

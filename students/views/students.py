@@ -15,7 +15,7 @@ from ..models.Visiting import Visiting
 from datetime import datetime
 from PIL import Image
 
-from ..util import paginate, boundsStuds, get_current_group, get_custom_language
+from ..util import paginate, boundsStuds, get_current_group
 
 # import sys
 # sys.path.append('/data/work/virtualenvs/studDb/src/studDb/studDb/')
@@ -39,7 +39,7 @@ class StudentList(ListView):
 	# paginate_by = 5
 
 	def dispatch(self, request, *args, **kwargs):
-		get_custom_language(request)
+		
 		return super(StudentList, self).dispatch(request, *args, **kwargs)
 
 	def get_context_data(self, **kwargs):
@@ -253,7 +253,7 @@ class StudentEditView(UpdateView):
 	form_class = StudentEditForm
 
 	def dispatch(self, request, *args, **kwargs):
-		get_custom_language(request)
+		
 		return super(StudentEditView, self).dispatch(request, *args, **kwargs)
 
 	def get_success_url(self):
@@ -299,7 +299,7 @@ class StudentAddView(CreateView):
 	form_class = StudentEditForm
 
 	def dispatch(self, request, *args, **kwargs):
-		get_custom_language(request)
+		
 		return super(StudentAddView, self).dispatch(request, *args, **kwargs)
 
 	def get_success_url(self):
@@ -344,7 +344,7 @@ class StudentDeleteView2(DetailView):
 	model = Student
 
 	def dispatch(self, request, *args, **kwargs):
-		get_custom_language(request)
+		
 		if request.method == "POST":
 			if request.POST.get("delete_button"):
 				messages.success(request, _(u"%s was deleted success!" % self.get_object()))
@@ -605,7 +605,6 @@ def students_delete2(request, sid):
 
 def students_delete_mult(request):
 	students = Student.objects.all()
-	get_custom_language(request)
 
 	if request.method == "POST":
 		if request.POST.get('delete_button') is not None:

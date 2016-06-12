@@ -17,7 +17,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from crispy_forms.bootstrap import FormActions
 
-from ..util import paginate, boundsStuds, get_current_group, get_custom_language
+from ..util import paginate, boundsStuds, get_current_group
 
 class MyModelMultipleChoiceField(forms.ModelMultipleChoiceField):
     def label_from_instance(self, obj):
@@ -118,7 +118,6 @@ class ExamList(TemplateView):
 	template_name = "students/exams_list_for_cbv.html"
 
 	def dispatch(self, request, *args, **kwargs):
-		get_custom_language(request)
 		return super(ExamList, self).dispatch(request, *args, **kwargs)
 
 	def get_context_data(self, **kwargs):
@@ -387,7 +386,6 @@ def exams_add_handle(request):
 
 def exams_confirm_delete_handle(request, eid):
 	exam = Exam.objects.filter(pk=eid)[0]
-	get_custom_language(request)
 
 	if request.method == 'POST':
 		if request.POST.get('cancel_button') is not None:
@@ -408,7 +406,6 @@ class ExamEditView(UpdateView):
 	form_class = ExamEdit
 
 	def dispatch(self, request, *args, **kwargs):
-		get_custom_language(request)
 		return super(ExamEditView, self).dispatch(request, *args, **kwargs)
 
 	def get_success_url(self):
@@ -435,7 +432,6 @@ class ExamAddView(CreateView):
 	form_class = ExamEdit
 
 	def dispatch(self, request, *args, **kwargs):
-		get_custom_language(request)
 		return super(ExamAddView, self).dispatch(request, *args, **kwargs)
 
 	def get_success_url(self):
@@ -461,7 +457,6 @@ class ExamDeleteView(DeleteView):
 	pk_url_kwarg = 'eid'
 
 	def dispatch(self, request, *args, **kwargs):
-		get_custom_language(request)
 		return super(ExamDeleteView, self).dispatch(request, *args, **kwargs)
 
 	def get_success_url(self):

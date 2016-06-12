@@ -12,8 +12,6 @@ from studDb.settings import ADMIN_EMAIL
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
-from ..util import get_custom_language
-
 
 class ContactForm(forms.Form):
 	"""docstring for ContactForm"""
@@ -59,7 +57,6 @@ class ContactView2(FormView):
 	success_url = '/contact2/'
 
 	def dispatch(self, request, *args, **kwargs):
-		get_custom_language(request)
 		return super(ContactView2, self).dispatch(request, *args, **kwargs)
 
 	def form_valid(self, form):

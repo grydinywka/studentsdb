@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from django.views.generic.base import TemplateView
 
 from ..models import MonthJournal, Student, Group
-from ..util import paginate, boundsStuds, get_current_group, get_custom_language
+from ..util import paginate, boundsStuds, get_current_group
 
 from copy import copy
 
@@ -15,7 +15,6 @@ class JournalView(TemplateView):
 	template_name = 'students/journal.html'
 
 	def dispatch(self, request, *args, **kwargs):
-		get_custom_language(request)
 		return super(JournalView, self).dispatch(request, *args, **kwargs)
 
 	def post(self, request, *args, **kwargs):
