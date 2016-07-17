@@ -13,6 +13,9 @@ import os
 from django.conf import global_settings
 from db import DATABASES
 
+import djcelery
+djcelery.setup_loader()
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
@@ -50,6 +53,8 @@ INSTALLED_APPS = (
     'students',
     'django_jenkins',
     'django_coverage',
+    'celery',
+    'djcelery',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -225,3 +230,27 @@ JENKINS_TASKS = ('django_jenkins.tasks.run_pylint',
                )
 
 COVERAGE_REPORT_HTML_OUTPUT_DIR = os.path.join(BASE_DIR, '..', 'coverage')
+
+
+BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+CELERY_SEND_EVENTS = True
+CELERYBEAT_SCHEDULER="djcelery.schedulers.DatabaseScheduler"
+CELERY_ALWAYS_EAGER=False
+CELERY_DISABLE_RATE_LIMITS = True
+CELERY_ACCEPT_CONTENT = ['pickle']
+CELERY_TIMEZONE = 'Europe/London'
+CELERY_TASK_RESULT_EXPIRES = 60*10*300 #300 minutes = 6 hours
+CELERY_RESULT_BACKEND='djcelery.backends.database.DatabaseBackend'
+
+from datetime import timedelta
+
+# CELERYBEAT_SCHEDULER = {
+#     'print-every-30-seconds': {
+#         'task': 'api_expedia.tasks.hourly_task',
+#         'schedule': timedelta(seconds=30),
+#     },
+#     'print-every-20-seconds': {
+#         'task': 'studDb.celery.debug_task',
+#         'schedule': timedelta(seconds=20),
+#     },
+# }

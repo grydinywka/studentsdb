@@ -15,11 +15,6 @@ class LoginAuthForm(forms.ModelForm):
 		model = User
 		fields = ['username', 'password']
 		exclude = ()
-		error_messages = {
-			'username': {
-				'max_length': 'The user name is too long!',
-			},
-		}
 
 	def __init__(self, *args, **kwargs):
 		super(LoginAuthForm, self).__init__(*args, **kwargs)
@@ -45,7 +40,8 @@ class LoginAuthForm(forms.ModelForm):
 	username = forms.CharField(
 		label=u'Login',
 		max_length=100,
-		error_messages={'required': u"Login is required!"}
+		error_messages={'required': u"Login is required!",
+						'unique': 'The error!1!'}
 		)
 
 	password = forms.CharField(

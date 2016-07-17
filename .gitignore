@@ -11,3 +11,4 @@ emails.py
 *.mo
 *.egg
 reports
+celery_log
