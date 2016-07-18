@@ -70,6 +70,12 @@ th.day-header {
 	margin: 10px 0;
 }
 
+/* User's Toolbar */
+#user-toolbar {
+	margin-top: 30px;
+	text-align: right;
+}
+
 /** {
 	border: 1px solid red;
 }*/

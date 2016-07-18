@@ -1,7 +1,10 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib.auth import views as auth_views
 from django.views.i18n import javascript_catalog
+from django.views.generic.base import RedirectView
+
 from .settings import MEDIA_ROOT, DEBUG
 
 from students.views.students import StudentList, StudentUpdateView, StudentEditView, StudentAddView, StudentDeleteView
@@ -91,7 +94,10 @@ urlpatterns = patterns('',
 
     url(r'^get-lang-cookie-name/$', 'students.util.get_language_cookie_name', name='get_language_cookie_name'),
 
-    url(r'^login/$', 'students.views.login.login', name='login'),
+    # User Related urls
+    url(r'^users/logout/$', auth_views.logout, kwargs={'next_page': 'home'}, name='auth_logout'),
+    url(r'^register/complete/$', RedirectView.as_view(pattern_name='home'), name='registration_complete'),
+    url(r'^users/', include('registration.backends.simple.urls', namespace='users')),
 
     url(r'^admin/', include(admin.site.urls)),
 )

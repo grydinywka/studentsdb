@@ -53,8 +53,9 @@
 					{% endwith %}
 				</div>
 				
+				{% if user.is_authenticated %}
 				<!-- Groups Selector -->
-				<div class="col-xs-4" id="group-selector">
+				<div class="col-xs-2" id="group-selector">
 					<strong>{% trans "Group:" %}</strong>
 					<select>
 						<option value="">{% trans "All students" %}</option>
@@ -63,6 +64,21 @@
 						{% endfor %}
 					</select>
 				</div>
+				<!-- User's toolbar for authenticated users -->
+				<div class="col-xs-2" id="user-toolbar">
+					<span>{% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}</span> | 
+					<a href="{% url 'users:auth_logout' %}">{% trans "Logout" %}</a>
+				</div>
+
+				{% else %}
+
+				<!-- User's toolbar for anonymous users -->
+				<div class="col-xs-4" id="user-toolbar">
+					<a href="{% url 'users:auth_login' %}">{% trans "Login" %}</a> | 
+					<a href="{% url 'users:registration_register' %}">{% trans "Register" %}</a>
+				</div>
+				{% endif %}
+
 			</div>
 			<!-- End Header -->
 			

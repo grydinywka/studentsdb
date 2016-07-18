@@ -29,12 +29,44 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
-    "django.core.context_processors.request",
-    "studDb.context_processors.students_proc",
-    "students.context_processors.groups_processor",
-    "students.context_processors.lang_cookie_name"
-)
+TEMPLATES = [
+{
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'DIRS': [
+        # os.path.join(BASE_DIR, 'students/templates/students'),
+        os.path.join(BASE_DIR, 'stud_auth', 'templates'),
+    ],
+    
+    'OPTIONS': {
+        'context_processors': [
+            # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
+            # list if you haven't customized them:
+            'django.contrib.auth.context_processors.auth',
+            'django.template.context_processors.debug',
+            'django.template.context_processors.i18n',
+            'django.template.context_processors.media',
+            'django.template.context_processors.static',
+            'django.template.context_processors.tz',
+            'django.contrib.messages.context_processors.messages',
+            "django.core.context_processors.request",
+            "studDb.context_processors.students_proc",
+            "students.context_processors.groups_processor",
+            "students.context_processors.lang_cookie_name"
+        ],
+        'loaders' : [
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+        ]
+    },
+},
+]
+
+# TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+#     "django.core.context_processors.request",
+#     "studDb.context_processors.students_proc",
+#     "students.context_processors.groups_processor",
+#     "students.context_processors.lang_cookie_name"
+# )
 
 ALLOWED_HOSTS = []
 
@@ -43,6 +75,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
     'django.contrib.admin',
+    'registration',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -51,6 +84,7 @@ INSTALLED_APPS = (
     'contact_form',
     'crispy_forms',
     'students',
+    'stud_auth',
     'django_jenkins',
     'django_coverage',
     'celery',
@@ -242,15 +276,5 @@ CELERY_TIMEZONE = 'Europe/London'
 CELERY_TASK_RESULT_EXPIRES = 60*10*300 #300 minutes = 6 hours
 CELERY_RESULT_BACKEND='djcelery.backends.database.DatabaseBackend'
 
-from datetime import timedelta
+REGISTRATION_OPEN = True
 
-# CELERYBEAT_SCHEDULER = {
-#     'print-every-30-seconds': {
-#         'task': 'api_expedia.tasks.hourly_task',
-#         'schedule': timedelta(seconds=30),
-#     },
-#     'print-every-20-seconds': {
-#         'task': 'studDb.celery.debug_task',
-#         'schedule': timedelta(seconds=20),
-#     },
-# }
