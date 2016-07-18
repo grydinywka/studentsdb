@@ -66,7 +66,7 @@
 				</div>
 				<!-- User's toolbar for authenticated users -->
 				<div class="col-xs-2" id="user-toolbar">
-					<span>{% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}</span> | 
+					<span>{{ user.get_full_name|default:user.username }}</span> | 
 					<a href="{% url 'users:auth_logout' %}">{% trans "Logout" %}</a>
 				</div>
 
@@ -90,24 +90,38 @@
 						<li role="presentation" {% url 'home' as the_url_home %}{% if request.path == the_url_home %}class="active"{% endif %}>
 							<a href="{% url "home" %}" class="tab">{% trans 'Students' %}</a>
 						</li>
+
+						{% if user.is_authenticated %}
 						<li role="presentation" {% url 'journal' as the_url_journal %}{% if the_url_journal in request.path %}class="active"{% endif %}>
 							<a href="{% url "journal" %}" class="tab">{% trans 'Journal' %}</a>
 						</li>
+						{% endif %}
+						
 						<li role="presentation" {% url 'groups' as the_url_groups %}{% if the_url_groups in request.path %}class="active"{% endif %}>
 							<a href="{% url "groups" %}" class="tab">{% trans 'Groups' %}</a>
 						</li>
+
+						{% if user.is_authenticated %}
 						<li role="presentation" {% url 'exams' as the_url_exams %}{% if the_url_exams in request.path %}class="active"{% endif %}>
 							<a href="{% url "exams" %}" class="tab">{% trans 'Exams' %}</a>
 						</li>
 						<li role="presentation" {% url 'results' as the_url_results %}{% if the_url_results in request.path %}class="active"{% endif %}>
 							<a href="{% url "results" %}" class="tab">{% trans 'Result of exams' %}</a>
 						</li>
+						{% endif %}
+
+						{% if perms.auth.add_user %}
 						<li role="presentation" {% url 'contact_admin' as the_url_c_a %}{% if the_url_c_a in request.path %}class="active"{% endif %}>
 							<a href="{% url "contact_admin" %}" class="tab">{% trans 'Contact' %}</a>
 						</li>
+						{% endif %}
+
+						{% if user.is_authenticated %}
 						<li role="presentation" {% url 'log' as the_url_log %}{% if the_url_log in request.path %}class="active"{% endif %}>
 							<a href="{% url 'log' %}" class="tab">{% trans 'Log of events' %}</a>
 						</li>
+						{% endif %}
+						
 					</ul>
 				</div>
 			</div>

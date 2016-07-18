@@ -27,6 +27,8 @@ from students.views.contact_admin import ContactView2
 
 from students.views.log_entry import LogEntryList
 
+from stud_auth.views import custom_login
+
 js_info_dict = {
     'domain': 'djangojs',
     'packages': ('students',),
@@ -106,6 +108,7 @@ urlpatterns = patterns('',
 
     # User Related urls
     url(r'^users/logout/$', auth_views.logout, kwargs={'next_page': 'home'}, name='auth_logout'),
+    url(r'^users/login/$', custom_login, name='auth_login'),
     url(r'^register/complete/$', RedirectView.as_view(pattern_name='home'), name='registration_complete'),
     url(r'^users/', include('registration.backends.simple.urls', namespace='users')),
 
