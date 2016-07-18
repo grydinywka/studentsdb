@@ -15,15 +15,21 @@
 {% endblock %}
 
 {% block content %}
-<form method="post" action="{% url 'users:registration_register' %}">
+<form action="{% url 'users:registration_register' %}" method="post">
+    
     {% csrf_token %}
     <input type="hidden" name="next" value="{% url "home" %}" />
 
     <div class="form-group">
 		<label for="login">{% trans "Your Username" %}</label>
-		<input type="text" class="form-control" id="login" value="{{ request.POST.username }}"
-		name="username" />
+		<input type="text" class="form-control" id="login" value="{{ request.POST.username }}" name="username" />
 		<span class="help-block">{{ form.errors.username.as_text }}</span>
+	</div>
+
+	<div class="form-group">
+		<label for="email">{% trans "Your Email" %}</label>
+		<input type="text" class="form-control" id="email" value="{{ request.POST.email }}"	name="email" />
+		<span class="help-block">{{ form.errors.email.as_text }}</span>
 	</div>
 
 	<div class="form-group">

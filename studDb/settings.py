@@ -278,3 +278,5 @@ CELERY_RESULT_BACKEND='djcelery.backends.database.DatabaseBackend'
 
 REGISTRATION_OPEN = True
 
+LOGIN_URL = 'users:auth_login'
+LOGOUT_URL = 'users:auth_logout'

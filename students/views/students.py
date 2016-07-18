@@ -8,6 +8,9 @@ from django.core.exceptions import ValidationError
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView, DetailView
 from django.utils.translation import ugettext_lazy as _, ungettext
 
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+
 from ..models.Student import Student
 from ..models.Group import Group
 from ..models.Visiting import Visiting
@@ -252,6 +255,7 @@ class StudentEditView(UpdateView):
 	pk_url_kwarg = 'sid'
 	form_class = StudentEditForm
 
+	@method_decorator(login_required)
 	def dispatch(self, request, *args, **kwargs):
 		
 		return super(StudentEditView, self).dispatch(request, *args, **kwargs)
@@ -298,6 +302,7 @@ class StudentAddView(CreateView):
 	template_name = 'students/students_edit3.html'
 	form_class = StudentEditForm
 
+	@method_decorator(login_required)
 	def dispatch(self, request, *args, **kwargs):
 		
 		return super(StudentAddView, self).dispatch(request, *args, **kwargs)
@@ -334,6 +339,11 @@ class StudentDeleteView(DeleteView):
 	template_name = 'students/students_confirm_delete.html'
 	pk_url_kwarg = 'sid'
 
+
+	@method_decorator(login_required)
+	def dispatch(self, *args, **kwargs):
+		return super(StudentDeleteView, self).dispatch(*args, **kwargs)
+
 	def get_success_url(self):
 		messages.success(self.request, _(u'Student %s successful deleted!' % self.object))
 		return reverse('home')
@@ -343,6 +353,7 @@ class StudentDeleteView2(DetailView):
 	pk_url_kwarg = 'sid'
 	model = Student
 
+	@method_decorator(login_required)
 	def dispatch(self, request, *args, **kwargs):
 		
 		if request.method == "POST":
@@ -398,6 +409,7 @@ def students_list(request):
 														   'valPage': valPage,
 														   'listOfPage': listOfPage})
 
+@login_required
 def students_add2(request):
 	if request.method == 'POST':
 		form = StudentEditForm(request.POST, request.FILES)
@@ -465,6 +477,7 @@ def students_add2(request):
 		form = StudentEditForm()
 		return render(request, 'students/students_add2.html', {'form': form})
 
+@login_required
 def students_add(request):
 	# If form was posted
 	if request.method == "POST":
@@ -591,6 +604,7 @@ def students_add(request):
 		return render(request, 'students/students_add.html',
 			{'groups': Group.objects.all().order_by('title')})
 
+@login_required
 def students_delete2(request, sid):
 	student = Student.objects.filter(pk=sid)[0]
 
@@ -603,6 +617,7 @@ def students_delete2(request, sid):
 		return render(request, 'students/students_confirm_delete2.html', {'sid': sid,
 																		'student': student})
 
+@login_required
 def students_delete_mult(request):
 	students = Student.objects.all()
 

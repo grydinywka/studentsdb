@@ -7,6 +7,9 @@ from django.contrib import messages
 from django.views.generic.edit import FormView
 from django.utils.translation import ugettext_lazy as _
 
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import permission_required
+
 from studDb.settings import ADMIN_EMAIL
 
 from crispy_forms.helper import FormHelper
@@ -60,6 +63,7 @@ class ContactView(FormView):
     form_class = CustomContactForm
     success_url = '/contact-admin/'
 
+    @method_decorator(permission_required('auth.add_user'))
     def dispatch(self, request, *args, **kwargs):
         return super(ContactView, self).dispatch(request, *args, **kwargs)
 
