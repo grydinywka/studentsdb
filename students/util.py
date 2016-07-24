@@ -112,7 +112,9 @@ def get_current_group(request):
 		return None
 
 def get_language_cookie_name(request):
-	lang = request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME)
+	lang = request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME, 'uk-Uk')
+	print 'Language is:' + str(lang)
+	print 'Language is:' + str(settings.LANGUAGE_COOKIE_NAME)
 	response_dict = {'django_lang': ''}
 	
 	if lang:

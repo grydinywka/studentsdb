@@ -123,9 +123,14 @@
 
 <!-- Start Load More button ... -->
 
-	<!-- Add more students -->
-	<div id="testframe"></div>
-	<a href = "?page=2" id = "load_more">Load more</a>
+<!-- Add more students -->
+<div id="testframe"></div>
+<!-- <a href = "?page=2" id = "load_more">Load more</a> -->
+<button type="button" class="btn btn-info btn-lg" data-num-pages="{{ paginator.num_pages }}" data-page="1" id = "load_more">Load more</button>
+
+<p id="loading">
+	<img src="{% static 'img/ajax-loader.gif' %}" alt="Loading…" />
+</p>
 
 <!-- End Load More button ... -->
 
@@ -138,5 +143,5 @@
 {% endblock content %}
 
 {% block extra_js %}
-<script type="text/javascript" src="{{ PORTAL_URL2 }}{% static "js/load_more.js" %}"></script>
+<!-- <script type="text/javascript" src="{{ PORTAL_URL2 }}{% static "js/load_more.js" %}"></script> -->
 {% endblock extra_js %}

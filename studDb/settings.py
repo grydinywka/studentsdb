@@ -49,6 +49,8 @@ TEMPLATES = [
             'django.template.context_processors.tz',
             'django.contrib.messages.context_processors.messages',
             "django.core.context_processors.request",
+            "social.apps.django_app.context_processors.backends",
+            "social.apps.django_app.context_processors.login_redirect",
             "studDb.context_processors.students_proc",
             "students.context_processors.groups_processor",
             "students.context_processors.lang_cookie_name"
@@ -63,6 +65,9 @@ TEMPLATES = [
 
 # TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
 #     "django.core.context_processors.request",
+#     "social.apps.django_app.context_processors.backends",
+#     "social.apps.django_app.context_processors.login_redirect",
+#     "django.core.context_processors.request",
 #     "studDb.context_processors.students_proc",
 #     "students.context_processors.groups_processor",
 #     "students.context_processors.lang_cookie_name"
@@ -76,6 +81,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = (
     'django.contrib.admin',
     'registration',
+    'social.apps.django_app.default',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -280,3 +286,11 @@ REGISTRATION_OPEN = True
 
 LOGIN_URL = 'users:auth_login'
 LOGOUT_URL = 'users:auth_logout'
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_FACEBOOK_KEY = '1048514538564096'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'da9b84636cbbaf8d2ada4a5f9208cd62'

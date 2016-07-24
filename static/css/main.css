@@ -79,3 +79,7 @@ th.day-header {
 /** {
 	border: 1px solid red;
 }*/
+
+#loading {
+	display: none;
+}

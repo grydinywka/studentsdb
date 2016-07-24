@@ -47,8 +47,13 @@
 					{% with LANGUAGE_COOKIE_NAME as lang %}
 					{% url 'get_language_cookie_name' as url %}
 					<div class="btn-group" role="group" aria-label="...">
-						<button type="button" class="btn btn-default lang {% if lang == "uk-Uk" or lang == '' %}active{% endif %}" value="uk-Uk" data-url={{ url }} ><img src="{% static 'img/ua.png' %}" alt="Українська"></button>
-						<button type="button" class="btn btn-default lang {% if lang == "en-us" %}active{% endif %}" value="en-us" data-url={{ url }} ><img src="{% static 'img/en.png' %}" alt="English"></button>
+						<button type="button" class="btn btn-default lang {% if lang == "uk-Uk" %}active{% endif %}" value="uk-Uk" data-url={{ url }} >
+							<img src="{% static 'img/ua.png' %}" alt="Українська">
+						</button>
+
+						<button type="button" class="btn btn-default lang {% if lang == "en-us" or lang == '' %}active{% endif %}" value="en-us" data-url={{ url }} >
+							<img src="{% static 'img/en.png' %}" alt="English">
+						</button>
 					</div>
 					{% endwith %}
 				</div>
@@ -74,6 +79,7 @@
 
 				<!-- User's toolbar for anonymous users -->
 				<div class="col-xs-4" id="user-toolbar">
+					<a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">{% trans "via Facebook" %}</a> | 
 					<a href="{% url 'users:auth_login' %}">{% trans "Login" %}</a> | 
 					<a href="{% url 'users:registration_register' %}">{% trans "Register" %}</a>
 				</div>
@@ -121,7 +127,7 @@
 							<a href="{% url 'log' %}" class="tab">{% trans 'Log of events' %}</a>
 						</li>
 						{% endif %}
-						
+
 					</ul>
 				</div>
 			</div>
