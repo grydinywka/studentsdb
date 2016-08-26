@@ -117,7 +117,7 @@ class StudentEditForm(forms.ModelForm):
 		super(StudentEditForm, self).__init__(*args, **kwargs)
 
 		self.helper = FormHelper(self)
-
+		# print kwargs
 		# set form tag attributes
 		if 'instance' in kwargs:
 			if kwargs['instance']:

@@ -19,6 +19,7 @@ def paginate(objects, size, request, context, var_name='object_list'):
 
 	# try to get page number from request
 	page = request.GET.get('page', '1')
+	# print(type(page))
 	try:
 		object_list = paginator.page(page)
 	except PageNotAnInteger:
